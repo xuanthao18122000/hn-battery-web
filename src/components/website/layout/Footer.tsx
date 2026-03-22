@@ -99,10 +99,10 @@ export const Footer = () => {
                 <Mail className="w-4 h-4 text-gray-600 shrink-0" />
                 <span>Email:</span>
                 <a
-                  href="mailto:acquygiaphathcm@gmail.com"
+                  href="mailto:hnbattery@gmail.com"
                   className="text-blue-600 hover:underline"
                 >
-                  acquygiaphathcm@gmail.com
+                  hnbattery@gmail.com
                 </a>
               </li>
             </ul>
@@ -175,23 +175,22 @@ export const Footer = () => {
               Kết nối với Ắc quy Gia Phát
             </h3>
             <div className="flex flex-wrap gap-2 mb-6">
-              {socialLinkItems.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded border border-gray-200 text-blue-600 hover:bg-gray-50 text-sm"
-                  aria-label={item.name}
-                >
-                  {typeof item.icon === "function" ? (
-                    <item.icon />
-                  ) : (
-                    <item.icon className="w-4 h-4" />
-                  )}
-                  <span>{item.name}</span>
-                </a>
-              ))}
+              {socialLinkItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded border border-gray-200 text-blue-600 hover:bg-gray-50 text-sm"
+                    aria-label={item.name}
+                  >
+                    <Icon className="w-4 h-4 shrink-0" />
+                    <span>{item.name}</span>
+                  </a>
+                );
+              })}
             </div>
             {/* Trust / certification badges - placeholder */}
             <div className="flex flex-wrap gap-2 items-center">

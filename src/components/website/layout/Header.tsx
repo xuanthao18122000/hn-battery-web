@@ -16,7 +16,6 @@ import {
   Car,
   Building2,
   Package,
-  BookOpen,
   FolderTree
 } from "lucide-react";
 import { ICON_SIZE } from "@/lib/icons";
@@ -65,11 +64,11 @@ export const Header = ({ categories = [] }: HeaderProps) => {
 
   const MENU_ICONS = [Car, Building2, Package];
   const CDN_URL = process.env.NEXT_PUBLIC_CDN_URL || "";
-  const categoriesWithIcons = categories.map((cat, i) => {
-    if (cat.href === "/kinh-nghiem-hay")
-      return { ...cat, icon: BookOpen, iconUrl: undefined };
-    return { ...cat, icon: MENU_ICONS[i] ?? Package, iconUrl: undefined };
-  });
+  /** Giữ `iconUrl` từ API; gán fallback Lucide `icon` theo thứ tự menu. */
+  const categoriesWithIcons = categories.map((cat, i) => ({
+    ...cat,
+    icon: MENU_ICONS[i] ?? Package,
+  }));
 
   useEffect(() => {
     const handleScroll = () => {

@@ -29,7 +29,7 @@ export type UpdateBatteryCapacityDto = Partial<CreateBatteryCapacityDto> & {
 export const batteryCapacitiesApi = {
   /** FE public — chỉ ACTIVE; `getFull: true` lấy toàn bộ không phân trang */
   getListFe: async (
-    params?: Pick<BaseListParams, 'limit' | 'getFull' | 'name'>,
+    params?: Pick<ListBatteryCapacityParams, 'limit' | 'getFull' | 'name'>,
   ): Promise<BatteryCapacity[]> => {
     const axiosInstance = getAxiosInstance();
     const response = await axiosInstance.get<
