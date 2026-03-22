@@ -33,3 +33,4 @@ export const ScrollAnimationInit = () => {
   return null;
 };
 
+export default ScrollAnimationInit;

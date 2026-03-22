@@ -1,2 +1,1 @@
-export { default as ScrollAnimationInit } from './ScrollAnimationInit';
-
+export { default as ScrollAnimationInit } from "../website/animation/ScrollAnimationInit";

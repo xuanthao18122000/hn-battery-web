@@ -35,7 +35,7 @@ Landing page và hệ thống quản lý nội dung cho Ắc quy Trung Nguyên.
 ### 1. Clone & Install
 
 ```bash
-cd tinphatcons-ldp-api
+cd hn-battery-api
 pnpm install
 ```
 
