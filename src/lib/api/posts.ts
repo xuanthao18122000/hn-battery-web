@@ -1,5 +1,6 @@
 import { getAxiosInstance } from '../axios';
 import { ApiResponse, PaginatedResponse } from './products';
+import { fetchWithClientIP, getApiBaseUrl } from '@/utils/request';
 
 /** 1 = Bài viết, 2 = Dịch vụ */
 export const PostTypeEnum = { POST: 1, SERVICE: 2 } as const;
@@ -68,10 +69,21 @@ export interface CreatePostDto {
 export interface UpdatePostDto extends Partial<CreatePostDto> {}
 
 export const postsApi = {
-  /** FE public: lấy chi tiết bài viết theo slug (chỉ ACTIVE) */
+  /** FE public: lấy chi tiết bài viết theo slug (chỉ ACTIVE), hỗ trợ SSR */
   getBySlugFe: async (slug: string, req?: any): Promise<Post> => {
+    if (req && typeof window === 'undefined') {
+      const baseUrl = getApiBaseUrl();
+      const response = await fetchWithClientIP(
+        `${baseUrl}/fe/posts/slug/${encodeURIComponent(slug)}`,
+        req,
+      );
+      return response?.data ?? response;
+    }
+
     const axiosInstance = getAxiosInstance();
-    const response = await axiosInstance.get<ApiResponse<Post>>(`/fe/posts/slug/${slug}`);
+    const response = await axiosInstance.get<ApiResponse<Post>>(
+      `/fe/posts/slug/${encodeURIComponent(slug)}`,
+    );
     return response.data?.data ?? response.data;
   },
 

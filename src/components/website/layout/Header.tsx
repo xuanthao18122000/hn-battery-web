@@ -132,7 +132,7 @@ export const Header = ({ categories = [] }: HeaderProps) => {
                 <div>
                   <Link
                     href="/"
-                    title="Ắc quy Trung Nguyên - Trang chủ"
+                    title="Ắc Quy HN Sài Gòn - Trang chủ"
                   >
                     <div className="md:hidden text-center">
                       <Image
@@ -140,8 +140,8 @@ export const Header = ({ categories = [] }: HeaderProps) => {
                         width={126}
                         height={36}
                         className="mx-auto object-contain"
-                        src="/logo-web-1.png"
-                        alt="Ắc quy Trung Nguyên"
+                        src="/logo-final.svg"
+                        alt="Ắc Quy HN Sài Gòn"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
                           target.style.display = "none";
@@ -151,7 +151,7 @@ export const Header = ({ categories = [] }: HeaderProps) => {
                         }}
                       />
                       <span className="text-white text-xl font-bold" style={{ display: "none" }}>
-                        Ắc quy Trung Nguyên
+                        Ắc Quy HN Sài Gòn
                       </span>
                     </div>
 
@@ -161,8 +161,8 @@ export const Header = ({ categories = [] }: HeaderProps) => {
                         width={180}
                         height={48}
                         style={{ objectFit: "contain" }}
-                        src="/logo-web-1.png"
-                        alt="Ắc quy Trung Nguyên"
+                        src="/logo-final.svg"
+                        alt="Ắc Quy HN Sài Gòn"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
                           target.style.display = "none";
@@ -172,7 +172,7 @@ export const Header = ({ categories = [] }: HeaderProps) => {
                         }}
                       />
                       <span className="text-white text-2xl font-bold" style={{ display: "none" }}>
-                        Trung Nguyên
+                        Ắc Quy HN
                       </span>
                     </div>
                   </Link>

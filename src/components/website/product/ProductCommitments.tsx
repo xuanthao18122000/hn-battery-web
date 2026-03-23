@@ -7,7 +7,7 @@ const CARD_1 = {
   iconBg: "bg-[#142846]",
   title: "Cam kết chính hãng",
   items: [
-    "Sản phẩm chính hãng Ắc quy Trung Nguyên",
+    "Sản phẩm chính hãng Ắc Quy HN Sài Gòn",
     "Đầy đủ phụ kiện: ắc quy, sách hướng dẫn",
     "Hóa đơn VAT, hỗ trợ đổi trả theo quy định",
   ],

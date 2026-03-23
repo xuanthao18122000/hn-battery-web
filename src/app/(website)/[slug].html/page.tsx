@@ -39,7 +39,7 @@ export default async function SlugPage({ params }: SlugPageProps) {
   }
 
   if (resolved.type === SlugTypeEnum.POST) {
-    redirect(`/kinh-nghiem-hay/${cleanSlug}`);
+    redirect(`/${cleanSlug}`);
   }
 
   if (resolved.type === SlugTypeEnum.VEHICLE) {

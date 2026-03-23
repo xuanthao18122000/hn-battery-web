@@ -12,24 +12,28 @@ const roboto = Roboto({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Ắc quy Trung Nguyên | Ắc quy ô tô - xe máy chính hãng",
-    template: "%s | Ắc quy Trung Nguyên",
+    default: "Ắc Quy HN Sài Gòn | Ắc quy ô tô - xe máy chính hãng",
+    template: "%s | Ắc Quy HN Sài Gòn",
   },
   description:
-    "Ắc quy Trung Nguyên - Chuyên ắc quy ô tô, ắc quy xe máy chính hãng. ✓ Chất lượng ✓ Giá tốt ✓ Bảo hành. Liên hệ ngay để được tư vấn!",
+    "Ắc Quy HN Sài Gòn - Chuyên ắc quy ô tô, ắc quy xe máy chính hãng. ✓ Chất lượng ✓ Giá tốt ✓ Bảo hành. Liên hệ ngay để được tư vấn!",
   keywords: [
     "ắc quy",
     "ắc quy ô tô",
     "ắc quy xe máy",
     "pin ắc quy",
-    "Ắc quy Trung Nguyên",
-    "acquytrungnguyen",
+    "Ắc Quy HN",
+    "Ắc Quy HN Sài Gòn",
+    "acquyhn",
+    "acquyhnsaigon",
+    "Ắc Quy",
     "ắc quy chính hãng",
     "TP.HCM",
+    "Sài Gòn",
   ],
-  authors: [{ name: "Ắc quy Trung Nguyên" }],
-  creator: "Ắc quy Trung Nguyên",
-  publisher: "Ắc quy Trung Nguyên",
+  authors: [{ name: "Ắc Quy HN Sài Gòn" }],
+  creator: "Ắc Quy HN Sài Gòn",
+  publisher: "Ắc Quy HN Sài Gòn",
   icons: {
     icon: siteLogoPath,
     shortcut: siteLogoPath,
@@ -44,23 +48,23 @@ export const metadata: Metadata = {
     type: "website",
     locale: "vi_VN",
     url: siteUrl,
-    siteName: "Ắc quy Trung Nguyên",
-    title: "Ắc quy Trung Nguyên | Ắc quy ô tô - xe máy chính hãng",
+    siteName: "Ắc Quy HN Sài Gòn",
+    title: "Ắc Quy HN Sài Gòn | Ắc quy ô tô - xe máy chính hãng",
     description:
-      "Ắc quy Trung Nguyên - Ắc quy ô tô, xe máy chính hãng. Chất lượng, giá tốt, bảo hành.",
+      "Ắc Quy HN Sài Gòn - Ắc quy ô tô, xe máy chính hãng. Chất lượng, giá tốt, bảo hành.",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Ắc quy Trung Nguyên",
+        alt: "Ắc Quy HN Sài Gòn",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ắc quy Trung Nguyên | Ắc quy ô tô - xe máy chính hãng",
-    description: "Ắc quy Trung Nguyên - Ắc quy ô tô, xe máy chính hãng.",
+    title: "Ắc Quy HN Sài Gòn | Ắc quy ô tô - xe máy chính hãng",
+    description: "Ắc Quy HN Sài Gòn - Ắc quy ô tô, xe máy chính hãng.",
     images: ["/og-image.jpg"],
   },
   robots: {
@@ -87,11 +91,11 @@ export default function RootLayout({
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "Ắc quy Trung Nguyên",
+    "name": "Ắc Quy HN Sài Gòn",
     "url": siteUrl,
     "logo": siteLogoUrl,
     "description":
-      "Ắc quy Trung Nguyên - Chuyên ắc quy ô tô, ắc quy xe máy chính hãng. Chất lượng, giá tốt, bảo hành.",
+      "Ắc Quy HN Sài Gòn - Chuyên ắc quy ô tô, ắc quy xe máy chính hãng. Chất lượng, giá tốt, bảo hành.",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "TP. Hồ Chí Minh",

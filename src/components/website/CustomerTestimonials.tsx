@@ -12,7 +12,7 @@ const TESTIMONIALS = [
     name: "Anh Mạnh",
     location: "Quận 3",
     image: "https://giaphatbattery.com/wp-content/uploads/2025/11/44129a26866c17df8a2d4ac71d5c43d3c6fad9c8.jpg",
-    text: "Xe giữa đường hết điện, gọi cứu hộ ắc quy của Ắc Quy Trung Nguyên. Kỹ thuật viên đến rất nhanh, thay ắc quy tại chỗ gọn gàng, chuyên nghiệp. Rất hài lòng!",
+    text: "Xe giữa đường hết điện, gọi cứu hộ ắc quy của Ắc Quy HN. Kỹ thuật viên đến rất nhanh, thay ắc quy tại chỗ gọn gàng, chuyên nghiệp. Rất hài lòng!",
   },
   {
     name: "Chị Thu Hà",
@@ -30,7 +30,7 @@ const TESTIMONIALS = [
     name: "Chú Đức",
     location: "Quận 12",
     image: "https://giaphatbattery.com/wp-content/uploads/2025/11/33aa9515838a0c11aee211f21ed64771ad6890f2.jpg",
-    text: "Đã dùng dịch vụ nhiều lần, lần nào cũng tư vấn đúng nhu cầu, bảo hành rõ ràng, có phiếu bảo hành điện tử đầy đủ. Tin tưởng Ắc Quy Trung Nguyên.",
+    text: "Đã dùng dịch vụ nhiều lần, lần nào cũng tư vấn đúng nhu cầu, bảo hành rõ ràng, có phiếu bảo hành điện tử đầy đủ. Tin tưởng Ắc Quy HN.",
   },
 ];
 
@@ -103,7 +103,7 @@ export function CustomerTestimonials() {
             KHÁCH HÀNG NÓI GÌ VỀ CHÚNG TÔI?
           </h2>
           <p className="text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
-            Hơn 10,000+ khách hàng tin tưởng và hài lòng với dịch vụ của Ắc Quy Trung Nguyên
+            Hơn 10,000+ khách hàng tin tưởng và hài lòng với dịch vụ của Ắc Quy HN
           </p>
         </div>
 

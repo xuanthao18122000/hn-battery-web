@@ -4,7 +4,7 @@
  */
 
 export const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://acquytrungnguyen.com';
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://acquyhn.com';
 
 export const siteUrlAlt =
   process.env.NEXT_PUBLIC_SITE_URL_ALT || 'https://tinphatcons.vn';
@@ -13,7 +13,7 @@ export const apiUrl =
   process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
 
 /** Logo site (path tương đối trên domain chính) */
-export const siteLogoPath = '/logo-web-1.png';
+export const siteLogoPath = '/logo.jpg';
 export const siteLogoUrl = `${siteUrl}${siteLogoPath}`;
 
 /** Số điện thoại schema / hiển thị */
@@ -29,7 +29,7 @@ export const contactHotlineTel =
 
 /** Email liên hệ */
 export const contactEmail =
-  process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'info@acquytrungnguyen.com';
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'info@acquyhn.com';
 
 /** Link chat Zalo (vd: https://zalo.me/0868300200) */
 export const zaloChatUrl =
@@ -39,10 +39,10 @@ export const zaloChatUrl =
 export const socialLinks = {
   facebook:
     process.env.NEXT_PUBLIC_SOCIAL_FACEBOOK ||
-    'https://facebook.com/acquytrungnguyen',
+    'https://facebook.com/acquyhn',
   linkedin:
     process.env.NEXT_PUBLIC_SOCIAL_LINKEDIN ||
-    'https://www.linkedin.com/company/acquytrungnguyen',
+    'https://www.linkedin.com/company/acquyhn',
   twitter:
     process.env.NEXT_PUBLIC_SOCIAL_TWITTER || 'https://twitter.com',
   instagram:

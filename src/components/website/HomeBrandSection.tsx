@@ -84,7 +84,7 @@ export function HomeBrandSection({ brands, carVehicles, motoVehicles }: HomeBran
           Thương Hiệu Ắc Quy Chính Hãng
         </h2>
         <p className="text-gray-600 leading-relaxed">
-          Ắc Quy Gia Phát phân phối độc quyền các thương hiệu ắc quy hàng đầu thế giới với chất lượng đảm bảo và giá cả hấp dẫn nhất cho mọi dòng xe ô tô và xe máy.
+          Ắc Quy HN Sài Gòn phân phối độc quyền các thương hiệu ắc quy hàng đầu thế giới với chất lượng đảm bảo và giá cả hấp dẫn nhất cho mọi dòng xe ô tô và xe máy.
         </p>
       </div>
 

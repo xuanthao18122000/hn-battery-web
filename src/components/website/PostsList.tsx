@@ -19,10 +19,9 @@ interface Post {
 interface PostsListProps {
   title: string;
   posts: Post[];
-  basePath?: string;
 }
 
-export const PostsList = ({ title, posts, basePath = "/kinh-nghiem-hay" }: PostsListProps) => {
+export const PostsList = ({ title, posts }: PostsListProps) => {
   return (
     <section className="py-10">
       <PageShell maxWidthClassName="max-w-6xl">

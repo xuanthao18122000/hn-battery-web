@@ -10,7 +10,7 @@ import { contactApi, Store, CreateContactMessageDto } from '@/lib/api/contact'
 const mockStores = [
   {
     id: 1,
-    store_name: "Cửa hàng Ắc Quy Quận 1",
+    store_name: "Cửa hàng Ắc Quy HN Quận 1",
     store_address: "123 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP.HCM",
     phone: "028 3829 1234",
     latitude: 10.7769,
@@ -22,7 +22,7 @@ const mockStores = [
   },
   {
     id: 2,
-    store_name: "Cửa hàng Ắc Quy Quận 3",
+    store_name: "Cửa hàng Ắc Quy HN Quận 3",
     store_address: "456 Lê Văn Sỹ, Phường 12, Quận 3, TP.HCM",
     phone: "028 3930 5678",
     latitude: 10.7831,
@@ -34,7 +34,7 @@ const mockStores = [
   },
   {
     id: 3,
-    store_name: "Cửa hàng Ắc Quy Quận 7",
+    store_name: "Cửa hàng Ắc Quy HN Quận 7",
     store_address: "789 Nguyễn Thị Thập, Phường Tân Phú, Quận 7, TP.HCM",
     phone: "028 3775 9012",
     latitude: 10.7314,
@@ -46,7 +46,7 @@ const mockStores = [
   },
   {
     id: 4,
-    store_name: "Cửa hàng Ắc Quy Quận Bình Thạnh",
+    store_name: "Cửa hàng Ắc Quy HN Quận Bình Thạnh",
     store_address: "321 Xô Viết Nghệ Tĩnh, Phường 25, Quận Bình Thạnh, TP.HCM",
     phone: "028 3512 3456",
     latitude: 10.8022,

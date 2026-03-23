@@ -1,8 +1,52 @@
-import type { MetadataRoute } from "next";
-import { siteUrl } from "@/config/site";
+import { siteUrl, apiUrl } from "@/config/site";
+import type { Category } from "@/lib/api/categories";
+import { collectPostCategorySlugs } from "@/lib/post-category";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  return [
+/** ISR cho sitemap (tree danh mục POST). */
+export const revalidate = 3600;
+
+type SitemapEntry = {
+  url: string;
+  lastModified?: Date | string;
+  changeFrequency?:
+    | "always"
+    | "hourly"
+    | "daily"
+    | "weekly"
+    | "monthly"
+    | "yearly"
+    | "never";
+  priority?: number;
+};
+
+function normalizeTreePayload(body: unknown): Category[] {
+  if (!body || typeof body !== "object") return [];
+  const b = body as Record<string, unknown>;
+  const inner = b.data;
+  if (Array.isArray(inner)) return inner as Category[];
+  if (inner && typeof inner === "object") {
+    const d = (inner as Record<string, unknown>).data;
+    if (Array.isArray(d)) return d as Category[];
+  }
+  return [];
+}
+
+async function fetchCategoryTree(): Promise<Category[]> {
+  try {
+    const res = await fetch(`${apiUrl}/fe/categories/tree`);
+    if (!res.ok) return [];
+    const json = await res.json();
+    return normalizeTreePayload(json);
+  } catch {
+    return [];
+  }
+}
+
+export default async function sitemap(): Promise<SitemapEntry[]> {
+  const tree = await fetchCategoryTree();
+  const postSectionSlugs = collectPostCategorySlugs(tree);
+
+  const staticEntries: SitemapEntry[] = [
     {
       url: siteUrl,
       lastModified: new Date(),
@@ -11,12 +55,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${siteUrl}/dich-vu`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: `${siteUrl}/kinh-nghiem-hay`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
@@ -34,4 +72,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.5,
     },
   ];
+
+  const postSectionEntries: SitemapEntry[] = postSectionSlugs.map(
+    (slug) => ({
+      url: `${siteUrl}/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    }),
+  );
+
+  return [...staticEntries, ...postSectionEntries];
 }

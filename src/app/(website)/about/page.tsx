@@ -2,15 +2,15 @@ import type { Metadata } from "next";
 import { siteUrlAlt, contactHotlineDisplay, contactHotlineTel, contactEmail } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "Giới thiệu - Công Ty TNHH Ắc Quy",
-  description: "Giới thiệu về Công Ty TNHH Ắc Quy - Đơn vị chuyên cung cấp các sản phẩm ắc quy chất lượng cao, dịch vụ cứu hộ và lắp đặt ắc quy chuyên nghiệp",
-  keywords: "giới thiệu công ty ắc quy, công ty ắc quy, ắc quy chất lượng, dịch vụ ắc quy",
+  title: "Giới thiệu - Công Ty TNHH Ắc Quy HN",
+  description: "Giới thiệu về Công Ty TNHH Ắc Quy HN - Đơn vị chuyên cung cấp các sản phẩm ắc quy chất lượng cao, dịch vụ cứu hộ và lắp đặt ắc quy chuyên nghiệp",
+  keywords: "giới thiệu công ty ắc quy, công ty Ắc Quy HN, Ắc Quy HN Sài Gòn, acquyhn, acquyhnsaigon, ắc quy chất lượng, dịch vụ ắc quy",
   alternates: {
     canonical: `${siteUrlAlt}/about`,
   },
   openGraph: {
-    title: "Giới thiệu - Công Ty TNHH Ắc Quy",
-    description: "Giới thiệu về Công Ty TNHH Ắc Quy - Đơn vị chuyên cung cấp các sản phẩm ắc quy chất lượng cao",
+    title: "Giới thiệu - Công Ty TNHH Ắc Quy HN",
+    description: "Giới thiệu về Công Ty TNHH Ắc Quy HN - Đơn vị chuyên cung cấp các sản phẩm ắc quy chất lượng cao",
     url: `${siteUrlAlt}/about`,
     images: ["/og-image.jpg"],
   },
@@ -24,7 +24,7 @@ export default async function AboutPage() {
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Giới thiệu Công Ty TNHH Ắc Quy
+              Giới thiệu Công Ty TNHH Ắc Quy HN
             </h1>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
               Đơn vị chuyên cung cấp các sản phẩm ắc quy chất lượng cao, dịch vụ cứu hộ và lắp đặt ắc quy chuyên nghiệp
@@ -44,7 +44,7 @@ export default async function AboutPage() {
               </h2>
               <div className="space-y-4 text-gray-700 leading-relaxed">
                 <p>
-                  Công Ty TNHH Ắc Quy là đơn vị chuyên cung cấp các sản phẩm ắc quy chất lượng cao cho xe máy, xe ô tô và các phương tiện khác. Với nhiều năm kinh nghiệm trong ngành, chúng tôi tự hào là đối tác tin cậy của hàng nghìn khách hàng trên toàn quốc.
+                  Công Ty TNHH Ắc Quy HN là đơn vị chuyên cung cấp các sản phẩm ắc quy chất lượng cao cho xe máy, xe ô tô và các phương tiện khác. Với nhiều năm kinh nghiệm trong ngành, chúng tôi tự hào là đối tác tin cậy của hàng nghìn khách hàng trên toàn quốc.
                 </p>
                 <p>
                   Chúng tôi chuyên cung cấp các thương hiệu ắc quy uy tín như Globe, Varta, Bosch, Rocket và nhiều thương hiệu khác. Tất cả sản phẩm đều được nhập khẩu chính hãng, đảm bảo chất lượng và có chế độ bảo hành rõ ràng.
@@ -144,7 +144,7 @@ export default async function AboutPage() {
                 Liên hệ với chúng tôi
               </h2>
               <div className="space-y-3 text-gray-700">
-                <p className="font-semibold text-gray-900">Công Ty TNHH Ắc Quy</p>
+                <p className="font-semibold text-gray-900">Công Ty TNHH Ắc Quy HN</p>
                 <p>Hotline: <a href={`tel:${contactHotlineTel}`} className="text-primary hover:underline">{contactHotlineDisplay}</a></p>
                 <p>Email: <a href={`mailto:${contactEmail}`} className="text-primary hover:underline">{contactEmail}</a></p>
                 <p>Thời gian làm việc: 08:00 - 21:00 (Tất cả các ngày trong tuần)</p>

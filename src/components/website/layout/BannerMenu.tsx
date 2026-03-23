@@ -24,9 +24,8 @@ interface BannerMenuProps {
 }
 
 const mockTopBanners: BannerItem[] = [
-  { image_url: "/slider_1.webp", link_target_url: "/", title: "Banner 1", status: "A" },
-  { image_url: "/slider_2.webp", link_target_url: "/", title: "Banner 2", status: "A" },
-  { image_url: "/slider_3.webp", link_target_url: "/", title: "Banner 3", status: "A" },
+  { image_url: "/slideshow_4.jpg", link_target_url: "/", title: "Banner 1", status: "A" },
+  { image_url: "/slideshow_2.jpg", link_target_url: "/", title: "Banner 3", status: "A" },
 ];
 
 const CDN_URL = process.env.NEXT_PUBLIC_CDN_URL || "https://acquytrungnguyen.com";
@@ -54,7 +53,7 @@ const BannerMenu = ({ topArr = mockTopBanners }: BannerMenuProps) => {
   const getImageUrl = (imageUrl: string): string => {
     if (imageUrl.startsWith("http")) return imageUrl;
     if (imageUrl.startsWith("/")) return imageUrl;
-    return `${CDN_URL}/${imageUrl}`;
+    return `${imageUrl}`;
   };
 
   return (

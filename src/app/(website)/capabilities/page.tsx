@@ -21,14 +21,14 @@ import {
 
 export const metadata: Metadata = {
   title: "Năng Lực Thi Công",
-  description: "Năng lực thi công của Ắc quy Trung Nguyên - Chuyên nghiệp với hơn 10 năm kinh nghiệm, đội ngũ kỹ sư giàu kinh nghiệm, máy móc thiết bị hiện đại, quy trình thi công khoa học đảm bảo chất lượng và tiến độ công trình.",
-  keywords: "năng lực thi công, năng lực xây dựng, chứng chỉ xây dựng, máy móc thi công, đội ngũ xây dựng, quy trình thi công, Ắc quy Trung Nguyên",
+  description: "Năng lực thi công của Ắc Quy HN Sài Gòn - Chuyên nghiệp với hơn 10 năm kinh nghiệm, đội ngũ kỹ sư giàu kinh nghiệm, máy móc thiết bị hiện đại, quy trình thi công khoa học đảm bảo chất lượng và tiến độ công trình.",
+  keywords: "năng lực thi công, năng lực xây dựng, chứng chỉ xây dựng, máy móc thi công, đội ngũ xây dựng, quy trình thi công, Ắc Quy HN, Ắc Quy HN Sài Gòn, acquyhn, acquyhnsaigon",
   alternates: {
     canonical: `${siteUrlAlt}/capabilities`,
   },
   openGraph: {
-    title: "Năng Lực Thi Công | Ắc quy Trung Nguyên",
-    description: "Tìm hiểu về năng lực thi công chuyên nghiệp của Ắc quy Trung Nguyên",
+    title: "Năng Lực Thi Công | Ắc Quy HN Sài Gòn",
+    description: "Tìm hiểu về năng lực thi công chuyên nghiệp của Ắc Quy HN Sài Gòn",
     url: `${siteUrlAlt}/capabilities`,
     images: ["/og-image.jpg"],
   },
@@ -197,7 +197,7 @@ export default function CapabilitiesPage() {
             </h1>
             <p className="text-muted-foreground text-xl leading-relaxed">
               Với hơn 10 năm kinh nghiệm, đội ngũ chuyên nghiệp và trang thiết bị hiện đại, 
-              Ắc quy Trung Nguyên tự hào là đối tác tin cậy cho mọi dự án xây dựng
+              Ắc Quy HN Sài Gòn tự hào là đối tác tin cậy cho mọi dự án xây dựng
             </p>
           </div>
         </div>

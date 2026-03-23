@@ -36,18 +36,18 @@ async function getHomeVehicles(): Promise<{ carVehicles: Vehicle[]; motoVehicles
 }
 
 export const metadata: Metadata = {
-  title: "Ắc quy Trung Nguyên | Ắc quy ô tô - xe máy chính hãng",
+  title: "Ắc Quy HN Sài Gòn | Ắc quy ô tô - xe máy chính hãng",
   description:
-    "Ắc quy Trung Nguyên - Chuyên ắc quy ô tô, ắc quy xe máy chính hãng. ✓ Chất lượng ✓ Giá tốt ✓ Bảo hành. Liên hệ ngay để được tư vấn!",
+    "Ắc Quy HN Sài Gòn - Chuyên ắc quy ô tô, ắc quy xe máy chính hãng. ✓ Chất lượng ✓ Giá tốt ✓ Bảo hành. Liên hệ ngay để được tư vấn!",
   keywords:
-    "ắc quy, ắc quy ô tô, ắc quy xe máy, pin ắc quy, Ắc quy Trung Nguyên, acquytrungnguyen, ắc quy chính hãng, TP.HCM",
+    "ắc quy, ắc quy ô tô, ắc quy xe máy, pin ắc quy, Ắc Quy HN, Ắc Quy HN Sài Gòn, acquyhn, acquyhnsaigon, Ắc Quy, ắc quy chính hãng, TP.HCM, Sài Gòn",
   alternates: {
     canonical: siteUrl,
   },
   openGraph: {
-    title: "Ắc quy Trung Nguyên | Ắc quy ô tô - xe máy chính hãng",
+    title: "Ắc Quy HN Sài Gòn | Ắc quy ô tô - xe máy chính hãng",
     description:
-      "Ắc quy Trung Nguyên - Ắc quy ô tô, xe máy chính hãng. Chất lượng, giá tốt, bảo hành.",
+      "Ắc Quy HN Sài Gòn - Ắc quy ô tô, xe máy chính hãng. Chất lượng, giá tốt, bảo hành.",
     type: "website",
     url: siteUrl,
     images: [
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Ắc quy Trung Nguyên",
+        alt: "Ắc Quy HN Sài Gòn",
       },
     ],
   },

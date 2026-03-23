@@ -5,4 +5,4 @@ Disallow: /admin/
 Disallow: /api/
 
 # Sitemap
-Sitemap: https://acquytrungnguyen.com/sitemap.xml
+Sitemap: https://acquyhn.com/sitemap.xml

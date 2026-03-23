@@ -5,13 +5,13 @@ import { Badge } from "@/components/ui/badge";
 
 export const metadata: Metadata = {
   title: "Dự Án",
-  description: "Khám phá 100+ dự án xây dựng đã hoàn thành của Ắc quy Trung Nguyên: biệt thự, nhà phố, nhà xưởng, văn phòng, khu dân cư. Uy tín - Chất lượng - Đúng tiến độ.",
+  description: "Khám phá 100+ dự án xây dựng đã hoàn thành của Ắc Quy HN Sài Gòn: biệt thự, nhà phố, nhà xưởng, văn phòng, khu dân cư. Uy tín - Chất lượng - Đúng tiến độ.",
   keywords: "dự án xây dựng, công trình đã hoàn thành, portfolio xây dựng, dự án biệt thự, dự án nhà xưởng, xây dựng TP.HCM",
   alternates: {
     canonical: `${siteUrlAlt}/projects`,
   },
   openGraph: {
-    title: "Dự Án | Ắc quy Trung Nguyên",
+    title: "Dự Án | Ắc Quy HN Sài Gòn",
     description: "Xem 100+ dự án xây dựng đã hoàn thành: biệt thự, nhà xưởng, văn phòng, khu dân cư",
     url: `${siteUrlAlt}/projects`,
     images: ["/og-image.jpg"],
@@ -37,7 +37,7 @@ export default function ProjectsPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Dự Án Của Chúng Tôi</h1>
-            <p className="text-muted-foreground text-lg">Khám phá các dự án đã hoàn thành và đang triển khai của Ắc quy Trung Nguyên</p>
+            <p className="text-muted-foreground text-lg">Khám phá các dự án đã hoàn thành và đang triển khai của Ắc Quy HN Sài Gòn</p>
           </div>
         </div>
       </section>

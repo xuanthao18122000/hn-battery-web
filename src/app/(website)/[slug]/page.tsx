@@ -1,4 +1,4 @@
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { headers } from "next/headers";
 import dynamic from "next/dynamic";
 import { resolveApi, SlugTypeEnum } from "@/lib/api/resolve";
@@ -9,8 +9,12 @@ import { ProductDetailLeft } from "@/components/website/product/ProductDetailLef
 import { ProductDetailRight } from "@/components/website/product/ProductDetailRight";
 import { ProductSpecs } from "@/components/website/product/ProductSpecs";
 import { Product } from "@/lib/api/products";
-import { categoriesApi } from "@/lib/api/categories";
+import { categoriesApi, CategoryTypeEnum } from "@/lib/api/categories";
 import { productsApi } from "@/lib/api/products";
+import { postsApi, PostTypeEnum } from "@/lib/api/posts";
+import { PostsList } from "@/components/website/PostsList";
+import { PostArticle } from "@/components/website/PostArticle";
+import { mapPostToListItem } from "@/lib/map-post-list-item";
 import { isCategorySlugNoNavigate } from "@/lib/category-nav";
 
 /** Tách chunk — HTML mô tả dài, không chặn JS phần trên fold */
@@ -86,6 +90,36 @@ export default async function SlugPage({
     try {
       const category = resolved.category ?? await categoriesApi.getBySlug(slug, req);
 
+      /** Danh mục loại bài viết (CMS): list bài POST thuộc danh mục, URL = /{slug} từ API */
+      if (category.type === CategoryTypeEnum.POST) {
+        let list: ReturnType<typeof mapPostToListItem>[] = [];
+        try {
+          const res = await postsApi.getListFe({
+            limit: 50,
+            type: PostTypeEnum.POST,
+            categoryId: category.id,
+          });
+          let raw = Array.isArray(res) ? res : (res.data ?? []);
+          const isRoot =
+            category.parentId == null || category.parentId === 0;
+          if (raw.length === 0 && isRoot) {
+            const fallback = await postsApi.getListFe({
+              limit: 50,
+              type: PostTypeEnum.POST,
+            });
+            raw = Array.isArray(fallback) ? fallback : (fallback.data ?? []);
+          }
+          list = raw.map(mapPostToListItem);
+        } catch {
+          list = [];
+        }
+        return (
+          <div className="min-h-screen bg-background">
+            <PostsList title={category.name} posts={list} />
+          </div>
+        );
+      }
+
       // Dùng products từ resolve (1 request) nếu có, không gọi thêm GET /fe/categories/slug/.../products
       let products: any[] = [];
       if (Array.isArray(resolved.products)) {
@@ -139,9 +173,13 @@ export default async function SlugPage({
     }
   }
 
-  // Redirect POST → /kinh-nghiem-hay/{slug}
   if (resolved.type === SlugTypeEnum.POST) {
-    redirect(`/kinh-nghiem-hay/${slug}`);
+    try {
+      const post = await postsApi.getBySlugFe(slug, req);
+      return <PostArticle post={post} />;
+    } catch {
+      notFound();
+    }
   }
 
   // Render Product Page

@@ -23,7 +23,7 @@ export const About = () => {
               Xây Dựng Uy Tín & Chất Lượng
             </h2>
             <p className="animate-on-scroll fade-in-up stagger-2 text-muted-foreground text-lg leading-relaxed mb-6">
-              Ắc quy Trung Nguyên đã khẳng định mình là đối tác đáng tin cậy,
+              Ắc Quy HN Sài Gòn đã khẳng định mình là đối tác đáng tin cậy,
               cung cấp các dự án chất lượng cao trong các lĩnh vực dân dụng, thương mại
               và công nghiệp. Cam kết về chất lượng, tiến độ và sự hài lòng của khách hàng
               là điều làm nên sự khác biệt của chúng tôi.

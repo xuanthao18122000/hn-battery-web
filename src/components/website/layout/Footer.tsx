@@ -169,10 +169,10 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* 4. Kết nối với Ắc quy Gia Phát */}
+          {/* 4. Kết nối với Ắc Quy HN */}
           <div>
             <h3 className="font-bold text-lg text-gray-900 mb-3">
-              Kết nối với Ắc quy Gia Phát
+              Kết nối với Ắc Quy HN
             </h3>
             <div className="flex flex-wrap gap-2 mb-6">
               {socialLinkItems.map((item) => {
@@ -209,7 +209,7 @@ export const Footer = () => {
 
         {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-gray-200 text-center text-sm text-gray-500">
-          © {new Date().getFullYear()} Ắc quy Gia Phát. All rights reserved.
+          © {new Date().getFullYear()} Ắc Quy HN. All rights reserved.
         </div>
       </div>
     </footer>

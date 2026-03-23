@@ -7,7 +7,7 @@ export const Hero = () => {
       <div className="absolute inset-0 z-0">
         <img
           src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1920&h=1080&fit=crop"
-          alt="Công trường xây dựng của Ắc quy Trung Nguyên - Thi công chuyên nghiệp"
+          alt="Công trường xây dựng của Ắc Quy HN Sài Gòn - Thi công chuyên nghiệp"
           width="1920"
           height="1080"
           className="w-full h-full object-cover"
@@ -32,7 +32,7 @@ export const Hero = () => {
           </h1>
           
           <p className="animate-on-scroll fade-in-up stagger-2 text-xl text-background/90 mb-8 leading-relaxed">
-            Ắc quy Trung Nguyên - Đối tác tin cậy cho các dự án xây dựng 
+            Ắc Quy HN Sài Gòn - Đối tác tin cậy cho các dự án xây dựng 
             dân dụng, thương mại và công nghiệp tại TP.HCM.
           </p>
           
