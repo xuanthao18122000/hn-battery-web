@@ -11,21 +11,20 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ICON_SIZE } from "@/lib/icons";
-
-const phoneNumber = "0868300200";
+import { contactHotlineTel, zaloChatUrl } from "@/config/site";
 
 const items = [
   {
     key: "call",
     label: "Gọi mua",
-    href: `tel:${phoneNumber}`,
+    href: `tel:${contactHotlineTel}`,
     icon: PhoneCall,
     isExternal: false,
   },
   {
     key: "chat",
     label: "Nhắn tin",
-    href: "https://zalo.me/0868300200",
+    href: zaloChatUrl,
     icon: MessageCircle,
     isExternal: true,
   },

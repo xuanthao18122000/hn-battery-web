@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { contactHotlineDisplay, contactHotlineTel } from "@/config/site";
 import { ProductCommitments } from "./ProductCommitments";
 
 function IconClose({ className }: { className?: string }) {
@@ -160,7 +161,11 @@ export const ProductDetailRight = ({
           Để lại thông tin đặt hàng
         </button>
         <p className="text-sm text-gray-600 mt-3">
-          Gọi <a href="tel:0868300200" className="text-primary-600 font-semibold hover:underline">0868300200</a> để được tư vấn (Miễn phí)
+          Gọi{" "}
+          <a href={`tel:${contactHotlineTel}`} className="text-primary-600 font-semibold hover:underline">
+            {contactHotlineDisplay}
+          </a>{" "}
+          để được tư vấn (Miễn phí)
         </p>
       </div>
 

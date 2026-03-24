@@ -6,55 +6,24 @@ import { ChevronRight, MapPin, Phone, Clock, Car } from 'lucide-react'
 import { ICON_SIZE } from '@/lib/icons'
 import { cn } from '@/lib/utils'
 import { contactApi, Store, CreateContactMessageDto } from '@/lib/api/contact'
+import { storeAddress, contactHotlineTel } from '@/config/site'
 
-const mockStores = [
+/** Fallback khi API không trả cửa hàng — một địa chỉ / một SĐT */
+const mockStores: Store[] = [
   {
     id: 1,
-    store_name: "Cửa hàng Ắc Quy HN Quận 1",
-    store_address: "123 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP.HCM",
-    phone: "028 3829 1234",
-    latitude: 10.7769,
-    longitude: 106.7009,
+    store_name: "Ắc Quy HN Sài Gòn",
+    store_address: storeAddress,
+    phone: contactHotlineTel,
+    latitude: 10.8714,
+    longitude: 106.7288,
     open_at: "08:00",
     close_at: "20:00",
     is_car_parking: 1,
-    iframe_location: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.1264!2d106.7009!3d10.7769!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTDCsDQ2JzM2LjgiTiAxMDbCsDQyJzAzLjIiRQ!5e0!3m2!1sen!2s!4v1234567890" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>'
-  },
-  {
-    id: 2,
-    store_name: "Cửa hàng Ắc Quy HN Quận 3",
-    store_address: "456 Lê Văn Sỹ, Phường 12, Quận 3, TP.HCM",
-    phone: "028 3930 5678",
-    latitude: 10.7831,
-    longitude: 106.6954,
-    open_at: "08:00",
-    close_at: "20:00",
-    is_car_parking: 0,
-    iframe_location: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.1264!2d106.6954!3d10.7831!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTDCsDQ2JzU5LjIiTiAxMDbCsDQxJzQzLjQiRQ!5e0!3m2!1sen!2s!4v1234567890" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>'
-  },
-  {
-    id: 3,
-    store_name: "Cửa hàng Ắc Quy HN Quận 7",
-    store_address: "789 Nguyễn Thị Thập, Phường Tân Phú, Quận 7, TP.HCM",
-    phone: "028 3775 9012",
-    latitude: 10.7314,
-    longitude: 106.7225,
-    open_at: "08:00",
-    close_at: "20:00",
-    is_car_parking: 1,
-    iframe_location: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.1264!2d106.7225!3d10.7314!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTDCsDQzJzUzLjAiTiAxMDbCsDQzJzIxLjAiRQ!5e0!3m2!1sen!2s!4v1234567890" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>'
-  },
-  {
-    id: 4,
-    store_name: "Cửa hàng Ắc Quy HN Quận Bình Thạnh",
-    store_address: "321 Xô Viết Nghệ Tĩnh, Phường 25, Quận Bình Thạnh, TP.HCM",
-    phone: "028 3512 3456",
-    latitude: 10.8022,
-    longitude: 106.7145,
-    open_at: "08:00",
-    close_at: "20:00",
-    is_car_parking: 1,
-    iframe_location: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.1264!2d106.7145!3d10.8022!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTDCsDQ4JzA3LjkiTiAxMDbCsDQyJzUyLjIiRQ!5e0!3m2!1sen!2s!4v1234567890" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>'
+    iframe_location:
+      '<iframe src="https://www.google.com/maps?q=' +
+      encodeURIComponent(storeAddress) +
+      '&output=embed" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
   },
 ];
 

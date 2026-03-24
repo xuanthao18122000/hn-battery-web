@@ -16,24 +16,32 @@ export const apiUrl =
 export const siteLogoPath = '/logo.jpg';
 export const siteLogoUrl = `${siteUrl}${siteLogoPath}`;
 
-/** Số điện thoại schema / hiển thị */
-export const contactPhone =
-  process.env.NEXT_PUBLIC_CONTACT_PHONE || '+84-28-123-4567';
+/**
+ * Địa chỉ cửa hàng (một địa chỉ duy nhất — storefront).
+ */
+export const storeAddress =
+  process.env.NEXT_PUBLIC_STORE_ADDRESS ||
+  '637 QL 1A, Phường Linh Xuân, TP. Hồ Chí Minh';
 
-/** Hotline hiển thị (VD: 1800 6018) — dùng cho link tel: và hiển thị */
+/** JSON-LD / schema.org (E.164) */
+export const contactPhone =
+  process.env.NEXT_PUBLIC_CONTACT_PHONE || '+84349667891';
+
+/** Hiển thị hotline (có khoảng) */
 export const contactHotlineDisplay =
-  process.env.NEXT_PUBLIC_CONTACT_HOTLINE_DISPLAY || '1800 6018';
-/** Số hotline chỉ số (cho href tel:) */
+  process.env.NEXT_PUBLIC_CONTACT_HOTLINE_DISPLAY || '0349 667 891';
+
+/** Số gọi (0xxxx) — `tel:` không có khoảng */
 export const contactHotlineTel =
-  process.env.NEXT_PUBLIC_CONTACT_HOTLINE_TEL || '18006018';
+  process.env.NEXT_PUBLIC_CONTACT_HOTLINE_TEL || '0349667891';
 
 /** Email liên hệ */
 export const contactEmail =
   process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'info@acquyhn.com';
 
-/** Link chat Zalo (vd: https://zalo.me/0868300200) */
+/** Link chat Zalo — dùng cùng SĐT hotline */
 export const zaloChatUrl =
-  process.env.NEXT_PUBLIC_ZALO_URL || 'https://zalo.me/0868300200';
+  process.env.NEXT_PUBLIC_ZALO_URL || 'https://zalo.me/0349667891';
 
 /** Mạng xã hội (sameAs + Footer) */
 export const socialLinks = {

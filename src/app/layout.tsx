@@ -1,13 +1,8 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
-import { siteUrl, siteLogoPath, siteLogoUrl, contactPhone, socialLinks } from "@/config/site";
+import { siteUrl, siteLogoPath, siteLogoUrl, contactPhone, socialLinks, storeAddress } from "@/config/site";
 import "./globals.css";
 
-const roboto = Roboto({
-  weight: ["300", "400", "500", "700", "900"],
-  subsets: ["vietnamese", "latin"],
-  variable: "--font-roboto",
-});
+/* globals.css dùng stack system — bỏ next/font Roboto (5 weight) để giảm bytes + request không dùng. */
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -98,7 +93,7 @@ export default function RootLayout({
       "Ắc Quy HN Sài Gòn - Chuyên ắc quy ô tô, ắc quy xe máy chính hãng. Chất lượng, giá tốt, bảo hành.",
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "TP. Hồ Chí Minh",
+      "streetAddress": storeAddress,
       "addressCountry": "VN",
     },
     "contactPoint": {
@@ -113,7 +108,7 @@ export default function RootLayout({
 
   return (
     <html lang="vi" suppressHydrationWarning>
-      <body className={`antialiased ${roboto.variable}`} suppressHydrationWarning>
+      <body className="antialiased" suppressHydrationWarning>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}

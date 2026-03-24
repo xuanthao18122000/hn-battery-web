@@ -1,10 +1,44 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { siteUrl } from "@/config/site";
-import { BannerMenu, HomeBrandSection, HomeSections, Commitments, CustomerTestimonials } from "@/components/website";
+import { BannerMenu } from "@/components/website";
+import { HomeLcpPreload } from "@/components/website/HomeLcpPreload";
 import { sectionsApi } from "@/lib/api/sections";
 import { brandsApi } from "@/lib/api/brands";
 import { vehiclesApi, VehicleTypeEnum } from "@/lib/api/vehicles";
 import type { Vehicle } from "@/lib/api/vehicles";
+
+const HomeSections = dynamic(
+  () =>
+    import("@/components/website/HomeSections").then((m) => ({
+      default: m.HomeSections,
+    })),
+  { ssr: true, loading: () => <div className="min-h-[120px]" aria-hidden /> },
+);
+
+const Commitments = dynamic(
+  () =>
+    import("@/components/website/Commitments").then((m) => ({
+      default: m.Commitments,
+    })),
+  { ssr: true },
+);
+
+const CustomerTestimonials = dynamic(
+  () =>
+    import("@/components/website/CustomerTestimonials").then((m) => ({
+      default: m.CustomerTestimonials,
+    })),
+  { ssr: true, loading: () => <div className="min-h-[100px]" aria-hidden /> },
+);
+
+const HomeBrandSection = dynamic(
+  () =>
+    import("@/components/website/HomeBrandSection").then((m) => ({
+      default: m.HomeBrandSection,
+    })),
+  { ssr: true, loading: () => <div className="min-h-[200px]" aria-hidden /> },
+);
 
 async function getHomeSections() {
   try {
@@ -69,18 +103,19 @@ export default async function HomePage() {
   ]);
 
   return (
-    <div
-      className="min-h-screen bg-cover bg-center bg-no-repeat bg-fixed"
-    >
-      <BannerMenu />
-      <HomeBrandSection
-        brands={brands}
-        carVehicles={carVehicles}
-        motoVehicles={motoVehicles}
-      />
-      <HomeSections sections={sections} />
-      <Commitments />
-      <CustomerTestimonials />
-    </div>
+    <>
+      <HomeLcpPreload />
+      <div className="min-h-screen bg-(--color-bg-page)">
+        <BannerMenu />
+        <HomeBrandSection
+          brands={brands}
+          carVehicles={carVehicles}
+          motoVehicles={motoVehicles}
+        />
+        <HomeSections sections={sections} />
+        <Commitments />
+        <CustomerTestimonials />
+      </div>
+    </>
   );
 }

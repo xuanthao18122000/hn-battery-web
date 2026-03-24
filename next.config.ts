@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["lucide-react"],
   },
   images: {
+    minimumCacheTTL: 60 * 60 * 24 * 365,
     remotePatterns: [
       {
         protocol: "https",
@@ -25,6 +26,11 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "giaphatbattery.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "acquytrungnguyen.com",
         pathname: "/**",
       },
     ],

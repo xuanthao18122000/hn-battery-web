@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import type { Brand } from "@/lib/api/brands";
 import type { Vehicle } from "@/lib/api/vehicles";
@@ -50,12 +51,15 @@ function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
       href={`/${slug}`}
       className="group h-full bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow p-4 flex flex-col items-center text-center min-h-[120px]"
     >
-      <div className="w-16 h-16 md:w-20 md:h-20 mb-2 bg-gray-50 rounded-lg overflow-hidden flex items-center justify-center shrink-0">
+      <div className="relative w-16 h-16 md:w-20 md:h-20 mb-2 bg-gray-50 rounded-lg overflow-hidden flex items-center justify-center shrink-0">
         {!imgError && imageSrc ? (
-          <img
+          <Image
             src={imageSrc}
             alt={name}
-            className="w-full h-full object-contain"
+            fill
+            sizes="(max-width: 768px) 64px, 80px"
+            quality={75}
+            className="object-contain"
             onError={() => setImgError(true)}
           />
         ) : (

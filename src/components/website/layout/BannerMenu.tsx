@@ -11,6 +11,7 @@ import {
   CarouselNext,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
+import { HOME_HERO_SLIDESHOW_SRC, HOME_HERO_LCP_QUALITY } from "@/config/lcp";
 
 interface BannerItem {
   image_url: string;
@@ -24,7 +25,7 @@ interface BannerMenuProps {
 }
 
 const mockTopBanners: BannerItem[] = [
-  { image_url: "/slideshow_4.jpg", link_target_url: "/", title: "Banner 1", status: "A" },
+  { image_url: HOME_HERO_SLIDESHOW_SRC, link_target_url: "/", title: "Banner 1", status: "A" },
   { image_url: "/slideshow_2.jpg", link_target_url: "/", title: "Banner 3", status: "A" },
 ];
 
@@ -82,6 +83,8 @@ const BannerMenu = ({ topArr = mockTopBanners }: BannerMenuProps) => {
                           sizes="(max-width: 768px) 100vw, 1280px"
                           className="object-cover rounded-lg"
                           priority={index === 0}
+                          quality={index === 0 ? HOME_HERO_LCP_QUALITY : 72}
+                          fetchPriority={index === 0 ? "high" : "low"}
                         />
                       </Link>
                     </CarouselItem>

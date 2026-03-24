@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { siteUrlAlt } from "@/config/site";
+import { siteUrlAlt, contactHotlineTel, contactHotlineDisplay } from "@/config/site";
 import { CheckCircle2, Phone } from 'lucide-react'
 import { ICON_SIZE } from '@/lib/icons'
 
@@ -309,25 +309,11 @@ export default async function DealerPricePage() {
               </p>
               <div className="flex flex-col md:flex-row gap-4">
                 <a
-                  href="tel:0868300200"
+                  href={`tel:${contactHotlineTel}`}
                   className="flex items-center gap-2 px-6 py-3 bg-white text-primary font-semibold rounded-lg hover:bg-gray-100 transition-colors"
                 >
                   <Phone size={ICON_SIZE.lg} />
-                  <span>0868.300.200</span>
-                </a>
-                <a
-                  href="tel:0975402599"
-                  className="flex items-center gap-2 px-6 py-3 bg-white text-primary font-semibold rounded-lg hover:bg-gray-100 transition-colors"
-                >
-                  <Phone size={ICON_SIZE.lg} />
-                  <span>0975.402.599</span>
-                </a>
-                <a
-                  href="tel:0974090957"
-                  className="flex items-center gap-2 px-6 py-3 bg-white text-primary font-semibold rounded-lg hover:bg-gray-100 transition-colors"
-                >
-                  <Phone size={ICON_SIZE.lg} />
-                  <span>0974.090.957</span>
+                  <span>{contactHotlineDisplay}</span>
                 </a>
               </div>
             </div>

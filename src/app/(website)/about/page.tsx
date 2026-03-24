@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
-import { siteUrlAlt, contactHotlineDisplay, contactHotlineTel, contactEmail } from "@/config/site";
+import {
+  siteUrlAlt,
+  contactHotlineDisplay,
+  contactHotlineTel,
+  contactEmail,
+  storeAddress,
+} from "@/config/site";
 
 export const metadata: Metadata = {
   title: "Giới thiệu - Công Ty TNHH Ắc Quy HN",
@@ -145,6 +151,7 @@ export default async function AboutPage() {
               </h2>
               <div className="space-y-3 text-gray-700">
                 <p className="font-semibold text-gray-900">Công Ty TNHH Ắc Quy HN</p>
+                <p>Địa chỉ: {storeAddress}</p>
                 <p>Hotline: <a href={`tel:${contactHotlineTel}`} className="text-primary hover:underline">{contactHotlineDisplay}</a></p>
                 <p>Email: <a href={`mailto:${contactEmail}`} className="text-primary hover:underline">{contactEmail}</a></p>
                 <p>Thời gian làm việc: 08:00 - 21:00 (Tất cả các ngày trong tuần)</p>

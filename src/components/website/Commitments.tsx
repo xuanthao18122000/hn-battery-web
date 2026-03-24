@@ -1,5 +1,6 @@
 import { BadgeCheck, Truck, PhoneCall, RefreshCw } from "lucide-react";
 import Link from "next/link";
+import { contactHotlineDisplay } from "@/config/site";
 
 const COMMITMENTS = [
   {
@@ -15,7 +16,7 @@ const COMMITMENTS = [
   {
     icon: PhoneCall,
     title: "Hỗ trợ 24/7",
-    description: "Hotline: 0921.55.22.66",
+    description: `Hotline: ${contactHotlineDisplay}`,
   },
   {
     icon: RefreshCw,

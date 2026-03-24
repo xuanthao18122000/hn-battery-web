@@ -8,12 +8,12 @@ import {
   Youtube,
 } from "lucide-react";
 import Link from "next/link";
-import { socialLinks as configSocialLinks } from "@/config/site";
-
-const addresses = [
-  "207/3 Nguyễn Trọng Tuyển, P8, Phú Nhuận, Tp. Hồ Chí Minh.",
-  "Số 635 Lê Văn Lương, P. Tân Phong, Q7 Thành Phố Hồ Chí Minh.",
-];
+import {
+  socialLinks as configSocialLinks,
+  storeAddress,
+  contactHotlineTel,
+  contactHotlineDisplay,
+} from "@/config/site";
 
 const companyLinks = [
   { name: "Giới thiệu", href: "/gioi-thieu" },
@@ -69,12 +69,10 @@ export const Footer = () => {
               CÔNG TY TNHH TM CÔNG NGHIỆP GIA PHÁT
             </p>
             <ul className="space-y-2 text-sm text-gray-700">
-              {addresses.map((addr, i) => (
-                <li key={i} className="flex gap-2">
-                  <MapPin className="w-4 h-4 text-gray-600 shrink-0 mt-0.5" />
-                  <span>{addr}</span>
-                </li>
-              ))}
+              <li className="flex gap-2">
+                <MapPin className="w-4 h-4 text-gray-600 shrink-0 mt-0.5" />
+                <span>{storeAddress}</span>
+              </li>
               <li className="flex gap-2 items-center">
                 <MapPin className="w-4 h-4 text-gray-600 shrink-0" />
                 <span>Địa chỉ đại lý:</span>
@@ -89,10 +87,10 @@ export const Footer = () => {
                 <Phone className="w-4 h-4 text-gray-600 shrink-0" />
                 <span>Hotline tư vấn & bán hàng:</span>
                 <a
-                  href="tel:0921552266"
+                  href={`tel:${contactHotlineTel}`}
                   className="text-blue-600 hover:underline"
                 >
-                  0921.552.266
+                  {contactHotlineDisplay}
                 </a>
               </li>
               <li className="flex gap-2 items-center">
