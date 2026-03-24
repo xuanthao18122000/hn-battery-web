@@ -4,15 +4,13 @@ import { Minus, Plus, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { BlurImage } from "../common";
 import type { CartItemData } from "@/lib/cart";
+import { getImageUrl } from "@/utils/image";
 
 interface CartItemProps {
   item: CartItemData;
   onUpdate: (item: CartItemData, action: "incre" | "deincre") => void;
   onDelete: (item: CartItemData) => void;
 }
-
-const CDN_URL =
-  process.env.NEXT_PUBLIC_CDN_URL || "https://cdn-v2.didongviet.vn";
 
 const formatPrice = (price: number | string): string => {
   const numPrice = typeof price === "string" ? parseFloat(price) : price;
@@ -23,9 +21,7 @@ const formatPrice = (price: number | string): string => {
 };
 
 export const CartItem = ({ item, onUpdate, onDelete }: CartItemProps) => {
-  const imageUrl = item.thumbnail
-    ? `${CDN_URL}/${item.thumbnail}`
-    : "/no-image-available.png";
+  const imageUrl = getImageUrl(item.thumbnail);
   const productUrl = `/${item.productSlug}.html`;
   const itemPrice = parseFloat(item.price);
   const itemListPrice = parseFloat(item.list_price);

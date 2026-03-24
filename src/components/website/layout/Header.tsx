@@ -13,11 +13,9 @@ import {
   Gift, 
   ShoppingCart,
   ChevronDown,
-  Car,
-  Building2,
-  Package,
   FolderTree
 } from "lucide-react";
+import { getCategoryFallbackLucideIcon } from "@/lib/category-menu-icons";
 import { ICON_SIZE } from "@/lib/icons";
 import { SearchBox } from "../common";
 import { ItemMenu } from "./ItemMenu";
@@ -62,12 +60,11 @@ export const Header = ({ categories = [] }: HeaderProps) => {
   const headerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
-  const MENU_ICONS = [Car, Building2, Package];
   const CDN_URL = process.env.NEXT_PUBLIC_CDN_URL || "";
-  /** Giữ `iconUrl` từ API; gán fallback Lucide `icon` theo thứ tự menu. */
-  const categoriesWithIcons = categories.map((cat, i) => ({
+  /** Giữ `iconUrl` từ API; fallback Lucide theo tên/slug danh mục (không phụ thuộc thứ tự API). */
+  const categoriesWithIcons = categories.map((cat) => ({
     ...cat,
-    icon: MENU_ICONS[i] ?? Package,
+    icon: getCategoryFallbackLucideIcon(cat),
   }));
 
   useEffect(() => {
@@ -127,53 +124,55 @@ export const Header = ({ categories = [] }: HeaderProps) => {
                 </button>
               </div>
 
-              {/* Logo */}
-              <div className="md:w-[15%] max-md:!col-span-2 flex flex-row justify-between max-md:justify-center items-center gap-8">
-                <div>
+              {/* Logo + wordmark */}
+              <div className="md:w-[22%] lg:w-[24%] max-md:!col-span-2 flex flex-row justify-between max-md:justify-center items-center gap-4 md:gap-6">
+                <div className="min-w-0 flex-1 md:flex-none">
                   <Link
                     href="/"
                     title="Ắc Quy HN Sài Gòn - Trang chủ"
+                    className="flex flex-row flex-nowrap items-center justify-center md:justify-start gap-1 sm:gap-1.5 md:gap-2"
                   >
-                    <div className="md:hidden text-center">
+                    <span className="relative inline-block shrink-0 overflow-hidden rounded-sm aspect-square h-9 w-9 sm:h-10 sm:w-10 md:h-[52px] md:w-[52px]">
                       <Image
                         priority
-                        width={126}
-                        height={36}
-                        className="mx-auto object-contain"
+                        fill
                         src="/logo-final.svg"
                         alt="Ắc Quy HN Sài Gòn"
+                        className="object-cover object-center"
+                        sizes="(max-width: 768px) 40px, 52px"
                         onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = "none";
-                          if (target.nextElementSibling) {
-                            (target.nextElementSibling as HTMLElement).style.display = "block";
-                          }
+                          (e.target as HTMLImageElement).style.display = "none";
                         }}
                       />
-                      <span className="text-white text-xl font-bold" style={{ display: "none" }}>
-                        Ắc Quy HN Sài Gòn
+                    </span>
+                    <div
+                      className={cn(
+                        "flex min-w-0 flex-col items-center gap-1 leading-none md:items-start",
+                        "select-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]"
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          "block text-center font-black uppercase tracking-wide text-white md:text-left",
+                          "text-[11px] leading-none sm:text-sm md:text-base lg:text-lg"
+                        )}
+                      >
+                        AC QUY HN
                       </span>
-                    </div>
-
-                    <div className="max-md:hidden">
-                      <Image
-                        priority
-                        width={180}
-                        height={48}
-                        style={{ objectFit: "contain" }}
-                        src="/logo-final.svg"
-                        alt="Ắc Quy HN Sài Gòn"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = "none";
-                          if (target.nextElementSibling) {
-                            (target.nextElementSibling as HTMLElement).style.display = "block";
-                          }
-                        }}
-                      />
-                      <span className="text-white text-2xl font-bold" style={{ display: "none" }}>
-                        Ắc Quy HN
-                      </span>
+                      <div
+                        className="flex w-full max-w-[11.5rem] items-center gap-1.5 sm:max-w-[13rem] sm:gap-2 md:max-w-[15rem]"
+                      >
+                        <span className="h-px min-w-[10px] flex-1 bg-white/70 sm:min-w-[14px]" />
+                        <span
+                          className={cn(
+                            "block shrink-0 whitespace-nowrap text-center font-medium uppercase leading-none tracking-[0.12em] text-white/95",
+                            "text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs"
+                          )}
+                        >
+                          Sai Gon
+                        </span>
+                        <span className="h-px min-w-[10px] flex-1 bg-white/70 sm:min-w-[14px]" />
+                      </div>
                     </div>
                   </Link>
                 </div>

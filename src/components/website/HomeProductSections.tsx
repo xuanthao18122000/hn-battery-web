@@ -69,7 +69,7 @@ export function HomeProductSections({ sections }: HomeProductSectionsProps) {
               <h2 className="block-title mb-4 font-semibold">
                 {section.name}
               </h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
                 {products.map((item) => (
                   <ProductCard key={item.product_id} item={item} />
                 ))}

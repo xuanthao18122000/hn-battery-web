@@ -26,6 +26,10 @@ export const CategoryMenu = ({ isMobileMenuOpen = false, categories = [] }: Cate
   const triggerRefs = useRef<(HTMLDivElement | null)[]>([]);
   const closeTimeoutRef = useRef<number | null>(null);
   const [subHoverPath, setSubHoverPath] = useState<number[]>([]);
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(max-width: 767px)").matches;
+  });
 
   const hoveredCategory = hoveredIndex !== null ? categories[hoveredIndex] : null;
   const hasSubCategories = hoveredCategory?.subCategories && hoveredCategory.subCategories.length > 0;
@@ -64,7 +68,26 @@ export const CategoryMenu = ({ isMobileMenuOpen = false, categories = [] }: Cate
     return () => clearCloseTimeout();
   }, []);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mql = window.matchMedia("(max-width: 767px)");
+    const onChange = () => setIsMobile(mql.matches);
+    onChange();
+
+    // Safari fallback
+    // eslint-disable-next-line deprecation/deprecation
+    if (typeof mql.addEventListener === "function") {
+      mql.addEventListener("change", onChange);
+      return () => mql.removeEventListener("change", onChange);
+    }
+    // eslint-disable-next-line deprecation/deprecation
+    mql.addListener(onChange);
+    // eslint-disable-next-line deprecation/deprecation
+    return () => mql.removeListener(onChange);
+  }, []);
+
   if (categories.length === 0) return null;
+  if (isMobile) return null;
 
   const activeIndex = hoveredIndex;
 
@@ -149,7 +172,7 @@ export const CategoryMenu = ({ isMobileMenuOpen = false, categories = [] }: Cate
     <>
       <div
         className={cn(
-          "w-full z-[9996] sticky top-[72px] max-md:top-[100px] shadow-sm border-b border-gray-100 bg-white"
+          "w-full z-[9996] sticky top-[72px] max-md:top-[100px] shadow-sm border-b border-gray-100 bg-white hidden md:block"
         )}
       >
         <div className="container mx-auto px-4 max-w-7xl">
