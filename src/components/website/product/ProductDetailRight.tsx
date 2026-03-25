@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { contactHotlineDisplay, contactHotlineTel } from "@/config/site";
 import { ProductCommitments } from "./ProductCommitments";
+import { formatPrice } from "@/utils/format";
 
 function IconClose({ className }: { className?: string }) {
   return (
@@ -34,11 +35,6 @@ interface ProductDetailRightProps {
   };
 }
 
-const formatPrice = (price: number | string): string => {
-  const numPrice = typeof price === "string" ? parseFloat(price) : price;
-  if (isNaN(numPrice) || numPrice < 1000) return "Liên hệ";
-  return numPrice.toLocaleString("vi-VN") + " ₫";
-};
 
 export const ProductDetailRight = ({
   price,

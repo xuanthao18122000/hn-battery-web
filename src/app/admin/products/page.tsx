@@ -18,15 +18,9 @@ import {
 } from "lucide-react";
 import { productsApi, Product } from "@/lib/api/products";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { formatPrice } from "@/utils/format";
 
 const CDN_URL = process.env.NEXT_PUBLIC_CDN_URL || "https://cdn-v2.didongviet.vn";
-
-const formatPrice = (price: number) => {
-  return new Intl.NumberFormat("vi-VN", {
-    style: "currency",
-    currency: "VND",
-  }).format(price);
-};
 
 const getStatusBadge = (status: string) => {
   const statusConfig = {

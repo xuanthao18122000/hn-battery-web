@@ -11,19 +11,12 @@ import {
   saveCartToStorage,
   type CartItemData,
 } from "@/lib/cart";
+import { formatPrice } from "@/utils/format";
 
 type ConfirmState =
   | { type: "delete_one"; item: CartItemData }
   | { type: "delete_all"; count: number }
   | null;
-
-const formatPrice = (price: number | string): string => {
-  const numPrice = typeof price === "string" ? parseFloat(price) : price;
-  if (isNaN(numPrice) || numPrice < 1000) {
-    return "Liên hệ";
-  }
-  return numPrice.toLocaleString("vi-VN") + " ₫";
-};
 
 function CartItemSkeleton() {
   return (

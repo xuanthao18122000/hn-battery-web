@@ -31,6 +31,7 @@ import {
   StatusCommonEnum,
 } from "@/lib/api/sections";
 import { productsApi, Product } from "@/lib/api/products";
+import { formatPrice } from "@/utils/format";
 
 const CDN_URL = process.env.NEXT_PUBLIC_CDN_URL || "";
 
@@ -41,14 +42,6 @@ function getErrorMessage(error: unknown, fallback: string) {
     return message[0] ?? fallback;
   }
   return message ?? fallback;
-}
-
-function formatPrice(price: number) {
-  return new Intl.NumberFormat("vi-VN", {
-    style: "currency",
-    currency: "VND",
-    maximumFractionDigits: 0,
-  }).format(price);
 }
 
 export default function EditSectionPage() {

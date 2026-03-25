@@ -88,7 +88,14 @@ export default async function SlugPage({
   // Render Category Page
   if (resolved.type === SlugTypeEnum.CATEGORY) {
     try {
-      const category = resolved.category ?? await categoriesApi.getBySlug(slug, req);
+      // NOTE: `resolve` may return a minimal category payload (e.g. without sibling-fallback children).
+      // Always refetch when children is empty to get FE-specific children behavior from backend.
+      let category = resolved.category;
+      const hasChildren =
+        category && Array.isArray((category as any).children) && (category as any).children.length > 0;
+      if (!category || !hasChildren) {
+        category = await categoriesApi.getBySlug(slug, req);
+      }
 
       /** Danh mục loại bài viết (CMS): list bài POST thuộc danh mục, URL = /{slug} từ API */
       if (category.type === CategoryTypeEnum.POST) {
@@ -166,6 +173,13 @@ export default async function SlugPage({
           }}
           descriptionHtml={category.description}
           mockProducts={transformedProducts}
+          subCategories={(category.children ?? []).map((c: any) => ({
+            id: c.id,
+            name: c.name,
+            slug: c.slug,
+            thumbnailUrl: c.thumbnailUrl,
+            iconUrl: c.iconUrl,
+          }))}
         />
       );
     } catch (error: any) {

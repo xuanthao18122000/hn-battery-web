@@ -169,6 +169,15 @@ export const productsApi = {
     return response.data.data;
   },
 
+  // Tìm kiếm sản phẩm (FE - Public)
+  search: async (q: string, limit = 10): Promise<Product[]> => {
+    const axiosInstance = getAxiosInstance();
+    const response = await axiosInstance.get<ApiResponse<Product[]>>('/fe/products/search', {
+      params: { q, limit },
+    });
+    return response.data.data;
+  },
+
   // Tạo sản phẩm mới
   create: async (data: CreateProductDto): Promise<Product> => {
     const axiosInstance = getAxiosInstance();

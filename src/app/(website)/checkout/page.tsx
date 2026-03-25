@@ -7,14 +7,9 @@ import { BlurImage } from "@/components/website/common";
 import { ordersApi, type CreateOrderDto } from "@/lib/api/orders";
 import { loadCartFromStorage, type CartItemData } from "@/lib/cart";
 import { ShoppingBag } from "lucide-react";
+import { formatPrice } from "@/utils/format";
 
 const CDN_URL = process.env.NEXT_PUBLIC_CDN_URL || "https://cdn-v2.didongviet.vn";
-
-const formatPrice = (price: number | string): string => {
-  const numPrice = typeof price === "string" ? parseFloat(price) : price;
-  if (isNaN(numPrice) || numPrice < 1000) return "Liên hệ";
-  return numPrice.toLocaleString("vi-VN") + " ₫";
-};
 
 // --- Validation ---
 const MIN_NAME_LENGTH = 2;

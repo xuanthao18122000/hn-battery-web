@@ -13,15 +13,9 @@ import { useRouter } from "next/navigation";
 import SEOFields from "./SEOFields";
 import { FileUpload } from "@/components/ui/file-upload";
 import { Package, Edit, Eye } from "lucide-react";
+import { formatPrice } from "@/utils/format";
 
 const CDN_URL = process.env.NEXT_PUBLIC_CDN_URL || "https://cdn-v2.didongviet.vn";
-
-const formatPrice = (price: number) => {
-  return new Intl.NumberFormat("vi-VN", {
-    style: "currency",
-    currency: "VND",
-  }).format(price);
-};
 
 const getStatusBadge = (status: string) => {
   const statusConfig = {

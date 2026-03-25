@@ -16,16 +16,9 @@ import {
   StatusCommonEnum,
 } from "@/lib/api/sections";
 import { productsApi, Product } from "@/lib/api/products";
+import { formatPrice } from "@/utils/format";
 
 const CDN_URL = process.env.NEXT_PUBLIC_CDN_URL || "";
-
-function formatPrice(price: number) {
-  return new Intl.NumberFormat("vi-VN", {
-    style: "currency",
-    currency: "VND",
-    maximumFractionDigits: 0,
-  }).format(price);
-}
 
 function getErrorMessage(error: unknown, fallback: string) {
   const response = (error as { response?: { data?: { message?: string | string[] } } })?.response;

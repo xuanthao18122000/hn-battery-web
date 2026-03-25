@@ -10,6 +10,7 @@ import {
   BadgeOnline,
 } from "@/components/website/common";
 import { isCategorySlugNoNavigate } from "@/lib/category-nav";
+import { formatPrice } from "@/utils/format";
 
 export interface Product {
   product_id: number;
@@ -29,12 +30,6 @@ export interface Product {
 interface ProductCardProps {
   item: Product;
 }
-
-const formatPrice = (price: number | string): string => {
-  const numPrice = typeof price === "string" ? parseFloat(price) : price;
-  if (isNaN(numPrice) || numPrice < 1000) return "Liên hệ";
-  return numPrice.toLocaleString("vi-VN") + " đ";
-};
 
 const formatPromotionInfo = (html?: string): string => {
   if (!html) return "";

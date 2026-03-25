@@ -26,10 +26,7 @@ export const CategoryMenu = ({ isMobileMenuOpen = false, categories = [] }: Cate
   const triggerRefs = useRef<(HTMLDivElement | null)[]>([]);
   const closeTimeoutRef = useRef<number | null>(null);
   const [subHoverPath, setSubHoverPath] = useState<number[]>([]);
-  const [isMobile, setIsMobile] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return window.matchMedia("(max-width: 767px)").matches;
-  });
+  const [isMobile, setIsMobile] = useState(false);
 
   const hoveredCategory = hoveredIndex !== null ? categories[hoveredIndex] : null;
   const hasSubCategories = hoveredCategory?.subCategories && hoveredCategory.subCategories.length > 0;

@@ -1,12 +1,15 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { ProductCard } from "@/components/website/product/ProductCard";
 import { Breadcrumbs } from "@/components/website/common";
 import { ChevronDown, Filter, X } from "lucide-react";
 import { ICON_SIZE } from "@/lib/icons";
 import { cn } from "@/lib/utils";
+import { getImageUrl } from "@/utils/image";
+import { categoriesApi } from "@/lib/api/categories";
 
 const ProductDescriptionBlock = dynamic(
   () => import("@/components/website/product/ProductDescriptionBlock"),
@@ -56,6 +59,7 @@ interface CategoryPageContentProps {
     usage?: string[];
   };
   breadcrumbItems?: { name: string; slug: string }[];
+  subCategories?: { id: number; name: string; slug: string; thumbnailUrl?: string; iconUrl?: string }[];
 }
 
 const defaultMockProducts: Product[] = [
@@ -93,15 +97,6 @@ const sortOptions = [
   { value: "price-desc", label: "Giá giảm dần" },
 ];
 
-const mockCategoryBlocks = [
-  { id: "dong-nai", name: "Ắc quy Đồng Nai" },
-  { id: "delkor", name: "Bình ắc quy Delkor" },
-  { id: "varta", name: "Ắc quy Varta" },
-  { id: "bosch", name: "Ắc quy Bosch" },
-  { id: "atlas", name: "Ắc quy ô tô Atlas" },
-  { id: "amaron", name: "Ắc quy Amaron" },
-  { id: "rocket", name: "Ắc quy Rocket" },
-];
 
 function FilterSection({
   title,
@@ -315,7 +310,40 @@ export default function CategoryPageContent({
   mockProducts = defaultMockProducts,
   filterOptions = defaultFilterOptions,
   breadcrumbItems = [],
+  subCategories = [],
 }: CategoryPageContentProps) {
+  const [resolvedSubCategories, setResolvedSubCategories] = useState(subCategories);
+
+  useEffect(() => {
+    // Prefer server-provided subCategories; fallback to API when empty.
+    if (subCategories.length > 0) {
+      setResolvedSubCategories(subCategories);
+      return;
+    }
+
+    let cancelled = false;
+    (async () => {
+      try {
+        const category = await categoriesApi.getBySlug(categoryInfo.rootSlug);
+
+        const next = (category.children ?? []).map((c: any) => ({
+          id: c.id,
+          name: c.name,
+          slug: c.slug,
+          thumbnailUrl: c.thumbnailUrl,
+          iconUrl: c.iconUrl,
+        }));
+        if (!cancelled) setResolvedSubCategories(next);
+      } catch (err) {
+        if (!cancelled) setResolvedSubCategories([]);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [categoryInfo.rootSlug, subCategories]);
+
   const [selectedFilters, setSelectedFilters] = useState<{
     voltage?: string;
     power?: string;
@@ -422,22 +450,30 @@ export default function CategoryPageContent({
                   máy, ô tô, xe tải và ứng dụng công nghiệp. Dưới đây là các dòng sản phẩm tiêu biểu
                   trong danh mục này.
                 </p>
-                <div className="mt-4 grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-7 gap-3">
-                  {mockCategoryBlocks.map((cate) => (
-                    <button
-                      key={cate.id}
-                      type="button"
-                      className="group flex flex-col items-center justify-between gap-2 rounded-xl border border-gray-200 bg-gray-50 px-3 py-3 hover:border-accent hover:bg-white transition-colors"
-                    >
-                      <div className="flex h-12 w-full items-center justify-center rounded-lg border border-dashed border-gray-200 bg-white text-[11px] text-gray-400">
-                        Hình minh họa
-                      </div>
-                      <span className="text-xs sm:text-sm font-medium text-gray-800 text-center leading-snug">
-                        {cate.name}
-                      </span>
-                    </button>
-                  ))}
-                </div>
+                {resolvedSubCategories.length > 0 && (
+                  <div className="mt-4 -mx-1 overflow-x-auto">
+                    <div className="flex w-max gap-3 px-1">
+                    {resolvedSubCategories.map((cate) => (
+                      <Link
+                        key={cate.id}
+                        href={`/${cate.slug}`}
+                        className="group flex w-28 shrink-0 flex-col items-center justify-between gap-2 rounded-xl border border-gray-200 bg-gray-50 px-3 py-3 hover:border-accent hover:bg-white transition-colors sm:w-32"
+                      >
+                        <div className="flex h-12 w-full items-center justify-center rounded-lg overflow-hidden bg-white">
+                          <img
+                            src={getImageUrl(cate.thumbnailUrl || cate.iconUrl)}
+                            alt={cate.name}
+                            className="h-full w-full object-contain"
+                          />
+                        </div>
+                        <span className="text-xs sm:text-sm font-medium text-gray-800 text-center leading-snug">
+                          {cate.name}
+                        </span>
+                      </Link>
+                    ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">

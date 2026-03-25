@@ -5,20 +5,13 @@ import Link from "next/link";
 import { BlurImage } from "../common";
 import type { CartItemData } from "@/lib/cart";
 import { getImageUrl } from "@/utils/image";
+import { formatPrice } from "@/utils/format";
 
 interface CartItemProps {
   item: CartItemData;
   onUpdate: (item: CartItemData, action: "incre" | "deincre") => void;
   onDelete: (item: CartItemData) => void;
 }
-
-const formatPrice = (price: number | string): string => {
-  const numPrice = typeof price === "string" ? parseFloat(price) : price;
-  if (isNaN(numPrice) || numPrice < 1000) {
-    return "Liên hệ";
-  }
-  return numPrice.toLocaleString("vi-VN") + " ₫";
-};
 
 export const CartItem = ({ item, onUpdate, onDelete }: CartItemProps) => {
   const imageUrl = getImageUrl(item.thumbnail);

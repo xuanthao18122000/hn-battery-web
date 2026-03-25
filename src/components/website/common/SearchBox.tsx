@@ -1,12 +1,14 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo } from "react";
-import { Search } from "lucide-react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { Search, Loader2 } from "lucide-react";
 import { ICON_SIZE } from "@/lib/icons";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { allMockProducts, MockProduct } from "@/data/mockProducts";
+import { productsApi, Product } from "@/lib/api/products";
+import { getImageUrl } from "@/utils/image";
+import { formatPrice } from "@/utils/format";
 import BlurImage from "./BlurImage";
 
 interface SearchBoxProps {
@@ -14,41 +16,63 @@ interface SearchBoxProps {
   setIsActiveSearch?: (active: boolean) => void;
 }
 
-const CDN_URL = process.env.NEXT_PUBLIC_CDN_URL || "https://cdn-v2.didongviet.vn";
-
-const formatPrice = (price: number | string): string => {
-  const numPrice = typeof price === "string" ? parseFloat(price) : price;
-  if (isNaN(numPrice) || numPrice < 1000) {
-    return "Liên hệ";
-  }
-  return numPrice.toLocaleString("vi-VN") + " đ";
-};
 
 export const SearchBox = ({ isActiveSearch, setIsActiveSearch }: SearchBoxProps) => {
   const router = useRouter();
   const [searchText, setSearchText] = useState("");
   const [showResults, setShowResults] = useState(false);
+  const [results, setResults] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
+  const abortRef = useRef<AbortController | null>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
-  // Filter products based on search text
-  const filteredProducts = useMemo(() => {
-    if (!searchText.trim()) return [];
-    
-    const query = searchText.toLowerCase().trim();
-    return allMockProducts
-      .filter((product: MockProduct) => {
-        if (product.status !== "A") return false;
-        const productName = product.product.toLowerCase();
-        const brand = product.brand?.toLowerCase() || "";
-        const type = product.type?.toLowerCase() || "";
-        return (
-          productName.includes(query) ||
-          brand.includes(query) ||
-          type.includes(query)
-        );
-      })
-      .slice(0, 8); // Limit to 8 results
-  }, [searchText]);
+  const fetchResults = useCallback(async (query: string) => {
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+
+    setLoading(true);
+    try {
+      const data = await productsApi.search(query, 10);
+      if (!controller.signal.aborted) {
+        setResults(data);
+        setShowResults(true);
+      }
+    } catch {
+      if (!controller.signal.aborted) {
+        setResults([]);
+      }
+    } finally {
+      if (!controller.signal.aborted) {
+        setLoading(false);
+      }
+    }
+  }, []);
+
+  // Debounced search
+  const debouncedSearch = useCallback(
+    (query: string) => {
+      clearTimeout(debounceRef.current);
+      if (!query.trim()) {
+        setResults([]);
+        setShowResults(false);
+        setLoading(false);
+        return;
+      }
+      setLoading(true);
+      debounceRef.current = setTimeout(() => fetchResults(query.trim()), 300);
+    },
+    [fetchResults]
+  );
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      clearTimeout(debounceRef.current);
+      abortRef.current?.abort();
+    };
+  }, []);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -90,9 +114,10 @@ export const SearchBox = ({ isActiveSearch, setIsActiveSearch }: SearchBoxProps)
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchText(e.target.value);
-    setShowResults(e.target.value.trim().length > 0);
+    const value = e.target.value;
+    setSearchText(value);
     setIsActiveSearch?.(true);
+    debouncedSearch(value);
   };
 
   const handleProductClick = () => {
@@ -113,7 +138,7 @@ export const SearchBox = ({ isActiveSearch, setIsActiveSearch }: SearchBoxProps)
             "w-full h-9 px-4 pr-10 rounded-lg border-0 bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm"
           )}
           onFocus={() => {
-            if (searchText.trim()) {
+            if (results.length > 0 && searchText.trim()) {
               setShowResults(true);
             }
             setIsActiveSearch?.(true);
@@ -124,26 +149,28 @@ export const SearchBox = ({ isActiveSearch, setIsActiveSearch }: SearchBoxProps)
           className="absolute right-2 top-1/2 -translate-y-1/2 transition-colors text-primary hover:opacity-80"
           aria-label="Tìm kiếm"
         >
-          <Search size={ICON_SIZE.md} />
+          {loading ? (
+            <Loader2 size={ICON_SIZE.md} className="animate-spin" />
+          ) : (
+            <Search size={ICON_SIZE.md} />
+          )}
         </button>
       </form>
 
       {/* Search Results Dropdown */}
-      {showResults && filteredProducts.length > 0 && (
-        <div className="absolute top-full left-[-8px] right-[-8px] mt-2 bg-white rounded-lg shadow-lg border border-gray-200 z-50 max-h-96 overflow-y-auto">
+      {showResults && results.length > 0 && (
+        <div className="absolute top-full -left-2 -right-2 mt-2 bg-white rounded-lg shadow-lg border border-gray-200 z-50 max-h-96 overflow-y-auto">
           <div className="p-2">
             <div className="text-xs text-gray-500 px-3 py-2 font-medium">
-              Kết quả tìm kiếm ({filteredProducts.length})
+              Kết quả tìm kiếm ({results.length})
             </div>
-            {filteredProducts.map((product: MockProduct) => {
-              const imageUrl = product.thumbnail
-                ? `${CDN_URL}/${product.thumbnail}`
-                : "/no-image-available.png";
-              const productUrl = `/${product.productSlug}.html`;
+            {results.map((product) => {
+              const imageUrl = getImageUrl(product.thumbnailUrl);
+              const productUrl = `/${product.slug}.html`;
 
               return (
                 <Link
-                  key={product.product_id}
+                  key={product.id}
                   href={productUrl}
                   onClick={handleProductClick}
                   className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors group"
@@ -152,7 +179,7 @@ export const SearchBox = ({ isActiveSearch, setIsActiveSearch }: SearchBoxProps)
                   <div className="shrink-0 w-12 h-12 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
                     <BlurImage
                       src={imageUrl}
-                      alt={product.product}
+                      alt={product.name}
                       width={48}
                       height={48}
                       className="object-contain"
@@ -162,19 +189,19 @@ export const SearchBox = ({ isActiveSearch, setIsActiveSearch }: SearchBoxProps)
                   {/* Product Info */}
                   <div className="flex-1 min-w-0">
                     <h4 className="text-sm font-medium text-gray-900 line-clamp-1 group-hover:text-primary transition-colors">
-                      {product.product}
+                      {product.name}
                     </h4>
                     <div className="flex items-center gap-2 mt-1">
-                      <span className={`text-sm font-bold ${(product as any).showPrice === false ? "text-yellow-600" : "text-red-600"}`}>
-                        {(product as any).showPrice === false
+                      <span className={`text-sm font-bold ${product.showPrice === false ? "text-yellow-600" : "text-red-600"}`}>
+                        {product.showPrice === false
                           ? "Liên hệ"
-                          : formatPrice(product.price)}
+                          : formatPrice(product.salePrice || product.price)}
                       </span>
-                      {(product as any).showPrice !== false &&
-                        product.list_price &&
-                        parseFloat(product.list_price) > parseFloat(product.price) && (
+                      {product.showPrice !== false &&
+                        product.salePrice &&
+                        product.price > product.salePrice && (
                         <span className="text-xs text-gray-500 line-through">
-                          {formatPrice(product.list_price)}
+                          {formatPrice(product.price)}
                         </span>
                       )}
                     </div>
@@ -187,8 +214,8 @@ export const SearchBox = ({ isActiveSearch, setIsActiveSearch }: SearchBoxProps)
       )}
 
       {/* No Results */}
-      {showResults && searchText.trim() && filteredProducts.length === 0 && (
-        <div className="absolute top-full left-[-8px] right-[-8px] mt-2 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+      {showResults && searchText.trim() && !loading && results.length === 0 && (
+        <div className="absolute top-full -left-2 -right-2 mt-2 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
           <div className="p-4 text-center text-sm text-gray-500">
             Không tìm thấy sản phẩm nào
           </div>
@@ -197,4 +224,3 @@ export const SearchBox = ({ isActiveSearch, setIsActiveSearch }: SearchBoxProps)
     </div>
   );
 };
-

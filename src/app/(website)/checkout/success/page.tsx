@@ -4,12 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ordersApi, type Order } from "@/lib/api/orders";
-
-const formatPrice = (price: number | string): string => {
-  const numPrice = typeof price === "string" ? parseFloat(price) : price;
-  if (isNaN(numPrice) || numPrice < 1000) return "Liên hệ";
-  return numPrice.toLocaleString("vi-VN") + " ₫";
-};
+import { formatPrice } from "@/utils/format";
 
 const formatDate = (date: string | Date): string => {
   const d = typeof date === "string" ? new Date(date) : date;
