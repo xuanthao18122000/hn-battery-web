@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from 'next/link'
-import { ChevronRight, MapPin, Phone, Clock, Car } from 'lucide-react'
+import { ChevronRight, MapPin, Phone, CalendarClock, Car } from 'lucide-react'
 import { ICON_SIZE } from '@/lib/icons'
 import { cn } from '@/lib/utils'
 import { contactApi, Store, CreateContactMessageDto } from '@/lib/api/contact'
@@ -28,18 +28,8 @@ const mockStores: Store[] = [
 ];
 
 
-function checkOpenStatus(closeAt: string, openAt: string): boolean {
-  const now = new Date();
-  const currentHour = now.getHours();
-  const currentMinute = now.getMinutes();
-  const currentTime = currentHour * 60 + currentMinute;
-
-  const [openHour, openMinute] = openAt.split(':').map(Number);
-  const [closeHour, closeMinute] = closeAt.split(':').map(Number);
-  const openTime = openHour * 60 + openMinute;
-  const closeTime = closeHour * 60 + closeMinute;
-
-  return currentTime >= openTime && currentTime < closeTime;
+function activityHoursLabel(openAt: string, closeAt: string): string {
+  return `${openAt.trim()} – ${closeAt.trim()}`;
 }
 
 export default function ContactPage() {
@@ -161,7 +151,6 @@ export default function ContactPage() {
               style={{ height: 300 }}
             >
               {displayStores.map((store) => {
-                  const isOpen = checkOpenStatus(store.close_at, store.open_at);
                   return (
                     <div
                       onClick={() => handleStoreClick(store)}
@@ -197,15 +186,15 @@ export default function ContactPage() {
                           </div>
                         )}
 
-                        <div className="flex items-center justify-start gap-2">
-                          <Clock size={ICON_SIZE.sm} className="text-gray-600 flex-shrink-0" />
-                          <p
-                            className={cn(
-                              'text-xs font-bold',
-                              isOpen ? 'text-status-open' : 'text-status-closed'
-                            )}
-                          >
-                            {isOpen ? 'Đang hoạt động' : 'Đang đóng cửa'}
+                        <div className="flex items-start gap-2 text-xs">
+                          <CalendarClock
+                            size={ICON_SIZE.sm}
+                            className="text-status-open shrink-0 mt-0.5"
+                            aria-hidden
+                          />
+                          <p className="pt-0.5 font-medium text-status-open">
+                            <span className="font-semibold">Hoạt động:</span>{' '}
+                            {activityHoursLabel(store.open_at, store.close_at)}
                           </p>
                         </div>
                       </div>
@@ -249,7 +238,6 @@ export default function ContactPage() {
 
                 <div className="h-[350px] overflow-y-scroll bg-secondary rounded p-2 border border-gray-200">
                   {displayStores.map((store) => {
-                    const isOpen = checkOpenStatus(store.close_at, store.open_at);
                     return (
                       <div
                         onClick={() => handleStoreClick(store)}
@@ -288,15 +276,15 @@ export default function ContactPage() {
                             </div>
                           )}
 
-                          <div className="flex items-center justify-start gap-2 pb-1">
-                            <Clock size={ICON_SIZE.sm} className="text-gray-600 shrink-0" />
-                            <p
-                              className={cn(
-                                'py-1 text-xs font-bold',
-                                isOpen ? 'text-status-open' : 'text-status-closed'
-                              )}
-                            >
-                              {isOpen ? 'Đang hoạt động' : 'Đóng cửa'}
+                          <div className="flex items-start gap-2 text-xs">
+                            <CalendarClock
+                              size={ICON_SIZE.sm}
+                              className="text-status-open shrink-0 mt-0.5"
+                              aria-hidden
+                            />
+                            <p className=" font-medium text-status-open">
+                              <span className="font-semibold">Hoạt động:</span>{' '}
+                              {activityHoursLabel(store.open_at, store.close_at)}
                             </p>
                           </div>
                         </div>

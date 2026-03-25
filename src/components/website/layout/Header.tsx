@@ -4,16 +4,16 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { 
-  Menu, 
-  X, 
-  Search, 
-  MapPin, 
-  FileSearch, 
-  Gift, 
+import {
+  Menu,
+  X,
+  Search,
+  MapPin,
+  FileSearch,
+  Gift,
   ShoppingCart,
   ChevronDown,
-  FolderTree
+  FolderTree,
 } from "lucide-react";
 import { getCategoryFallbackLucideIcon } from "@/lib/category-menu-icons";
 import { ICON_SIZE } from "@/lib/icons";
@@ -106,7 +106,7 @@ export const Header = ({ categories = [] }: HeaderProps) => {
         ref={headerRef}
         className={cn(
           "w-full z-[9999] sticky top-0 transition-all duration-300 bg-primary",
-          isScrolled ? "shadow-md" : ""
+          isScrolled ? "shadow-md" : "",
         )}
       >
         <div className="page-header flex w-full min-w-full items-center justify-center h-[72px] max-md:h-[100px] transition-all duration-300">
@@ -132,41 +132,41 @@ export const Header = ({ categories = [] }: HeaderProps) => {
                     title="Ắc Quy HN Sài Gòn - Trang chủ"
                     className="flex flex-row flex-nowrap items-center justify-center md:justify-start gap-1 sm:gap-1.5 md:gap-2"
                   >
-                    <span className="relative inline-block shrink-0 overflow-hidden rounded-sm aspect-square h-9 w-9 sm:h-10 sm:w-10 md:h-[52px] md:w-[52px]">
-                      <Image
-                        priority
-                        fill
-                        src="/logo-final.svg"
-                        alt="Ắc Quy HN Sài Gòn"
-                        className="object-cover object-center"
-                        sizes="(max-width: 768px) 40px, 52px"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = "none";
-                        }}
-                      />
+                    <span className="relative inline-flex shrink-0 items-center justify-center rounded bg-white p-1 shadow-sm ring-1 ring-black/10 h-11 w-14 sm:h-12 sm:w-16 md:h-[60px] md:w-[76px]">
+                      <span className="relative inline-block shrink-0 overflow-hidden rounded-sm aspect-square h-9 w-12 sm:h-10 sm:w-10 md:h-14 md:w-18">
+                        <Image
+                          priority
+                          fill
+                          src="/logo-final.svg"
+                          alt="Ắc Quy HN Sài Gòn"
+                          className="object-cover object-center"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display =
+                              "none";
+                          }}
+                        />
+                      </span>
                     </span>
                     <div
                       className={cn(
                         "flex min-w-0 flex-col items-center gap-1 leading-none md:items-start",
-                        "select-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]"
+                        "select-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]",
                       )}
                     >
                       <span
                         className={cn(
                           "block text-center font-black uppercase tracking-wide text-white md:text-left",
-                          "text-[11px] leading-none sm:text-sm md:text-base lg:text-lg"
+                          "text-[11px] leading-none sm:text-sm md:text-base lg:text-lg",
                         )}
                       >
                         AC QUY HN
                       </span>
-                      <div
-                        className="flex w-full max-w-[11.5rem] items-center gap-1.5 sm:max-w-[13rem] sm:gap-2 md:max-w-[15rem]"
-                      >
+                      <div className="flex w-full max-w-[11.5rem] items-center gap-1.5 sm:max-w-[13rem] sm:gap-2 md:max-w-[15rem]">
                         <span className="h-px min-w-[10px] flex-1 bg-white/70 sm:min-w-[14px]" />
                         <span
                           className={cn(
                             "block shrink-0 whitespace-nowrap text-center font-medium uppercase leading-none tracking-[0.12em] text-white/95",
-                            "text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs"
+                            "text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs",
                           )}
                         >
                           Sai Gon
@@ -182,7 +182,9 @@ export const Header = ({ categories = [] }: HeaderProps) => {
               <div className="col-span-1 md:hidden flex justify-end items-center">
                 <ItemMenu
                   link="/cart"
-                  icon={<ShoppingCart className="text-white" size={ICON_SIZE.xl} />}
+                  icon={
+                    <ShoppingCart className="text-white" size={ICON_SIZE.xl} />
+                  }
                   text="Giỏ hàng"
                   cartQty={cartQty}
                 />
@@ -190,36 +192,53 @@ export const Header = ({ categories = [] }: HeaderProps) => {
 
               {/* Search Box PC */}
               <div className="w-[28%] flex gap-x-8 flex-row max-md:col-span-5 max-md:hidden">
-                <SearchBox isActiveSearch={isActiveSearch} setIsActiveSearch={setIsActiveSearch} />
+                <SearchBox
+                  isActiveSearch={isActiveSearch}
+                  setIsActiveSearch={setIsActiveSearch}
+                />
               </div>
 
               {/* Menu List PC */}
               <div className="w-[45%] max-md:hidden max-md:col-span-1">
                 <div className="w-full flex items-center justify-between max-md:hidden">
-                    <ItemMenu
-                      link="/about"
-                      icon={<FileSearch className="text-white" size={ICON_SIZE.lg} />}
-                      text="Giới thiệu"
-                    />
-                    <ItemMenu
-                      link="/contact"
-                      icon={<MapPin className="text-white" size={ICON_SIZE.lg} />}
-                      text="Liên hệ"
-                    />
-                    <ItemMenu
-                      link="/dealer-price"
-                      icon={<Gift className="text-white" size={ICON_SIZE.lg} />}
-                      text="Báo giá đại lý"
-                    />
-                    <ItemMenu
-                      icon={<ShoppingCart className="text-white" size={ICON_SIZE.lg} />}
-                      link="/cart"
-                      cartQty={cartQty}
-                      text="Giỏ hàng"
-                    />
+                  <ItemMenu
+                    link="/about"
+                    icon={
+                      <FileSearch className="text-white" size={ICON_SIZE.lg} />
+                    }
+                    text="Giới thiệu"
+                  />
+                  <ItemMenu
+                    link="/contact"
+                    icon={<MapPin className="text-white" size={ICON_SIZE.lg} />}
+                    text="Liên hệ"
+                  />
+                  <ItemMenu
+                    link="/dealer-price"
+                    icon={<Gift className="text-white" size={ICON_SIZE.lg} />}
+                    text="Báo giá đại lý"
+                  />
+                  <ItemMenu
+                    icon={
+                      <ShoppingCart
+                        className="text-white"
+                        size={ICON_SIZE.lg}
+                      />
+                    }
+                    link="/cart"
+                    cartQty={cartQty}
+                    text="Giỏ hàng"
+                  />
                 </div>
-                <Link className="md:hidden" href="/track-order" aria-label="tra cứu">
-                  <div style={{ height: 50 }} className="relative flex items-center justify-center">
+                <Link
+                  className="md:hidden"
+                  href="/track-order"
+                  aria-label="tra cứu"
+                >
+                  <div
+                    style={{ height: 50 }}
+                    className="relative flex items-center justify-center"
+                  >
                     <Search className="text-white" size={ICON_SIZE.xl} />
                   </div>
                 </Link>
@@ -227,7 +246,10 @@ export const Header = ({ categories = [] }: HeaderProps) => {
 
               {/* Search Box Mobile */}
               <div className="col-span-4 md:hidden w-full">
-                <SearchBox isActiveSearch={isActiveSearch} setIsActiveSearch={setIsActiveSearch} />
+                <SearchBox
+                  isActiveSearch={isActiveSearch}
+                  setIsActiveSearch={setIsActiveSearch}
+                />
               </div>
             </div>
           </div>
@@ -235,7 +257,10 @@ export const Header = ({ categories = [] }: HeaderProps) => {
       </header>
 
       {/* Category Menu */}
-      <CategoryMenu isMobileMenuOpen={isActiveMenu} categories={categoriesWithIcons} />
+      <CategoryMenu
+        isMobileMenuOpen={isActiveMenu}
+        categories={categoriesWithIcons}
+      />
 
       {/* Mobile Menu */}
       {isActiveMenu && (
@@ -249,11 +274,14 @@ export const Header = ({ categories = [] }: HeaderProps) => {
                 href={item.href}
                 className={cn(
                   "block text-gray-800 transition-colors duration-200 font-medium py-3 px-4 rounded-lg",
-                  pathname === item.href ? "bg-blue-50" : "hover:bg-gray-50"
+                  pathname === item.href ? "bg-blue-50" : "hover:bg-gray-50",
                 )}
                 style={
-                  pathname === item.href 
-                    ? { color: "var(--color-primary)", backgroundColor: "var(--color-primary-muted)" } 
+                  pathname === item.href
+                    ? {
+                        color: "var(--color-primary)",
+                        backgroundColor: "var(--color-primary-muted)",
+                      }
                     : { color: "" }
                 }
                 onMouseEnter={(e) => {
@@ -279,9 +307,12 @@ export const Header = ({ categories = [] }: HeaderProps) => {
             {categoriesWithIcons.map((category) => {
               const IconComponent = category.icon || FolderTree;
               const iconSrc = category.iconUrl
-                ? (category.iconUrl.startsWith("http") ? category.iconUrl : `${CDN_URL}/${category.iconUrl}`)
+                ? category.iconUrl.startsWith("http")
+                  ? category.iconUrl
+                  : `${CDN_URL}/${category.iconUrl}`
                 : "";
-              const hasSubCategories = category.subCategories && category.subCategories.length > 0;
+              const hasSubCategories =
+                category.subCategories && category.subCategories.length > 0;
               const isExpanded = expandedCategory === String(category.id);
               const catActive =
                 !category.disableLink && pathname === category.href;
@@ -294,11 +325,14 @@ export const Header = ({ categories = [] }: HeaderProps) => {
                       disableLink={category.disableLink}
                       className={cn(
                         "flex-1 flex items-center gap-2 text-gray-800 transition-colors duration-200 font-medium py-3 px-4 rounded-lg",
-                        catActive ? "bg-blue-50" : "hover:bg-gray-50"
+                        catActive ? "bg-blue-50" : "hover:bg-gray-50",
                       )}
                       style={
                         catActive
-                          ? { color: "var(--color-primary)", backgroundColor: "var(--color-primary-muted)" } 
+                          ? {
+                              color: "var(--color-primary)",
+                              backgroundColor: "var(--color-primary-muted)",
+                            }
                           : { color: "" }
                       }
                       onClick={() => {
@@ -309,9 +343,16 @@ export const Header = ({ categories = [] }: HeaderProps) => {
                       }}
                     >
                       {iconSrc ? (
-                        <img src={iconSrc} alt="" className="w-[18px] h-[18px] shrink-0 object-contain" />
+                        <img
+                          src={iconSrc}
+                          alt=""
+                          className="w-[18px] h-[18px] shrink-0 object-contain"
+                        />
                       ) : (
-                        <IconComponent size={ICON_SIZE.md} className="shrink-0" />
+                        <IconComponent
+                          size={ICON_SIZE.md}
+                          className="shrink-0"
+                        />
                       )}
                       <span>{category.name}</span>
                     </CategoryNavLink>
@@ -319,27 +360,30 @@ export const Header = ({ categories = [] }: HeaderProps) => {
                       <button
                         type="button"
                         onClick={() => {
-                          setExpandedCategory(isExpanded ? null : String(category.id));
+                          setExpandedCategory(
+                            isExpanded ? null : String(category.id),
+                          );
                         }}
                         className="px-4 py-3 text-gray-600 hover:text-primary transition-colors"
                       >
-                        <ChevronDown 
-                          size={ICON_SIZE.md} 
+                        <ChevronDown
+                          size={ICON_SIZE.md}
                           className={cn(
                             "transition-transform",
-                            isExpanded && "rotate-180"
+                            isExpanded && "rotate-180",
                           )}
                         />
                       </button>
                     )}
                   </div>
-                  
+
                   {/* Subcategories */}
                   {hasSubCategories && isExpanded && (
                     <div className="pl-4 pr-4 pb-2 space-y-1">
                       {category.subCategories?.map((subCategory) => {
                         const subActive =
-                          !subCategory.disableLink && pathname === subCategory.href;
+                          !subCategory.disableLink &&
+                          pathname === subCategory.href;
                         return (
                           <CategoryNavLink
                             key={subCategory.id}
@@ -347,11 +391,15 @@ export const Header = ({ categories = [] }: HeaderProps) => {
                             disableLink={subCategory.disableLink}
                             className={cn(
                               "block text-sm text-gray-700 transition-colors duration-200 font-medium py-2 px-4 rounded-lg ml-6",
-                              subActive ? "bg-blue-50" : "hover:bg-gray-50"
+                              subActive ? "bg-blue-50" : "hover:bg-gray-50",
                             )}
                             style={
                               subActive
-                                ? { color: "var(--color-primary)", backgroundColor: "var(--color-primary-muted)" } 
+                                ? {
+                                    color: "var(--color-primary)",
+                                    backgroundColor:
+                                      "var(--color-primary-muted)",
+                                  }
                                 : { color: "" }
                             }
                             onClick={() => {
