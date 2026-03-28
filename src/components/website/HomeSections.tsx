@@ -6,7 +6,7 @@ import { ProductCard } from "./product";
 import { HomePostSectionBlock } from "./HomePostSectionBlock";
 
 function sectionItemToCardItem(
-  item: NonNullable<Section["items"]>[number]
+  item: NonNullable<Section["items"]>[number],
 ): Parameters<typeof ProductCard>[0]["item"] {
   const p = item.product;
   if (!p) {
@@ -50,7 +50,7 @@ interface HomeSectionsProps {
 
 export function HomeSections({ sections }: HomeSectionsProps) {
   const sorted = [...(sections ?? [])].sort(
-    (a, b) => (a.position ?? 0) - (b.position ?? 0) || a.id - b.id
+    (a, b) => (a.position ?? 0) - (b.position ?? 0) || a.id - b.id,
   );
 
   return (
@@ -59,28 +59,27 @@ export function HomeSections({ sections }: HomeSectionsProps) {
         const type = section.type ?? SectionTypeEnum.PRODUCT;
 
         if (type === SectionTypeEnum.POST) {
-          return (
-            <HomePostSectionBlock
-              key={section.id}
-              section={section}
-            />
-          );
+          return <HomePostSectionBlock key={section.id} section={section} />;
         }
 
-        const items = (section.items ?? []).sort((a, b) => a.position - b.position);
+        const items = (section.items ?? []).sort(
+          (a, b) => a.position - b.position,
+        );
         const allProducts = items
           .filter((item) => item.product)
           .map((item) => sectionItemToCardItem(item));
         if (allProducts.length === 0) return null;
 
-        const colsPerRow = 5;
+        const colsPerRow = 4;
         const rows = Math.max(1, Math.min(5, section.productRows ?? 2));
         const maxDisplay = rows * colsPerRow;
         const products = allProducts.slice(0, maxDisplay);
 
         const isFirstProductBlock =
-          sorted.findIndex((s) => (s.type ?? SectionTypeEnum.PRODUCT) === SectionTypeEnum.PRODUCT) ===
-          sorted.indexOf(section);
+          sorted.findIndex(
+            (s) =>
+              (s.type ?? SectionTypeEnum.PRODUCT) === SectionTypeEnum.PRODUCT,
+          ) === sorted.indexOf(section);
 
         return (
           <section
@@ -90,7 +89,7 @@ export function HomeSections({ sections }: HomeSectionsProps) {
           >
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
               <h2 className="block-title mb-4 font-semibold">{section.name}</h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+              <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
                 {products.map((item) => (
                   <ProductCard key={item.product_id} item={item} />
                 ))}

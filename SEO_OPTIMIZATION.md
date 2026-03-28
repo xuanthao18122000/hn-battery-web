@@ -49,7 +49,6 @@
 ```bash
 # Sau khi deploy:
 1. Đăng ký Google Search Console
-2. Submit sitemap: https://tinphatcons.vn/sitemap.xml
 3. Lấy verification code và thêm vào src/app/layout.tsx:
    
    metadata: {
@@ -88,7 +87,7 @@ Thêm structured data cho:
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   "name": "Ắc quy Trung Nguyên",
-  "image": "https://tinphatcons.vn/logo.png",
+  "image": "https://acquyhnsaigon.com/logo-final.svg",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "123 Đường ABC", // Update thật

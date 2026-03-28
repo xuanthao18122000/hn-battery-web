@@ -4,10 +4,10 @@
  */
 
 export const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://acquyhn.com';
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://acquyhnsaigon.com';
 
 export const siteUrlAlt =
-  process.env.NEXT_PUBLIC_SITE_URL_ALT || 'https://tinphatcons.vn';
+  process.env.NEXT_PUBLIC_SITE_URL_ALT || 'https://acquyhnsaigon.com';
 
 export const apiUrl =
   process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
@@ -47,7 +47,7 @@ export const zaloChatUrl =
 export const socialLinks = {
   facebook:
     process.env.NEXT_PUBLIC_SOCIAL_FACEBOOK ||
-    'https://facebook.com/acquyhn',
+    'https://www.facebook.com/share/18R5RCKtz8/',
   linkedin:
     process.env.NEXT_PUBLIC_SOCIAL_LINKEDIN ||
     'https://www.linkedin.com/company/acquyhn',

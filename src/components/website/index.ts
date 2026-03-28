@@ -6,7 +6,6 @@ export * from './animation';
 
 // Website specific components
 export { About } from './About';
-export { Hero } from './Hero';
 export { News } from './News';
 export { PostsList } from './PostsList';
 export { ProjectCarousel } from './ProjectCarousel';

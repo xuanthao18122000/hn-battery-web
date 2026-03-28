@@ -453,7 +453,7 @@ export default function CapabilitiesPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="/#contact"
+              href="/contact"
               className="inline-flex items-center justify-center gap-2 px-8 h-12 rounded-md text-base font-medium bg-accent text-accent-foreground shadow-lg hover:bg-accent/90 transition-colors"
             >
               Liên Hệ Tư Vấn

@@ -21,6 +21,7 @@
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "tinymce": "^7.3.0",
+    "vaul": "^1.1.2",
     "xlsx": "^0.18.5"
   },
   "browserslist": [

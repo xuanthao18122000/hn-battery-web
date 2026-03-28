@@ -1,160 +1,227 @@
 import type { Metadata } from "next";
+import { Check } from "lucide-react";
 import {
+  siteUrl,
   siteUrlAlt,
+  contactPhone,
   contactHotlineDisplay,
   contactHotlineTel,
   contactEmail,
   storeAddress,
 } from "@/config/site";
 
+const baseUrl = siteUrl.replace(/\/$/, "");
+const altBase = siteUrlAlt.replace(/\/$/, "");
+const canonicalUrl = `${altBase}/about`;
+
+const PAGE_DESCRIPTION =
+  "Ắc Quy HN – ắc quy chính hãng xe máy, ô tô, thiết bị điện dân dụng; thay tận nơi 15–30 phút, cứu hộ 24/7 tại TP.HCM. GS, Rocket, Yamato – cam kết chính hãng, minh bạch.";
+
+const SEO_KEYWORDS = [
+  "giới thiệu Ắc Quy HN",
+  "ắc quy chính hãng",
+  "ắc quy TP.HCM",
+  "ắc quy xe máy",
+  "ắc quy ô tô",
+  "thay ắc quy tận nơi",
+  "cứu hộ ắc quy 24/7",
+  "ắc quy GS",
+  "ắc quy Rocket",
+  "ắc quy Yamato",
+  "Công Ty TNHH Ắc Quy HN",
+  "Ắc Quy HN Sài Gòn",
+  "acquyhn",
+  "acquyhnsaigon",
+  "bảo hành ắc quy",
+] as const;
+
 export const metadata: Metadata = {
-  title: "Giới thiệu - Công Ty TNHH Ắc Quy HN",
-  description: "Giới thiệu về Công Ty TNHH Ắc Quy HN - Đơn vị chuyên cung cấp các sản phẩm ắc quy chất lượng cao, dịch vụ cứu hộ và lắp đặt ắc quy chuyên nghiệp",
-  keywords: "giới thiệu công ty ắc quy, công ty Ắc Quy HN, Ắc Quy HN Sài Gòn, acquyhn, acquyhnsaigon, ắc quy chất lượng, dịch vụ ắc quy",
+  title: "Giới thiệu Ắc Quy HN | Ắc quy chính hãng & cứu hộ 24/7 TP.HCM",
+  description: PAGE_DESCRIPTION,
+  keywords: [...SEO_KEYWORDS],
   alternates: {
-    canonical: `${siteUrlAlt}/about`,
+    canonical: canonicalUrl,
   },
   openGraph: {
-    title: "Giới thiệu - Công Ty TNHH Ắc Quy HN",
-    description: "Giới thiệu về Công Ty TNHH Ắc Quy HN - Đơn vị chuyên cung cấp các sản phẩm ắc quy chất lượng cao",
-    url: `${siteUrlAlt}/about`,
-    images: ["/og-image.jpg"],
+    title: "Giới thiệu Ắc Quy HN | Ắc quy chính hãng TP.HCM",
+    description: PAGE_DESCRIPTION,
+    url: canonicalUrl,
+    siteName: "Ắc Quy HN",
+    images: [{ url: `${baseUrl}/og-image.jpg`, width: 1200, height: 630, alt: "Ắc Quy HN" }],
+    locale: "vi_VN",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Giới thiệu Ắc Quy HN",
+    description: PAGE_DESCRIPTION,
+  },
+  robots: { index: true, follow: true },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: "Giới thiệu Ắc Quy HN",
+  description: PAGE_DESCRIPTION,
+  url: canonicalUrl,
+  inLanguage: "vi-VN",
+  mainEntity: {
+    "@type": "Organization",
+    name: "Công Ty TNHH Ắc Quy HN",
+    alternateName: ["Ắc Quy HN", "Ắc Quy HN Sài Gòn"],
+    url: baseUrl,
+    telephone: contactPhone,
+    email: contactEmail,
+    address: { "@type": "PostalAddress", streetAddress: storeAddress, addressCountry: "VN" },
   },
 };
 
-export default async function AboutPage() {
+const SERVICES = [
+  "Cung cấp ắc quy chính hãng cho xe máy, ô tô, xe tải",
+  "Thay ắc quy tận nơi nhanh chóng (15–30 phút)",
+  "Dịch vụ cứu hộ ắc quy 24/7",
+  "Kiểm tra, tư vấn hệ thống điện miễn phí",
+  "Thu mua và đổi ắc quy cũ giá tốt",
+] as const;
+
+const COMMITMENTS = [
+  "Sản phẩm chính hãng 100%, nguồn gốc rõ ràng",
+  "Giá cả cạnh tranh, minh bạch",
+  "Bảo hành đầy đủ theo tiêu chuẩn nhà sản xuất",
+  "Phục vụ nhanh chóng, chuyên nghiệp, đúng hẹn",
+] as const;
+
+export default function AboutPage() {
   return (
     <div className="min-h-screen bg-background">
-      {/* Hero Section */}
-      <section className="py-12 bg-gradient-to-b from-gray-50 to-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
+      <section className="pt-12 bg-linear-to-b from-gray-50 to-white">
         <div className="container mx-auto px-4 max-w-5xl">
-          <div className="text-center mb-12">
+          <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Giới thiệu Công Ty TNHH Ắc Quy HN
+              Giới thiệu về Ắc Quy HN
             </h1>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Đơn vị chuyên cung cấp các sản phẩm ắc quy chất lượng cao, dịch vụ cứu hộ và lắp đặt ắc quy chuyên nghiệp
+              Ắc quy chính hãng · Xe máy &amp; ô tô · Thay tận nơi · Cứu hộ 24/7 · TP. Hồ Chí Minh
             </p>
           </div>
         </div>
       </section>
 
-      {/* Main Content */}
       <section className="py-12 bg-white">
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="prose prose-lg max-w-none">
-            {/* About Company */}
-            <div className="mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                Về chúng tôi
-              </h2>
+            <div className="mb-12 not-prose space-y-4 text-gray-700 leading-relaxed">
+              <p>
+                Ắc Quy HN là đơn vị chuyên cung cấp và phân phối các dòng ắc quy chính hãng dành
+                cho xe máy, ô tô và các thiết bị điện dân dụng. Với định hướng phát triển bền vững
+                và lấy uy tín làm nền tảng, chúng tôi luôn cam kết mang đến cho khách hàng những sản
+                phẩm chất lượng cao cùng dịch vụ tận tâm, nhanh chóng.
+              </p>
+              <p>
+                Ngay từ những ngày đầu hoạt động, Ắc Quy HN đã không ngừng nỗ lực để trở thành địa
+                chỉ tin cậy trong lĩnh vực cung cấp và thay thế ắc quy tại khu vực TP. Hồ Chí Minh.
+                Chúng tôi cung cấp đa dạng các thương hiệu ắc quy uy tín như GS, Rocket, Yamato… đáp
+                ứng đầy đủ nhu cầu sử dụng từ phổ thông đến cao cấp.
+              </p>
+            </div>
+
+            <div className="mb-12 not-prose">
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">Tầm nhìn – Sứ mệnh</h2>
               <div className="space-y-4 text-gray-700 leading-relaxed">
                 <p>
-                  Công Ty TNHH Ắc Quy HN là đơn vị chuyên cung cấp các sản phẩm ắc quy chất lượng cao cho xe máy, xe ô tô và các phương tiện khác. Với nhiều năm kinh nghiệm trong ngành, chúng tôi tự hào là đối tác tin cậy của hàng nghìn khách hàng trên toàn quốc.
+                  <span className="font-semibold text-gray-900">Tầm nhìn:</span> Trở thành đơn vị
+                  cung cấp ắc quy và dịch vụ cứu hộ hàng đầu, được khách hàng tin tưởng lựa chọn lâu
+                  dài.
                 </p>
                 <p>
-                  Chúng tôi chuyên cung cấp các thương hiệu ắc quy uy tín như Globe, Varta, Bosch, Rocket và nhiều thương hiệu khác. Tất cả sản phẩm đều được nhập khẩu chính hãng, đảm bảo chất lượng và có chế độ bảo hành rõ ràng.
+                  <span className="font-semibold text-gray-900">Sứ mệnh:</span> Mang đến giải pháp
+                  năng lượng ổn định, an toàn và tiện lợi cho mọi khách hàng.
                 </p>
               </div>
             </div>
 
-            {/* Services */}
-            <div className="mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                Dịch vụ của chúng tôi
-              </h2>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="bg-gray-50 p-6 rounded-lg">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                    Cung cấp ắc quy chính hãng
-                  </h3>
-                  <p className="text-gray-700">
-                    Chúng tôi cung cấp đầy đủ các loại ắc quy cho xe máy, xe ô tô, xe tải với nhiều thương hiệu uy tín, đảm bảo chất lượng và giá cả hợp lý.
-                  </p>
-                </div>
-                <div className="bg-gray-50 p-6 rounded-lg">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                    Dịch vụ cứu hộ 24/7
-                  </h3>
-                  <p className="text-gray-700">
-                    Dịch vụ cứu hộ ắc quy 24/7, sẵn sàng hỗ trợ khách hàng mọi lúc, mọi nơi. Đội ngũ kỹ thuật viên chuyên nghiệp, trang thiết bị hiện đại.
-                  </p>
-                </div>
-                <div className="bg-gray-50 p-6 rounded-lg">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                    Lắp đặt tại nhà
-                  </h3>
-                  <p className="text-gray-700">
-                    Dịch vụ lắp đặt ắc quy tại nhà miễn phí vận chuyển trong nội thành. Đội ngũ kỹ thuật viên giàu kinh nghiệm, đảm bảo lắp đặt đúng kỹ thuật.
-                  </p>
-                </div>
-                <div className="bg-gray-50 p-6 rounded-lg">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                    Tư vấn chuyên nghiệp
-                  </h3>
-                  <p className="text-gray-700">
-                    Đội ngũ tư vấn chuyên nghiệp sẽ giúp bạn chọn loại ắc quy phù hợp nhất với xe của bạn. Tư vấn miễn phí, nhiệt tình.
-                  </p>
-                </div>
-              </div>
+            <div className="mb-12 not-prose">
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">Dịch vụ tại Ắc Quy HN</h2>
+              <ul className="list-none space-y-3 p-0 m-0 text-gray-700 leading-relaxed">
+                {SERVICES.map((line) => (
+                  <li key={line} className="flex gap-3 items-start">
+                    <Check
+                      className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600"
+                      strokeWidth={2.5}
+                      aria-hidden
+                    />
+                    <span>{line}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            {/* Values */}
-            <div className="mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                Giá trị cốt lõi
-              </h2>
-              <div className="space-y-4 text-gray-700">
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-bold">
-                    1
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-2">Chất lượng</h3>
-                    <p>Chúng tôi cam kết chỉ cung cấp những sản phẩm ắc quy chính hãng, chất lượng cao, đảm bảo an toàn và hiệu quả sử dụng.</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-bold">
-                    2
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-2">Uy tín</h3>
-                    <p>Với nhiều năm kinh nghiệm, chúng tôi đã xây dựng được uy tín và niềm tin từ khách hàng. Mọi cam kết đều được thực hiện đúng như đã hứa.</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-bold">
-                    3
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-2">Chuyên nghiệp</h3>
-                    <p>Đội ngũ nhân viên được đào tạo chuyên nghiệp, có kinh nghiệm, luôn sẵn sàng phục vụ khách hàng một cách tốt nhất.</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-bold">
-                    4
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-2">Tận tâm</h3>
-                    <p>Chúng tôi luôn đặt lợi ích của khách hàng lên hàng đầu, tư vấn tận tình để khách hàng có được sản phẩm phù hợp nhất.</p>
-                  </div>
-                </div>
-              </div>
+            <div className="mb-12 not-prose">
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">Cam kết của chúng tôi</h2>
+              <ul className="list-none space-y-3 p-0 m-0 text-gray-700 leading-relaxed">
+                {COMMITMENTS.map((line) => (
+                  <li key={line} className="flex gap-3 items-start">
+                    <Check
+                      className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600"
+                      strokeWidth={2.5}
+                      aria-hidden
+                    />
+                    <span>{line}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            {/* Contact Info */}
-            <div className="bg-gray-50 p-8 rounded-lg">
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                Liên hệ với chúng tôi
-              </h2>
+            <div className="mb-12 not-prose">
+              <p className="text-gray-700 leading-relaxed text-lg">
+                Với đội ngũ kỹ thuật giàu kinh nghiệm và phong cách phục vụ tận tâm, Ắc Quy HN luôn
+                sẵn sàng đồng hành cùng bạn trên mọi hành trình.
+              </p>
+            </div>
+
+            <div className="bg-gray-50 p-8 rounded-lg not-prose">
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">Liên hệ với chúng tôi</h2>
               <div className="space-y-3 text-gray-700">
                 <p className="font-semibold text-gray-900">Công Ty TNHH Ắc Quy HN</p>
                 <p>Địa chỉ: {storeAddress}</p>
-                <p>Hotline: <a href={`tel:${contactHotlineTel}`} className="text-primary hover:underline">{contactHotlineDisplay}</a></p>
-                <p>Email: <a href={`mailto:${contactEmail}`} className="text-primary hover:underline">{contactEmail}</a></p>
-                <p>Thời gian làm việc: 08:00 - 21:00 (Tất cả các ngày trong tuần)</p>
+                <p>
+                  Hotline:{" "}
+                  <a href={`tel:${contactHotlineTel}`} className="text-primary hover:underline">
+                    {contactHotlineDisplay}
+                  </a>
+                </p>
+                <p>
+                  Email:{" "}
+                  <a href={`mailto:${contactEmail}`} className="text-primary hover:underline">
+                    {contactEmail}
+                  </a>
+                </p>
+                <p>Thời gian hỗ trợ: 24/7 (cứu hộ / hotline)</p>
+                <p className="text-sm text-gray-500 pt-2">
+                  Website:{" "}
+                  <a
+                    href={baseUrl}
+                    className="font-medium text-emerald-600 hover:text-emerald-700 hover:underline"
+                  >
+                    {baseUrl}
+                  </a>
+                  {altBase !== baseUrl && (
+                    <>
+                      {" · "}
+                      <a
+                        href={altBase}
+                        className="font-medium text-emerald-600 hover:text-emerald-700 hover:underline"
+                      >
+                        {altBase}
+                      </a>
+                    </>
+                  )}
+                </p>
               </div>
             </div>
           </div>

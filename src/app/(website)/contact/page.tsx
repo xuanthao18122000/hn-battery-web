@@ -17,8 +17,8 @@ const mockStores: Store[] = [
     phone: contactHotlineTel,
     latitude: 10.8714,
     longitude: 106.7288,
-    open_at: "08:00",
-    close_at: "20:00",
+    open_at: "00:00",
+    close_at: "23:59",
     is_car_parking: 1,
     iframe_location:
       '<iframe src="https://www.google.com/maps?q=' +
@@ -28,9 +28,8 @@ const mockStores: Store[] = [
 ];
 
 
-function activityHoursLabel(openAt: string, closeAt: string): string {
-  return `${openAt.trim()} – ${closeAt.trim()}`;
-}
+/** Trang liên hệ: luôn hiển thị phục vụ 24/7 (cứu hộ / hotline) */
+const CONTACT_HOURS_LABEL = "24/7 – Mọi ngày trong tuần, kể cả ngày lễ";
 
 export default function ContactPage() {
   // API state
@@ -194,7 +193,7 @@ export default function ContactPage() {
                           />
                           <p className="pt-0.5 font-medium text-status-open">
                             <span className="font-semibold">Hoạt động:</span>{' '}
-                            {activityHoursLabel(store.open_at, store.close_at)}
+                            {CONTACT_HOURS_LABEL}
                           </p>
                         </div>
                       </div>
@@ -284,7 +283,7 @@ export default function ContactPage() {
                             />
                             <p className=" font-medium text-status-open">
                               <span className="font-semibold">Hoạt động:</span>{' '}
-                              {activityHoursLabel(store.open_at, store.close_at)}
+                              {CONTACT_HOURS_LABEL}
                             </p>
                           </div>
                         </div>

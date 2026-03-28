@@ -9,30 +9,49 @@ const TOTAL_REVIEWS = 1247;
 
 const TESTIMONIALS = [
   {
-    name: "Anh Mạnh",
-    location: "Quận 3",
-    image: "https://giaphatbattery.com/wp-content/uploads/2025/11/44129a26866c17df8a2d4ac71d5c43d3c6fad9c8.jpg",
-    text: "Xe giữa đường hết điện, gọi cứu hộ ắc quy của Ắc Quy HN. Kỹ thuật viên đến rất nhanh, thay ắc quy tại chỗ gọn gàng, chuyên nghiệp. Rất hài lòng!",
+    name: "Anh Minh",
+    location: "Thủ Đức",
+    image: "/a-minh.jpg",
+    text: "Xe tôi chết máy giữa đường lúc tối, gọi là có mặt nhanh thật. Nhân viên nhiệt tình, thay bình nhanh gọn, giá hợp lý.",
   },
   {
-    name: "Chị Thu Hà",
-    location: "Bình Tân",
-    image: "https://giaphatbattery.com/wp-content/uploads/2025/11/98708a5c35017385ec3649a5716e2d6780465af6.jpg",
-    text: "Đổi ắc quy Mazda 3 tại nhà, giá tốt, hàng chính hãng. Nhân viên lắp đặt cẩn thận và tư vấn rất nhiệt tình. Sẽ ủng hộ lâu dài.",
+    name: "Chị Lan",
+    location: "Quận 9",
+    image: "/c-lan.jpg",
+    text: "Mình thay ắc quy ở đây 2 lần rồi, lần nào cũng thấy ok. Bình dùng ổn định, có bảo hành rõ ràng nên rất yên tâm.",
   },
   {
-    name: "Anh Hoàng",
-    location: "Quận 3",
-    image: "https://giaphatbattery.com/wp-content/uploads/2025/11/c49a29ba39b6239efc83a98e76fe06e2191b1937.jpg",
-    text: "Dịch vụ thay ắc quy tại nhà miễn phí, đúng hẹn, thao tác nhanh gọn sạch sẽ. Báo giá rõ ràng cho xe Vios. Rất đáng tin cậy.",
+    name: "Anh Tuấn",
+    location: "Dĩ An",
+    image: "/a-tuan.jpg",
+    text: "Dịch vụ 24/7 rất tiện, gọi khuya vẫn hỗ trợ. Làm việc chuyên nghiệp, không chặt chém như một số chỗ khác.",
   },
   {
-    name: "Chú Đức",
-    location: "Quận 12",
-    image: "https://giaphatbattery.com/wp-content/uploads/2025/11/33aa9515838a0c11aee211f21ed64771ad6890f2.jpg",
-    text: "Đã dùng dịch vụ nhiều lần, lần nào cũng tư vấn đúng nhu cầu, bảo hành rõ ràng, có phiếu bảo hành điện tử đầy đủ. Tin tưởng Ắc Quy HN.",
+    name: "Anh Hưng",
+    location: "Linh Xuân",
+    image: "/a-hung.jpg",
+    text: "Nhân viên kiểm tra kỹ trước khi thay, tư vấn đúng bệnh chứ không ép khách mua. Rất đáng tin cậy.",
+  },
+  {
+    name: "Chị Thảo",
+    location: "Thủ Đức",
+    image: "/c-thao.jpg",
+    text: "Thay tận nơi nhanh, chỉ khoảng 20 phút là xong. Giá báo trước, không phát sinh thêm.",
+  },
+  {
+    name: "Anh Phúc",
+    location: "Quận 2",
+    image: "/a-phuc.jpg",
+    text: "Ắc quy chính hãng, có tem đầy đủ. Dùng hơn 1 năm vẫn rất ổn, sẽ ủng hộ lâu dài.",
   },
 ];
+
+const TRUST_POINTS = [
+  "Phục vụ nhanh 15–30 phút",
+  "Cứu hộ 24/7, có mặt mọi lúc",
+  "Sản phẩm chính hãng, bảo hành rõ ràng",
+  "Giá minh bạch – không phát sinh",
+] as const;
 
 function StarRating({ count = 5 }: { count?: number }) {
   return (
@@ -58,19 +77,19 @@ function TestimonialCard({
   const [imgError, setImgError] = useState(false);
   return (
     <div className="bg-white rounded-lg border border-gray-100 p-5 flex flex-col items-center text-center">
-      <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-100 mb-4 shrink-0 flex items-center justify-center relative">
+      <div className="relative mb-4 h-32 w-24 shrink-0 overflow-hidden rounded-2xl bg-gray-100 ring-1 ring-gray-200/80">
         {!imgError ? (
           <Image
             src={image}
             alt={name}
             fill
             sizes="96px"
-            className="object-cover"
+            className="object-contain object-center"
             onError={() => setImgError(true)}
           />
         ) : (
           <span
-            className="w-full h-full flex items-center justify-center bg-linear-to-br from-blue-100 to-blue-50 text-2xl font-bold text-blue-600"
+            className="flex h-full w-full items-center justify-center rounded-2xl bg-linear-to-br from-blue-100 to-blue-50 text-2xl font-bold text-blue-600"
             aria-hidden
           >
             {name.charAt(0)}
@@ -83,9 +102,7 @@ function TestimonialCard({
       <div className="mb-3">
         <StarRating />
       </div>
-      <p className="text-sm text-gray-600 text-left leading-relaxed">
-        {text}
-      </p>
+      <p className="text-sm text-gray-600 text-left leading-relaxed">{text}</p>
     </div>
   );
 }
@@ -100,10 +117,11 @@ export function CustomerTestimonials() {
         {/* Header */}
         <div className="text-center mb-10">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
-            KHÁCH HÀNG NÓI GÌ VỀ CHÚNG TÔI?
+            KHÁCH HÀNG NÓI GÌ VỀ CHÚNG TÔI
           </h2>
           <p className="text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
-            Hơn 10,000+ khách hàng tin tưởng và hài lòng với dịch vụ của Ắc Quy HN
+            Hơn 10.000+ khách hàng tin tưởng dịch vụ Ắc Quy HN tại TP.HCM và
+            vùng lân cận
           </p>
         </div>
 
@@ -115,20 +133,47 @@ export function CustomerTestimonials() {
           <div className="flex justify-center mb-1">
             <StarRating />
           </div>
-          <p className="text-sm text-gray-500">Từ {TOTAL_REVIEWS.toLocaleString("vi-VN")} đánh giá</p>
+          <p className="text-sm text-gray-500">
+            Từ {TOTAL_REVIEWS.toLocaleString("vi-VN")} đánh giá
+          </p>
         </div>
 
         {/* Testimonial cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-          {TESTIMONIALS.map((item, index) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {TESTIMONIALS.map((item) => (
             <TestimonialCard
-              key={index}
+              key={`${item.name}-${item.location}`}
               name={item.name}
               location={item.location}
               image={item.image}
               text={item.text}
             />
           ))}
+        </div>
+
+        <div className="mt-14 md:mt-16">
+          <h3 className="text-xl md:text-2xl font-bold text-gray-900 text-center mb-8">
+            Vì sao khách hàng tin tưởng Ắc Quy HN?
+          </h3>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4 lg:gap-6">
+            {TRUST_POINTS.map((line) => (
+              <div
+                key={line}
+                className="flex h-full min-h-26 flex-col items-center justify-center rounded-2xl border border-gray-100 bg-white px-5 py-7 text-center shadow-[0_1px_2px_rgba(0,0,0,0.04)] ring-1 ring-black/3 transition-[box-shadow,transform] hover:-translate-y-0.5 hover:shadow-md"
+              >
+                <span
+                  className="mb-4 block h-1 w-12 shrink-0 rounded-full bg-linear-to-r from-emerald-500 to-teal-500"
+                  aria-hidden
+                />
+                <p className="max-w-[16rem] text-[0.9375rem] font-medium leading-relaxed text-gray-800 md:text-base">
+                  {line}
+                </p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-10 text-center text-base font-semibold text-gray-900 md:text-lg">
+            Ắc Quy HN – Uy tín từ trải nghiệm thực tế của khách hàng
+          </p>
         </div>
       </div>
     </section>

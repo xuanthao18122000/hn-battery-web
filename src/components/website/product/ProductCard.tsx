@@ -64,17 +64,17 @@ export function ProductCard({ item }: ProductCardProps) {
     <Link
       href={productUrl}
       title={item.product}
-      className="group flex flex-col bg-white border border-gray-200 rounded-sm overflow-hidden hover:shadow-card hover:border-gray-300 transition-[box-shadow,border-color] duration-300 cursor-pointer w-full h-full"
+      className="group flex flex-col bg-white border border-sky-200 rounded-sm overflow-hidden hover:shadow-card hover:border-sky-300 transition-[box-shadow,border-color] duration-300 cursor-pointer w-full h-full"
     >
       {/* Labels row */}
-      <div className="flex items-center gap-1 md:gap-2 px-1.5 md:px-2 pt-1.5 md:pt-2 min-h-[18px] md:min-h-5">
+      <div className="flex min-h-5 items-center gap-1.5 px-2 pt-2 md:gap-2">
         {showLabelOffer && (
           <BadgeOffer>{`-${discountPercent}%`}</BadgeOffer>
         )}
       </div>
 
       {/* Image — zoom on card hover */}
-      <div className="relative flex items-center justify-center px-1.5 md:px-2 py-1.5 md:py-2 aspect-square overflow-hidden">
+      <div className="relative flex aspect-square items-center justify-center overflow-hidden px-1 py-2 md:px-2 md:py-2">
         {imageUrl && imageUrl !== "/no-image-available.png" ? (
           <Image
             src={imageUrl}
@@ -112,26 +112,26 @@ export function ProductCard({ item }: ProductCardProps) {
       </div>
 
       {/* Content */}
-      <div className="flex flex-col gap-1.5 md:gap-2 px-1.5 md:px-2 pb-1.5 md:pb-2 flex-1">
+      <div className="flex flex-1 flex-col gap-1.5 px-2 pb-2 pt-0.5 md:gap-2 md:px-2 md:pb-2">
         {/* Product name */}
-        <p className="text-xs md:text-sm font-normal text-gray-900 line-clamp-2 min-h-8 md:min-h-10">
+        <p className="line-clamp-2 min-h-9 text-sm font-normal leading-snug text-gray-900 md:min-h-10">
           {item.product}
         </p>
 
         {/* Price */}
         <div className="flex flex-col gap-0.5">
           <span
-            className={`text-sm md:text-base font-semibold ${showPrice ? "text-primary-600" : "text-yellow-600"}`}
+            className={`text-base font-semibold ${showPrice ? "text-primary-600" : "text-yellow-600"}`}
           >
             {showPrice ? formatPrice(price) : "Liên hệ"}
           </span>
           {showPrice && hasDiscount && (
             <div className="flex items-center gap-2">
-              <span className="text-xs md:text-sm font-medium text-gray-400 line-through">
+              <span className="text-xs font-medium text-gray-400 line-through md:text-sm">
                 {formatPrice(listPrice)}
               </span>
               {discountPercent > 0 && (
-                <span className="text-xs md:text-sm font-medium text-red-400">
+                <span className="text-xs font-medium text-red-400 md:text-sm">
                   -{discountPercent}%
                 </span>
               )}

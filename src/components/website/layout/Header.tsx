@@ -159,7 +159,7 @@ export const Header = ({ categories = [] }: HeaderProps) => {
                           "text-[11px] leading-none sm:text-sm md:text-base lg:text-lg",
                         )}
                       >
-                        AC QUY HN
+                        ẮC QUY HN
                       </span>
                       <div className="flex w-full max-w-[11.5rem] items-center gap-1.5 sm:max-w-[13rem] sm:gap-2 md:max-w-[15rem]">
                         <span className="h-px min-w-[10px] flex-1 bg-white/70 sm:min-w-[14px]" />
@@ -169,7 +169,7 @@ export const Header = ({ categories = [] }: HeaderProps) => {
                             "text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs",
                           )}
                         >
-                          Sai Gon
+                          Sài Gòn
                         </span>
                         <span className="h-px min-w-[10px] flex-1 bg-white/70 sm:min-w-[14px]" />
                       </div>

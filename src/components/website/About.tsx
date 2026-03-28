@@ -1,12 +1,13 @@
 import { CheckCircle2 } from "lucide-react";
+import Link from "next/link";
 
 const features = [
-  "Chứng Nhận Quản Lý Chất Lượng ISO 9001:2015",
-  "Đội Ngũ Chuyên Gia Hơn 200 Người",
-  "Tích Hợp Công Nghệ BIM Tiên Tiến",
-  "Thực Hành Xây Dựng Bền Vững",
-  "Kỷ Lục Giao Dự Án Đúng Hạn",
-  "Chương Trình An Toàn Toàn Diện",
+  "Ắc quy chính hãng cho xe máy, ô tô, xe tải",
+  "Thay tận nơi nhanh (15–30 phút)",
+  "Cứu hộ ắc quy 24/7",
+  "Tư vấn – kiểm tra điện miễn phí",
+  "Giá minh bạch, bảo hành theo hãng",
+  "Thu đổi bình cũ giá tốt",
 ];
 
 export const About = () => {
@@ -20,18 +21,16 @@ export const About = () => {
               Giới Thiệu
             </span>
             <h2 className="animate-on-scroll fade-in-up stagger-1 text-4xl md:text-5xl font-bold text-foreground mt-4 mb-6">
-              Xây Dựng Uy Tín & Chất Lượng
+              Uy tín từ ắc quy chính hãng
             </h2>
             <p className="animate-on-scroll fade-in-up stagger-2 text-muted-foreground text-lg leading-relaxed mb-6">
-              Ắc Quy HN Sài Gòn đã khẳng định mình là đối tác đáng tin cậy,
-              cung cấp các dự án chất lượng cao trong các lĩnh vực dân dụng, thương mại
-              và công nghiệp. Cam kết về chất lượng, tiến độ và sự hài lòng của khách hàng
-              là điều làm nên sự khác biệt của chúng tôi.
+              Ắc Quy HN chuyên cung cấp và phân phối ắc quy chính hãng cho xe máy, ô tô và thiết bị
+              điện dân dụng — lấy uy tín làm nền tảng, phục vụ tận tâm tại TP. Hồ Chí Minh và vùng
+              lân cận.
             </p>
             <p className="animate-on-scroll fade-in-up stagger-3 text-muted-foreground text-lg leading-relaxed mb-8">
-              Với đội ngũ kỹ sư, kiến trúc sư giàu kinh nghiệm,
-              chúng tôi mang đến chuyên môn, độ tin cậy và giải pháp xây dựng tối ưu
-              cho mọi dự án.
+              Đa dạng thương hiệu như GS, Rocket, Yamato…; cứu hộ 24/7, thay tận nơi nhanh chóng.
+              Đội ngũ kỹ thuật giàu kinh nghiệm, sẵn sàng đồng hành cùng bạn.
             </p>
 
             <div className="animate-on-scroll fade-in-up stagger-4 grid sm:grid-cols-2 gap-4 mb-8">
@@ -43,31 +42,31 @@ export const About = () => {
               ))}
             </div>
 
-            <a
-              href="#contact"
+            <Link
+              href="/about"
               className="animate-on-scroll fade-in-up stagger-5 inline-flex items-center justify-center gap-2 px-8 h-10 rounded-md text-sm font-medium bg-accent text-accent-foreground shadow-lg hover:bg-accent/90 transition-colors"
             >
-              Tìm Hiểu Thêm Về Chúng Tôi
-            </a>
+              Giới thiệu chi tiết
+            </Link>
           </div>
 
           {/* Stats Grid */}
           <div className="animate-on-scroll scale-in grid grid-cols-2 gap-6">
             <div className="bg-card p-8 rounded-xl shadow-lg">
-              <div className="text-5xl font-bold text-accent mb-2">100+</div>
-              <div className="text-muted-foreground">Dự Án Hoàn Thành</div>
+              <div className="text-5xl font-bold text-accent mb-2">24/7</div>
+              <div className="text-muted-foreground">Cứu hộ &amp; hotline</div>
             </div>
             <div className="bg-card p-8 rounded-xl shadow-lg">
-              <div className="text-5xl font-bold text-accent mb-2">50+</div>
-              <div className="text-muted-foreground">Đội Ngũ</div>
-            </div>
-            <div className="bg-card p-8 rounded-xl shadow-lg">
-              <div className="text-5xl font-bold text-accent mb-2">10+</div>
-              <div className="text-muted-foreground">Năm Kinh Nghiệm</div>
+              <div className="text-5xl font-bold text-accent mb-2">15–30′</div>
+              <div className="text-muted-foreground">Có mặt tận nơi</div>
             </div>
             <div className="bg-card p-8 rounded-xl shadow-lg">
               <div className="text-5xl font-bold text-accent mb-2">100%</div>
-              <div className="text-muted-foreground">Tỷ Lệ Hài Lòng</div>
+              <div className="text-muted-foreground">Chính hãng</div>
+            </div>
+            <div className="bg-card p-8 rounded-xl shadow-lg">
+              <div className="text-5xl font-bold text-accent mb-2">TP.HCM</div>
+              <div className="text-muted-foreground">Phục vụ &amp; lân cận</div>
             </div>
           </div>
         </div>

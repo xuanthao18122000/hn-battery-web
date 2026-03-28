@@ -1,23 +1,17 @@
-import {
-  MapPin,
-  Phone,
-  Mail,
-  Facebook,
-  Twitter,
-  Instagram,
-  Youtube,
-} from "lucide-react";
+import { MapPin, Phone, Mail, Facebook, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import {
   socialLinks as configSocialLinks,
   storeAddress,
   contactHotlineTel,
   contactHotlineDisplay,
+  contactEmail,
+  zaloChatUrl,
 } from "@/config/site";
 
 const companyLinks = [
-  { name: "Giới thiệu", href: "/gioi-thieu" },
-  { name: "Liên hệ", href: "/#contact" },
+  { name: "Giới thiệu", href: "/about" },
+  { name: "Liên hệ", href: "/contact" },
   { name: "Câu hỏi thường gặp", href: "/faq" },
   { name: "Điều khoản dịch vụ", href: "/dieu-khoan-dich-vu" },
 ];
@@ -41,117 +35,71 @@ const featuredCategories = [
   { name: "Ắc quy Toplite", href: "/ac-quy-toplite" },
 ];
 
-const socialLinkItems: { name: string; icon: React.ComponentType<{ className?: string }>; href: string }[] = [
-  { name: "Facebook", icon: Facebook, href: configSocialLinks.facebook },
-  { name: "Twitter", icon: Twitter, href: configSocialLinks.twitter },
-  { name: "Instagram", icon: Instagram, href: configSocialLinks.instagram },
-  { name: "Youtube", icon: Youtube, href: configSocialLinks.youtube },
+const connectExtraLinks: {
+  label: string;
+  linkText: string;
+  icon: React.ComponentType<{ className?: string }>;
+  href: string;
+}[] = [
   {
-    name: "Pinterest",
-    icon: ({ className }: { className?: string }) => (
-      <span className={className ?? "text-sm font-bold leading-none"}>P</span>
-    ),
-    href: configSocialLinks.pinterest,
+    label: "Facebook",
+    linkText: "Fanpage",
+    icon: Facebook,
+    href: configSocialLinks.facebook,
+  },
+  {
+    label: "Zalo",
+    linkText: "Chat Zalo",
+    icon: MessageCircle,
+    href: zaloChatUrl,
   },
 ];
 
 export const Footer = () => {
   return (
     <footer className="bg-white border-t border-gray-200 text-gray-900">
-      <div className="container mx-auto px-4 py-12 max-w-7xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-          {/* 1. Liên hệ với chúng tôi */}
+      <div className="container mx-auto max-w-7xl px-4 py-8 md:py-10">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10 lg:grid-cols-4">
+          {/* 1. Thông tin công ty */}
           <div>
             <h3 className="font-bold text-lg text-gray-900 mb-3">
-              Liên hệ với chúng tôi
+              Thông tin công ty
             </h3>
-            <p className="font-bold text-gray-900 mb-4">
-              CÔNG TY TNHH TM CÔNG NGHIỆP GIA PHÁT
-            </p>
-            <ul className="space-y-2 text-sm text-gray-700">
-              <li className="flex gap-2">
-                <MapPin className="w-4 h-4 text-gray-600 shrink-0 mt-0.5" />
-                <span>{storeAddress}</span>
-              </li>
-              <li className="flex gap-2 items-center">
-                <MapPin className="w-4 h-4 text-gray-600 shrink-0" />
-                <span>Địa chỉ đại lý:</span>
-                <Link
-                  href="/dai-ly"
-                  className="text-blue-600 hover:underline"
-                >
-                  Xem Tất Cả
-                </Link>
-              </li>
-              <li className="flex gap-2 items-center">
-                <Phone className="w-4 h-4 text-gray-600 shrink-0" />
-                <span>Hotline tư vấn & bán hàng:</span>
-                <a
-                  href={`tel:${contactHotlineTel}`}
-                  className="text-blue-600 hover:underline"
-                >
-                  {contactHotlineDisplay}
-                </a>
-              </li>
-              <li className="flex gap-2 items-center">
-                <Mail className="w-4 h-4 text-gray-600 shrink-0" />
-                <span>Email:</span>
-                <a
-                  href="mailto:hnbattery@gmail.com"
-                  className="text-blue-600 hover:underline"
-                >
-                  hnbattery@gmail.com
-                </a>
-              </li>
+            <ul className="space-y-2">
+              {companyLinks.map((item) => (
+                <li key={item.name}>
+                  <Link
+                    href={item.href}
+                    className="text-sm text-blue-600 hover:underline"
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
-            <p className="text-sm text-gray-600 mt-4">
-              MST: 0316469380 - *Do Sở Kế Hoạch và Đầu tư Thành Phố Hồ Chí
-              Minh cấp ngày 01/09/2020
-            </p>
           </div>
 
-          {/* 2. Thông Tin Công Ty + Chính Sách */}
-          <div className="space-y-8">
-            <div>
-              <h3 className="font-bold text-lg text-gray-900 mb-3">
-                Thông Tin Công Ty
-              </h3>
-              <ul className="space-y-2">
-                {companyLinks.map((item) => (
-                  <li key={item.name}>
-                    <Link
-                      href={item.href}
-                      className="text-sm text-blue-600 hover:underline"
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-bold text-lg text-gray-900 mb-3">
-                Chính Sách
-              </h3>
-              <ul className="space-y-2">
-                {policyLinks.map((item) => (
-                  <li key={item.name}>
-                    <Link
-                      href={item.href}
-                      className="text-sm text-blue-600 hover:underline"
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {/* 2. Chính sách */}
+          <div>
+            <h3 className="font-bold text-lg text-gray-900 mb-3">Chính sách</h3>
+            <ul className="space-y-2">
+              {policyLinks.map((item) => (
+                <li key={item.name}>
+                  <Link
+                    href={item.href}
+                    className="text-sm text-blue-600 hover:underline"
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* 3. Danh Mục Nổi Bật */}
+          {/* 3. Danh mục nổi bật */}
           <div>
             <h3 className="font-bold text-lg text-gray-900 mb-3">
-              Danh Mục Nổi Bật
+              Danh mục nổi bật
             </h3>
             <ul className="space-y-2">
               {featuredCategories.map((item) => (
@@ -167,46 +115,62 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* 4. Kết nối với Ắc Quy HN */}
+          {/* 4. Kết nối + liên hệ */}
           <div>
             <h3 className="font-bold text-lg text-gray-900 mb-3">
               Kết nối với Ắc Quy HN
             </h3>
-            <div className="flex flex-wrap gap-2 mb-6">
-              {socialLinkItems.map((item) => {
+            <ul className="space-y-2 text-sm text-gray-700 mb-4">
+              <li className="flex gap-2">
+                <MapPin className="w-4 h-4 text-gray-600 shrink-0 mt-0.5" />
+                <span>Địa chỉ: {storeAddress}</span>
+              </li>
+              <li className="flex gap-2 items-center flex-wrap">
+                <Phone className="w-4 h-4 text-gray-600 shrink-0" />
+                <span>Hotline:</span>
+                <a
+                  href={`tel:${contactHotlineTel}`}
+                  className="text-blue-600 hover:underline"
+                >
+                  {contactHotlineDisplay}
+                </a>
+              </li>
+              <li className="flex gap-2 items-center flex-wrap">
+                <Mail className="w-4 h-4 text-gray-600 shrink-0" />
+                <span>Email:</span>
+                <a
+                  href={`mailto:${contactEmail}`}
+                  className="text-blue-600 hover:underline break-all"
+                >
+                  {contactEmail}
+                </a>
+              </li>
+              {connectExtraLinks.map((item) => {
                 const Icon = item.icon;
                 return (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded border border-gray-200 text-blue-600 hover:bg-gray-50 text-sm"
-                    aria-label={item.name}
+                  <li
+                    key={item.href}
+                    className="flex gap-2 items-center flex-wrap"
                   >
-                    <Icon className="w-4 h-4 shrink-0" />
-                    <span>{item.name}</span>
-                  </a>
+                    <Icon className="w-4 h-4 text-gray-600 shrink-0" />
+                    <span>{item.label}:</span>
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline"
+                    >
+                      {item.linkText}
+                    </a>
+                  </li>
                 );
               })}
-            </div>
-            {/* Trust / certification badges - placeholder */}
-            <div className="flex flex-wrap gap-2 items-center">
-              <span className="px-2 py-1 text-xs bg-blue-50 text-blue-700 rounded border border-blue-200">
-                DMCA.com
-              </span>
-              <span className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded border border-gray-200">
-                ĐÃ THÔNG BÁO BỘ CÔNG THƯƠNG
-              </span>
-              <span className="px-2 py-1 text-xs bg-green-50 text-green-700 rounded border border-green-200">
-                SECURE
-              </span>
-            </div>
+            </ul>
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-12 pt-8 border-t border-gray-200 text-center text-sm text-gray-500">
+        <div className="mt-8 border-t border-gray-200 pt-6 text-center text-sm text-gray-500">
           © {new Date().getFullYear()} Ắc Quy HN. All rights reserved.
         </div>
       </div>

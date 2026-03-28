@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
-import { Header, Footer, MobileBottomBar } from '@/components/website';
-import { FloatingContactFab } from '@/components/website/common/FloatingContactFab';
+import { Header, Footer, MobileBottomBar } from "@/components/website";
+import { FloatingContactFab } from "@/components/website/common/FloatingContactFab";
 import { getCachedCategoriesTree } from "@/lib/categories-for-layout";
 
 export default async function WebsiteLayout({
@@ -13,11 +13,9 @@ export default async function WebsiteLayout({
   const categories = await getCachedCategoriesTree(req);
 
   return (
-    <div className="min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <Header categories={categories} />
-      <div className="pb-16 md:pb-0">
-        {children}
-      </div>
+      <div className="flex-1 pb-16 md:pb-0">{children}</div>
       <Footer />
       <FloatingContactFab />
       <MobileBottomBar />

@@ -18,27 +18,34 @@ interface BreadcrumbsProps {
 
 export const Breadcrumbs = ({ items, currentPage }: BreadcrumbsProps) => {
   return (
-    <nav className="flex items-center gap-2 text-sm text-gray-600 py-2 pb-6">
-      <Link href="/" className="hover:text-primary transition-colors">
-        Trang chủ
-      </Link>
-      {items.map((item, index) => (
-        <React.Fragment key={index}>
-          <ChevronRight size={ICON_SIZE.sm} />
-          {item.slug && !isCategoryHrefNoNavigate(item.slug) ? (
-            <Link
-              href={item.slug}
-              className="hover:text-primary transition-colors"
-            >
-              {item.name}
-            </Link>
-          ) : (
-            <span>{item.name}</span>
-          )}
-        </React.Fragment>
-      ))}
-      <ChevronRight size={ICON_SIZE.sm} />
-      <span className="text-gray-900 font-semibold">{currentPage}</span>
+    <nav
+      aria-label="Breadcrumb"
+      className="py-2 pb-6 overflow-x-auto scrollbar-hide [-webkit-overflow-scrolling:touch] overscroll-x-contain"
+    >
+      <div className="flex w-max flex-nowrap items-center gap-2 whitespace-nowrap text-sm text-gray-600">
+        <Link href="/" className="shrink-0 hover:text-primary transition-colors">
+          Trang chủ
+        </Link>
+        {items.map((item, index) => (
+          <React.Fragment key={index}>
+            <ChevronRight size={ICON_SIZE.sm} className="shrink-0" />
+            {item.slug && !isCategoryHrefNoNavigate(item.slug) ? (
+              <Link
+                href={item.slug}
+                className="shrink-0 hover:text-primary transition-colors"
+              >
+                {item.name}
+              </Link>
+            ) : (
+              <span className="shrink-0">{item.name}</span>
+            )}
+          </React.Fragment>
+        ))}
+        <ChevronRight size={ICON_SIZE.sm} className="shrink-0" />
+        <span className="shrink-0 font-semibold text-gray-900">
+          {currentPage}
+        </span>
+      </div>
     </nav>
   );
 };

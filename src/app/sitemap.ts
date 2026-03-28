@@ -71,16 +71,62 @@ export default async function sitemap(): Promise<SitemapEntry[]> {
       changeFrequency: "monthly",
       priority: 0.5,
     },
+    {
+      url: `${siteUrl}/dieu-khoan-dich-vu`,
+      lastModified: new Date(),
+      changeFrequency: "yearly",
+      priority: 0.4,
+    },
+    {
+      url: `${siteUrl}/faq`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
+    {
+      url: `${siteUrl}/chinh-sach-thanh-toan`,
+      lastModified: new Date(),
+      changeFrequency: "yearly",
+      priority: 0.4,
+    },
+    {
+      url: `${siteUrl}/chinh-sach-bao-hanh`,
+      lastModified: new Date(),
+      changeFrequency: "yearly",
+      priority: 0.4,
+    },
+    {
+      url: `${siteUrl}/chinh-sach-van-chuyen`,
+      lastModified: new Date(),
+      changeFrequency: "yearly",
+      priority: 0.4,
+    },
+    {
+      url: `${siteUrl}/chinh-sach-doi-tra`,
+      lastModified: new Date(),
+      changeFrequency: "yearly",
+      priority: 0.4,
+    },
+    {
+      url: `${siteUrl}/chinh-sach-khieu-nai`,
+      lastModified: new Date(),
+      changeFrequency: "yearly",
+      priority: 0.4,
+    },
+    {
+      url: `${siteUrl}/chinh-sach-bao-mat`,
+      lastModified: new Date(),
+      changeFrequency: "yearly",
+      priority: 0.4,
+    },
   ];
 
-  const postSectionEntries: SitemapEntry[] = postSectionSlugs.map(
-    (slug) => ({
-      url: `${siteUrl}/${slug}`,
-      lastModified: new Date(),
-      changeFrequency: "weekly" as const,
-      priority: 0.8,
-    }),
-  );
+  const postSectionEntries: SitemapEntry[] = postSectionSlugs.map((slug) => ({
+    url: `${siteUrl}/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.8,
+  }));
 
   return [...staticEntries, ...postSectionEntries];
 }

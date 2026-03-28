@@ -261,7 +261,7 @@ export const TopProducts = ({
         <h2 className="block-title mb-4 font-semibold">
           {title}
         </h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {activeProducts.map((item) => (
             <ProductCard key={item.product_id} item={item} />
           ))}
