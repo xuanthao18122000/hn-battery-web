@@ -28,7 +28,9 @@ const SEO_KEYWORDS = [
   "ắc quy GS",
   "ắc quy Rocket",
   "ắc quy Yamato",
-  "Công Ty TNHH Ắc Quy HN",
+  "Ắc Quy HN",
+  "Ắc Quy SG",
+  "Ắc Quy Sài Gòn",
   "Ắc Quy HN Sài Gòn",
   "acquyhn",
   "acquyhnsaigon",
@@ -67,7 +69,7 @@ const jsonLd = {
   inLanguage: "vi-VN",
   mainEntity: {
     "@type": "Organization",
-    name: "Công Ty TNHH Ắc Quy HN",
+    name: "Ắc Quy HN",
     alternateName: ["Ắc Quy HN", "Ắc Quy HN Sài Gòn"],
     url: baseUrl,
     telephone: contactPhone,
@@ -187,7 +189,7 @@ export default function AboutPage() {
             <div className="bg-gray-50 p-8 rounded-lg not-prose">
               <h2 className="text-3xl font-bold text-gray-900 mb-6">Liên hệ với chúng tôi</h2>
               <div className="space-y-3 text-gray-700">
-                <p className="font-semibold text-gray-900">Công Ty TNHH Ắc Quy HN</p>
+                <p className="font-semibold text-gray-900">Ắc Quy HN</p>
                 <p>Địa chỉ: {storeAddress}</p>
                 <p>
                   Hotline:{" "}

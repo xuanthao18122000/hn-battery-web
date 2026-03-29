@@ -4,14 +4,14 @@ import { CheckCircle2, Phone } from 'lucide-react'
 import { ICON_SIZE } from '@/lib/icons'
 
 export const metadata: Metadata = {
-  title: "Báo giá đại lý - Công Ty TNHH Ắc Quy HN Sài Gòn",
+  title: "Báo giá đại lý - Ắc Quy HN Sài Gòn",
   description: "Chương trình tuyển đại lý ắc quy trên toàn quốc. Chiết khấu tốt nhất, hỗ trợ marketing, kỹ thuật. Liên hệ ngay để nhận báo giá.",
   keywords: "báo giá đại lý, tuyển đại lý ắc quy, phân phối ắc quy, đại lý ắc quy, Ắc Quy HN, acquyhn, acquyhnsaigon, Ắc Quy HN Sài Gòn",
   alternates: {
     canonical: `${siteUrlAlt}/dealer-price`,
   },
   openGraph: {
-    title: "Báo giá đại lý - Công Ty TNHH Ắc Quy HN Sài Gòn",
+    title: "Báo giá đại lý - Ắc Quy HN Sài Gòn",
     description: "Chương trình tuyển đại lý ắc quy trên toàn quốc với chiết khấu tốt nhất",
     url: `${siteUrlAlt}/dealer-price`,
     images: ["/og-image.jpg"],
@@ -42,7 +42,7 @@ export default async function DealerPricePage() {
                 Ắc quy là một trong những mặt hàng tiềm năng trên thị trường, nhu cầu sử dụng các sản phẩm dầu nhớt ngày một tăng, chính vì thế nhiều nhà đầu tư đã lựa chọn mặt hàng này để kinh doanh và việc tìm được một nhà phân phối dầu nhớt uy tín là điều hết sức quan trọng.
               </p>
               <p className="text-gray-700 leading-relaxed mb-4">
-                Hiện tại, công ty TNHH Ắc Quy HN Sài Gòn đang tuyển dụng đại lý khắp các tỉnh thành trên toàn quốc cho các thương hiệu Ắc quy nhập khẩu và được phân phối chính thức bởi Ắc Quy HN. Chúng tôi mong muốn hợp tác mở rộng thị trường tạo thu nhập ổn định lâu dài cho tất cả mọi khách hàng trên toàn quốc.
+                Hiện tại, Ắc Quy HN Sài Gòn đang tuyển dụng đại lý khắp các tỉnh thành trên toàn quốc cho các thương hiệu Ắc quy nhập khẩu và được phân phối chính thức bởi Ắc Quy HN. Chúng tôi mong muốn hợp tác mở rộng thị trường tạo thu nhập ổn định lâu dài cho tất cả mọi khách hàng trên toàn quốc.
               </p>
               <p className="text-gray-700 leading-relaxed mb-4">
                 Ắc Quy HN Sài Gòn chiết khấu % tốt nhất cho mọi khách hàng. Chúng tôi kêu gọi hợp tác từ các chủ doanh nghiệp, cửa hàng nội thất ô tô xe máy, tiệm sửa xe,…
@@ -111,7 +111,7 @@ export default async function DealerPricePage() {
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle2 className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
-                  <span className="text-gray-700">Có kiến thức trong lĩnh vực kinh doanh phù hợp với sản phẩm của công ty Ắc Quy HN.</span>
+                  <span className="text-gray-700">Có kiến thức trong lĩnh vực kinh doanh phù hợp với sản phẩm của Ắc Quy HN.</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle2 className="w-6 h-6 text-primary flex-shrink-0 mt-1" />

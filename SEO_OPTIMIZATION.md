@@ -146,20 +146,6 @@ Thêm structured data cho:
 ## 🎯 Target Keywords (Ví dụ)
 
 ### Primary Keywords:
-- "công ty xây dựng tphcm"
-- "nhà thầu xây dựng"
-- "thi công xây dựng"
-
-### Long-tail Keywords:
-- "công ty xây dựng biệt thự tphcm"
-- "xây nhà xưởng giá rẻ"
-- "thi công nhà phố trọn gói"
-- "xây dựng dân dụng quận 2"
-
-### Local Keywords:
-- "xây dựng quận [X]"
-- "xây nhà tại [địa điểm]"
-- "nhà thầu ở [quận/huyện]"
 
 ## 📊 Monitoring & Analytics
 
