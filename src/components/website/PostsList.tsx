@@ -40,7 +40,7 @@ export const PostsList = ({ title, posts }: PostsListProps) => {
             <div className="divide-y divide-gray-100">
               {posts.map((post) => (
                 <Link key={post.id} href={`/${post.slug}`} className="block">
-                  <article className="group cursor-pointer p-5 md:p-6 hover:bg-gray-50/60 transition-colors">
+                  <article className="group cursor-pointer p-4 transition-colors hover:bg-gray-50/60 md:p-6">
                     <div className="flex flex-col md:flex-row gap-4">
                       {/* Image */}
                       <div className="shrink-0 w-full md:w-52 h-36 bg-gray-100 rounded-xl overflow-hidden ring-1 ring-gray-100">

@@ -12,7 +12,7 @@ export default function SlugLoading() {
         {/* Product detail skeleton */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-6">
           <div className="md:col-span-3">
-            <div className="bg-white rounded-lg border border-gray-200 p-4 md:p-6 animate-pulse">
+            <div className="animate-pulse rounded-lg border border-gray-200 bg-white p-3 sm:p-4 md:p-6">
               <div className="h-6 bg-gray-200 rounded w-3/4 mb-4" />
               <div className="aspect-square bg-gray-200 rounded-lg mb-6" />
               <div className="space-y-3">
@@ -22,7 +22,7 @@ export default function SlugLoading() {
             </div>
           </div>
           <div className="md:col-span-2">
-            <div className="bg-white rounded-lg border border-gray-200 p-4 md:p-6 animate-pulse">
+            <div className="animate-pulse rounded-lg border border-gray-200 bg-white p-3 sm:p-4 md:p-6">
               <div className="h-8 bg-gray-200 rounded w-1/2 mb-4" />
               <div className="h-6 bg-gray-200 rounded w-1/3 mb-6" />
               <div className="h-12 bg-gray-200 rounded-lg w-full mb-3" />

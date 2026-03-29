@@ -257,7 +257,7 @@ export const TopProducts = ({
 
   return (
     <section className="container mx-auto px-4 max-w-7xl py-4">
-      <div className="bg-white rounded-md p-6 border border-gray-200">
+      <div className="rounded-md border border-gray-200 bg-white p-3 sm:p-4 md:p-6">
         <h2 className="block-title mb-4 font-semibold">
           {title}
         </h2>

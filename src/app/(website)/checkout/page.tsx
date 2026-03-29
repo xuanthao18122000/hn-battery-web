@@ -143,7 +143,7 @@ export default function CheckoutPage() {
             <div className="h-4 w-36 bg-gray-200 rounded animate-pulse" />
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2 bg-white rounded-lg p-6 animate-pulse space-y-6">
+            <div className="lg:col-span-2 animate-pulse space-y-6 rounded-lg bg-white p-3 sm:p-4 md:p-6">
               <div className="h-6 w-52 bg-gray-200 rounded" />
               <div className="space-y-4">
                 {Array.from({ length: 4 }).map((_, i) => (
@@ -155,7 +155,7 @@ export default function CheckoutPage() {
               </div>
             </div>
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-lg p-6 animate-pulse">
+              <div className="animate-pulse rounded-lg bg-white p-3 sm:p-4 md:p-6">
                 <div className="h-6 w-40 bg-gray-200 rounded mb-4" />
                 <div className="space-y-4 mb-6">
                   {Array.from({ length: 2 }).map((_, i) => (
@@ -210,7 +210,7 @@ export default function CheckoutPage() {
 
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2 space-y-6 bg-white rounded-lg p-6">
+            <div className="lg:col-span-2 space-y-6 rounded-lg bg-white p-3 sm:p-4 md:p-6">
               <div>
                 <h2 className="text-lg font-semibold text-gray-900 mb-2">THÔNG TIN KHÁCH HÀNG</h2>
                 <div className="space-y-4">
@@ -299,7 +299,7 @@ export default function CheckoutPage() {
             </div>
 
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-lg p-6 sticky top-24">
+              <div className="sticky top-24 rounded-lg bg-white p-3 sm:p-4 md:p-6">
                 <h2 className="text-lg font-semibold text-gray-900 mb-4">ĐƠN HÀNG CỦA BẠN</h2>
                 <div className="space-y-4 mb-6">
                   {cartItems.map((item) => (

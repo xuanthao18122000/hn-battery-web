@@ -44,7 +44,7 @@ export const ProductDetailLeft = ({ images = [], productName = "" }: ProductDeta
 
   if (images.length === 0) {
     return (
-      <div className="border border-gray-200 rounded-lg p-8 min-h-[400px] flex items-center justify-center">
+      <div className="flex aspect-[4/3] w-full items-center justify-center rounded-lg border border-gray-200 p-8">
         <p className="text-gray-500">Không có hình ảnh</p>
       </div>
     );
@@ -52,39 +52,36 @@ export const ProductDetailLeft = ({ images = [], productName = "" }: ProductDeta
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Main Image - full width, căn giữa */}
-      <div className="relative w-full border border-gray-200 rounded-lg p-4 flex items-center justify-center min-h-[400px]">
+      <div className="relative flex w-full items-center justify-center rounded-lg border border-gray-200 p-2 sm:p-3 md:p-4">
         {images.length > 1 && (
           <>
             <button
               type="button"
               onClick={prevImage}
-              className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white border border-gray-300 rounded-full p-2 shadow-lg z-10 transition-colors"
+              className="absolute left-1 top-1/2 z-10 -translate-y-1/2 rounded-full border border-gray-300 bg-white/80 p-2 shadow-lg transition-colors hover:bg-white sm:left-2"
             >
               <ChevronPrev className="text-gray-700" />
             </button>
             <button
               type="button"
               onClick={nextImage}
-              className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white border border-gray-300 rounded-full p-2 shadow-lg z-10 transition-colors"
+              className="absolute right-1 top-1/2 z-10 -translate-y-1/2 rounded-full border border-gray-300 bg-white/80 p-2 shadow-lg transition-colors hover:bg-white sm:right-2"
             >
               <ChevronNext className="text-gray-700" />
             </button>
           </>
         )}
-        <div className="w-full h-[400px] flex items-center justify-center overflow-hidden">
-          <div className="relative flex items-center justify-center max-h-[400px] max-w-full">
-            <BlurImage
-              src={getImageUrl(images[currentImageIndex])}
-              alt={productName}
-              width={400}
-              height={400}
-              priority={currentImageIndex === 0}
-              sizes="(max-width: 768px) min(100vw, 28rem), 400px"
-              quality={82}
-              className="!relative object-contain max-h-[400px] max-w-full w-auto h-auto"
-            />
-          </div>
+        {/* Cùng tỉ lệ chữ nhật mọi breakpoint (4:3 — gần khung desktop trước đây) */}
+        <div className="relative aspect-[4/3] w-full overflow-hidden">
+          <BlurImage
+            src={getImageUrl(images[currentImageIndex])}
+            alt={productName}
+            fill
+            priority={currentImageIndex === 0}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 480px"
+            quality={82}
+            className="h-full w-full"
+          />
         </div>
       </div>
 

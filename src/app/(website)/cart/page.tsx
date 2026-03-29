@@ -58,7 +58,7 @@ function CartSkeleton() {
           </div>
 
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-2xl shadow-sm p-6 animate-pulse">
+            <div className="animate-pulse rounded-2xl bg-white p-3 shadow-sm sm:p-4 md:p-6">
               <div className="h-6 w-40 bg-gray-200 rounded mb-4" />
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between">
@@ -249,7 +249,7 @@ function CartContent() {
             </div>
 
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-2xl shadow-sm p-6 sticky top-24">
+              <div className="sticky top-24 rounded-2xl bg-white p-3 shadow-sm sm:p-4 md:p-6">
                 <h2 className="text-lg font-semibold text-gray-900 mb-4">
                   Tóm tắt đơn hàng
                 </h2>

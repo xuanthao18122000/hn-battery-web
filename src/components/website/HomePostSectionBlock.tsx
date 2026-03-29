@@ -43,18 +43,16 @@ export function HomePostSectionBlock({ section }: HomePostSectionBlockProps) {
   const viewAllHref = section.code ? `/${section.code}` : "#";
 
   return (
-    <section className="pb-4 bg-gray-100">
-      <div className="container mx-auto px-4 max-w-7xl">
-        <div className="animate-on-scroll fade-in-up bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="block-title">{section.name}</h3>
-            <ViewAllLink href={viewAllHref} label="Xem tất cả" />
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <section className="mb-4">
+      <div className="animate-on-scroll fade-in-up rounded border border-gray-200 bg-white p-2.5 shadow-sm sm:p-4 md:p-6">
+        <div className="mb-4 flex flex-col gap-3 border-b border-gray-200 pb-3 sm:flex-row sm:items-center sm:justify-between">
+          <h3 className="block-title text-gray-900">{section.name}</h3>
+          <ViewAllLink href={viewAllHref} label="Xem tất cả" />
+        </div>
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
             {listItems.map((item, index) => (
               <ImageTitleCard key={item.href + index} item={item} />
             ))}
-          </div>
         </div>
       </div>
     </section>

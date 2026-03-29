@@ -77,7 +77,7 @@ export default function CheckoutSuccessPage() {
       <main className="min-h-screen bg-secondary">
         <div className="container mx-auto px-4 py-10 max-w-6xl space-y-8">
           {/* Header skeleton */}
-          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm ring-1 ring-gray-100 animate-pulse">
+          <div className="animate-pulse rounded-2xl bg-white p-3 shadow-sm ring-1 ring-gray-100 sm:p-4 md:p-8">
             <div className="flex items-start gap-4 mb-6">
               <div className="size-12 rounded-full bg-gray-200 shrink-0" />
               <div className="flex-1 space-y-2">
@@ -93,7 +93,7 @@ export default function CheckoutSuccessPage() {
           </div>
           {/* Content skeleton */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            <div className="lg:col-span-7 xl:col-span-8 bg-white rounded-2xl p-6 shadow-sm ring-1 ring-gray-100 animate-pulse">
+            <div className="lg:col-span-7 xl:col-span-8 animate-pulse rounded-2xl bg-white p-3 shadow-sm ring-1 ring-gray-100 sm:p-4 md:p-6">
               <div className="h-6 w-40 bg-gray-200 rounded mb-4" />
               <div className="space-y-4">
                 {Array.from({ length: 3 }).map((_, i) => (
@@ -102,7 +102,7 @@ export default function CheckoutSuccessPage() {
               </div>
             </div>
             <div className="lg:col-span-5 xl:col-span-4 space-y-6">
-              <div className="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-gray-100 animate-pulse">
+              <div className="animate-pulse rounded-2xl bg-white p-3 shadow-sm ring-1 ring-gray-100 sm:p-4 md:p-6">
                 <div className="h-6 w-40 bg-gray-200 rounded mb-3" />
                 <div className="space-y-3">
                   {Array.from({ length: 4 }).map((_, i) => (
@@ -113,7 +113,7 @@ export default function CheckoutSuccessPage() {
                   ))}
                 </div>
               </div>
-              <div className="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-gray-100 animate-pulse">
+              <div className="animate-pulse rounded-2xl bg-white p-3 shadow-sm ring-1 ring-gray-100 sm:p-4 md:p-6">
                 <div className="h-6 w-44 bg-gray-200 rounded mb-3" />
                 <div className="h-32 bg-gray-200 rounded-xl" />
               </div>
@@ -128,7 +128,7 @@ export default function CheckoutSuccessPage() {
     return (
       <main className="min-h-screen bg-secondary">
         <div className="container mx-auto px-4 py-10 max-w-5xl">
-          <div className="bg-white rounded-2xl p-8 shadow-sm ring-1 ring-gray-100 text-center">
+          <div className="rounded-2xl bg-white p-3 text-center shadow-sm ring-1 ring-gray-100 sm:p-4 md:p-8">
             <div className="mx-auto mb-4 w-fit">
               <div className="inline-flex items-center justify-center size-12 rounded-full bg-gray-50 ring-1 ring-gray-200">
                 <svg viewBox="0 0 24 24" className="size-6 text-gray-500" fill="none" aria-hidden="true">
@@ -158,7 +158,7 @@ export default function CheckoutSuccessPage() {
     <main className="min-h-screen bg-secondary">
       <div className="container mx-auto px-4 py-10 max-w-6xl">
         {/* Header */}
-        <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm ring-1 ring-gray-100 mb-8">
+        <div className="mb-8 rounded-2xl bg-white p-3 shadow-sm ring-1 ring-gray-100 sm:p-4 md:p-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div className="flex items-start gap-4">
               <CheckBadge />
@@ -209,7 +209,7 @@ export default function CheckoutSuccessPage() {
         {/* Content */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Order detail */}
-          <div className="lg:col-span-7 xl:col-span-8 bg-white rounded-2xl p-6 shadow-sm ring-1 ring-gray-100">
+          <div className="lg:col-span-7 xl:col-span-8 rounded-2xl bg-white p-3 shadow-sm ring-1 ring-gray-100 sm:p-4 md:p-6">
             <div className="flex items-center justify-between gap-4 mb-4">
               <h2 className="text-lg font-semibold text-gray-900">Chi tiết đơn hàng</h2>
               <div className="text-xs text-gray-500">
@@ -292,7 +292,7 @@ export default function CheckoutSuccessPage() {
 
           {/* Summary */}
           <div className="lg:col-span-5 xl:col-span-4 space-y-6">
-            <div className="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-gray-100">
+            <div className="rounded-2xl bg-white p-3 shadow-sm ring-1 ring-gray-100 sm:p-4 md:p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-3">Tóm tắt đơn hàng</h3>
               <div className="divide-y divide-gray-100">
                 <KeyValueRow label="Mã đơn hàng" value={<span className="tracking-wide">{order.code}</span>} />
@@ -308,7 +308,7 @@ export default function CheckoutSuccessPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl p-6 shadow-sm ring-1 ring-gray-100">
+            <div className="rounded-2xl bg-white p-3 shadow-sm ring-1 ring-gray-100 sm:p-4 md:p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-3">Thông tin giao hàng</h3>
               <div className="rounded-xl bg-gray-50 ring-1 ring-gray-100 p-4 text-sm text-gray-700 whitespace-pre-line">
                 <div className="font-semibold text-gray-900">{order.customerName}</div>

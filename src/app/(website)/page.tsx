@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { siteUrl } from "@/config/site";
 import { BannerMenu } from "@/components/website";
+import { Breadcrumbs } from "@/components/website/common";
 import { HomeLcpPreload } from "@/components/website/HomeLcpPreload";
 import { sectionsApi } from "@/lib/api/sections";
 import { brandsApi } from "@/lib/api/brands";
@@ -105,16 +106,19 @@ export default async function HomePage() {
   return (
     <>
       <HomeLcpPreload />
-      <div className="min-h-screen bg-(--color-bg-page)">
+      <div className="min-h-screen bg-gray-100">
         <BannerMenu />
-        <HomeBrandSection
-          brands={brands}
-          carVehicles={carVehicles}
-          motoVehicles={motoVehicles}
-        />
-        <HomeSections sections={sections} />
-        <Commitments />
-        <CustomerTestimonials />
+        <div className="container mx-auto max-w-7xl px-2 py-3 pb-8 sm:px-4 sm:py-4">
+          <Breadcrumbs items={[]} currentPage="Trang chủ" />
+          <HomeBrandSection
+            brands={brands}
+            carVehicles={carVehicles}
+            motoVehicles={motoVehicles}
+          />
+          <HomeSections sections={sections} />
+          <Commitments />
+          <CustomerTestimonials />
+        </div>
       </div>
     </>
   );

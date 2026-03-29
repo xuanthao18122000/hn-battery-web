@@ -112,7 +112,7 @@ export const News = () => {
   return (
     <section id="news" className="pt-4 pb-12 bg-gray-100">
       <div className="container mx-auto px-4 max-w-7xl">
-        <div className="animate-on-scroll fade-in-up stagger-1 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div className="animate-on-scroll fade-in-up stagger-1 rounded-lg border border-gray-200 bg-white p-3 shadow-sm sm:p-4 md:p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="block-title">Kinh nghiệm hay</h3>
             {viewAllHref ? (

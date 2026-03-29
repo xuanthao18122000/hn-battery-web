@@ -47,7 +47,7 @@ export default function ComplaintPolicyPage() {
 
       <article className="pb-10 md:pb-14">
         <div className="container mx-auto max-w-7xl px-4">
-          <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm md:p-6">
+          <div className="rounded-lg border border-gray-200 bg-white p-3 shadow-sm sm:p-4 md:p-6">
             <header className="mb-10 md:mb-12">
               <h1 className="text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">
                 CHÍNH SÁCH KHIẾU NẠI – ẮC QUY HN

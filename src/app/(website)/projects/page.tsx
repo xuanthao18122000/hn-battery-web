@@ -53,7 +53,7 @@ export default function ProjectsPage() {
                     {project.status === "ongoing" && <Badge variant="secondary">Đang thi công</Badge>}
                   </div>
                 </div>
-                <CardContent className="p-6">
+                <CardContent className="p-4 md:p-6">
                   <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-accent transition-colors">{project.title}</h3>
                   <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{project.description}</p>
                   <div className="space-y-2 text-sm text-muted-foreground">

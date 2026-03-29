@@ -70,13 +70,12 @@ export function HomeProductSections({ sections }: HomeProductSectionsProps) {
         const products = allProducts.slice(0, rows * colsPerRow);
 
         return (
-          <section
-            key={section.id}
-            className="container mx-auto px-4 max-w-7xl py-4"
-          >
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h2 className="block-title mb-4 font-semibold">{section.name}</h2>
-              <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+          <section key={section.id} className="mb-4">
+            <div className="rounded border border-gray-200 bg-white p-2.5 shadow-sm sm:p-4 md:p-6">
+              <h2 className="block-title mb-4 border-b border-gray-200 pb-3 font-semibold text-gray-900">
+                {section.name}
+              </h2>
+              <div className="grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-4 lg:gap-4">
                 {products.map((item) => (
                   <ProductCard key={item.product_id} item={item} />
                 ))}

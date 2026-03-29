@@ -109,24 +109,19 @@ function TestimonialCard({
 
 export function CustomerTestimonials() {
   return (
-    <section
-      id="khach-hang-noi-gi"
-      className="py-14 md:py-16 bg-white border-t border-gray-100"
-    >
-      <div className="container mx-auto px-4 max-w-7xl">
-        {/* Header */}
-        <div className="text-center mb-10">
+    <section id="khach-hang-noi-gi" className="mb-4">
+      <div className="rounded border border-gray-200 bg-white p-2.5 shadow-sm sm:p-4 md:p-6">
+        <div className="mb-8 border-b border-gray-200 pb-6 text-center md:mb-10 md:pb-8">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
             KHÁCH HÀNG NÓI GÌ VỀ CHÚNG TÔI
           </h2>
-          <p className="text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
+          <p className="mx-auto max-w-2xl text-base text-gray-600 md:text-lg">
             Hơn 10.000+ khách hàng tin tưởng dịch vụ Ắc Quy HN tại TP.HCM và
             vùng lân cận
           </p>
         </div>
 
-        {/* Overall rating */}
-        <div className="text-center mb-10">
+        <div className="mb-8 text-center md:mb-10">
           <div className="text-4xl md:text-5xl font-bold text-gray-900 mb-1">
             {OVERALL_RATING.toFixed(1)}
           </div>
@@ -138,8 +133,7 @@ export function CustomerTestimonials() {
           </p>
         </div>
 
-        {/* Testimonial cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
           {TESTIMONIALS.map((item) => (
             <TestimonialCard
               key={`${item.name}-${item.location}`}
@@ -151,8 +145,8 @@ export function CustomerTestimonials() {
           ))}
         </div>
 
-        <div className="mt-14 md:mt-16">
-          <h3 className="text-xl md:text-2xl font-bold text-gray-900 text-center mb-8">
+        <div className="mt-10 border-t border-gray-200 pt-10 md:mt-12 md:pt-12">
+          <h3 className="mb-6 text-center text-xl font-bold text-gray-900 md:mb-8 md:text-2xl">
             Vì sao khách hàng tin tưởng Ắc Quy HN?
           </h3>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4 lg:gap-6">
@@ -171,7 +165,7 @@ export function CustomerTestimonials() {
               </div>
             ))}
           </div>
-          <p className="mt-10 text-center text-base font-semibold text-gray-900 md:text-lg">
+          <p className="mt-8 text-center text-base font-semibold text-gray-900 md:mt-10 md:text-lg">
             Ắc Quy HN – Uy tín từ trải nghiệm thực tế của khách hàng
           </p>
         </div>

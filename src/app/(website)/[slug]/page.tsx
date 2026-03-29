@@ -270,7 +270,7 @@ export default async function SlugPage({
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-6">
               {/* Cột trái - một khối nền trắng chung */}
               <div className="md:col-span-3">
-                <div className="bg-white rounded-lg border border-gray-200 p-4 md:p-6 flex flex-col gap-6">
+                <div className="flex flex-col gap-6 rounded-lg border border-gray-200 bg-white p-3 sm:p-4 md:p-6">
                   <ProductInfo product={transformedProduct} selectedItem={{ barcode: product.sku }} />
                   <div>
                     <ProductDetailLeft

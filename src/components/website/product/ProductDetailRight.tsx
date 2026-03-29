@@ -168,7 +168,7 @@ export const ProductDetailRight = ({
       {/* Modal đặt hàng */}
       {showOrderModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6 relative">
+          <div className="relative w-full max-w-md rounded-lg bg-white p-3 shadow-xl sm:p-4 md:p-6">
             <button
               onClick={handleCloseOrderModal}
               className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"

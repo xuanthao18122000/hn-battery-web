@@ -321,7 +321,7 @@ export default function CapabilitiesPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {teamStructure.map((team, index) => (
               <Card key={index} className="border-2 border-border hover:border-accent transition-colors">
-                <CardContent className="p-6">
+                <CardContent className="p-4 md:p-6">
                   <div className="flex items-start justify-between mb-3">
                     <h3 className="text-lg font-bold text-foreground">
                       {team.role}
@@ -356,7 +356,7 @@ export default function CapabilitiesPage() {
             {equipmentList.map((equipment, index) => (
               <div
                 key={index}
-                className="flex items-center gap-4 p-6 bg-card rounded-xl border border-border hover:border-accent transition-colors"
+                className="flex items-center gap-4 rounded-xl border border-border bg-card p-4 transition-colors hover:border-accent md:p-6"
               >
                 <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center flex-shrink-0">
                   <equipment.icon className="w-6 h-6 text-accent" />
@@ -430,7 +430,7 @@ export default function CapabilitiesPage() {
               {certifications.map((cert, index) => (
                 <div
                   key={index}
-                  className="flex items-start gap-3 p-6 bg-card rounded-xl border border-border"
+                  className="flex items-start gap-3 rounded-xl border border-border bg-card p-4 md:p-6"
                 >
                   <Award className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
                   <span className="text-foreground font-medium">{cert}</span>

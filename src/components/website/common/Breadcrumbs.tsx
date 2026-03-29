@@ -17,6 +17,21 @@ interface BreadcrumbsProps {
 }
 
 export const Breadcrumbs = ({ items, currentPage }: BreadcrumbsProps) => {
+  if (items.length === 0) {
+    return (
+      <nav
+        aria-label="Breadcrumb"
+        className="overflow-x-auto overscroll-x-contain py-2 pb-4 scrollbar-hide [-webkit-overflow-scrolling:touch] sm:pb-6"
+      >
+        <div className="flex w-max flex-nowrap items-center gap-2 whitespace-nowrap text-sm text-gray-600">
+          <span className="shrink-0 font-semibold text-gray-900">
+            {currentPage}
+          </span>
+        </div>
+      </nav>
+    );
+  }
+
   return (
     <nav
       aria-label="Breadcrumb"

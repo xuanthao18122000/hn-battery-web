@@ -71,7 +71,7 @@ export default function ProductDescriptionBlock({
 
   return (
     <div
-      className="mt-6 p-4 lg:p-6 bg-white rounded-lg border border-gray-200 shadow-sm [content-visibility:auto] [contain-intrinsic-size:auto_600px]"
+      className="mt-6 rounded-lg border border-gray-200 bg-white p-3 shadow-sm sm:p-4 lg:p-6 [content-visibility:auto] [contain-intrinsic-size:auto_600px]"
     >
       <h2 className="text-xl font-bold text-gray-900 mb-4 uppercase border-b pb-3">
         {title}
