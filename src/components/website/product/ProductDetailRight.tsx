@@ -5,6 +5,13 @@ import { useRouter } from "next/navigation";
 import { contactHotlineDisplay, contactHotlineTel } from "@/config/site";
 import { ProductCommitments } from "./ProductCommitments";
 import { formatPrice } from "@/utils/format";
+import {
+  loadCartFromStorage,
+  saveCartToStorage,
+  type CartItemData,
+} from "@/lib/cart";
+import { ShoppingCart } from "lucide-react";
+import { toast } from "sonner";
 
 function IconClose({ className }: { className?: string }) {
   return (
@@ -57,10 +64,46 @@ export const ProductDetailRight = ({
   const handleBuyNow = () => {
     if (product) {
       const productData = encodeURIComponent(JSON.stringify(product));
-      router.push(`/cart?product=${productData}&quantity=${quantity}`);
+      router.push(`/checkout?mode=buynow&product=${productData}&quantity=${quantity}`);
     } else {
       setShowOrderModal(true);
     }
+  };
+
+  const handleAddToCart = () => {
+    if (!product) {
+      setShowOrderModal(true);
+      return;
+    }
+
+    const q = Number.isFinite(quantity) && quantity >= 1 ? quantity : 1;
+    const items = loadCartFromStorage();
+
+    const existingIndex = items.findIndex((it) => it.product_id === product.product_id);
+    let next: CartItemData[];
+    if (existingIndex >= 0) {
+      next = items.map((it, idx) =>
+        idx === existingIndex ? { ...it, amount: it.amount + q } : it,
+      );
+    } else {
+      const newItem: CartItemData = {
+        cart_item_id: Date.now(),
+        product_id: product.product_id,
+        product: product.product,
+        productSlug: product.productSlug,
+        rootCategorySlug: product.rootCategorySlug ?? "",
+        thumbnail: product.thumbnail ?? "",
+        price: product.price,
+        list_price: product.list_price || product.price,
+        percentage_discount: product.percentage_discount ?? 0,
+        amount: q,
+      };
+      next = [...items, newItem];
+    }
+
+    saveCartToStorage(next);
+    window.dispatchEvent(new CustomEvent("cart-updated"));
+    toast.success("Đã thêm sản phẩm vào giỏ hàng");
   };
 
   const handleOpenOrderModal = () => setShowOrderModal(true);
@@ -132,7 +175,7 @@ export const ProductDetailRight = ({
                 const n = Math.floor(Number(raw));
                 setQuantity(Number.isFinite(n) && n >= 1 ? n : 1);
               }}
-              className="w-full h-11 text-center px-2 py-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary-600 text-gray-900"
+              className="w-full h-[52px] text-center px-2 py-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary-600 text-gray-900"
               aria-label="Số lượng"
             />
           </div>
@@ -143,6 +186,16 @@ export const ProductDetailRight = ({
             className="flex-1 min-w-0 py-3.5 px-4 bg-primary-600 hover:bg-primary-700 text-white font-bold text-base rounded-lg transition-colors shadow-sm"
           >
             MUA NGAY
+          </button>
+
+          <button
+            type="button"
+            onClick={handleAddToCart}
+            aria-label="Thêm vào giỏ hàng"
+            title="Thêm vào giỏ hàng"
+            className="shrink-0 inline-flex items-center justify-center h-[52px] w-[52px] border-2 border-primary-600 text-primary-700 hover:bg-primary-50 rounded-lg transition-colors"
+          >
+            <ShoppingCart className="h-5 w-5" aria-hidden />
           </button>
         </div>
       </div>

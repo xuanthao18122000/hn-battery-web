@@ -69,6 +69,20 @@ export interface UpdateCategoryDto extends Partial<CreateCategoryDto> {
   status?: number;
 }
 
+/** Query `GET /fe/categories/slug/:slug/products` */
+export interface GetProductsByCategorySlugParams {
+  page?: number;
+  limit?: number;
+  getFull?: boolean;
+  name?: string;
+  priceFrom?: number;
+  priceTo?: number;
+  voltageTerms?: string;
+  powerTerms?: string;
+  sortBy?: string;
+  batteryCapacityId?: number;
+}
+
 export const categoriesApi = {
   // Lấy danh sách danh mục
   getList: async (params: ListCategoryParams): Promise<PaginatedResponse<Category>> => {
@@ -189,11 +203,23 @@ export const categoriesApi = {
   },
 
   // Lấy danh sách sản phẩm theo category slug (Public - FE, supports SSR)
-  getProductsByCategorySlug: async (slug: string, params?: any, req?: any): Promise<any> => {
+  getProductsByCategorySlug: async (
+    slug: string,
+    params?: GetProductsByCategorySlugParams,
+    req?: any,
+  ): Promise<any> => {
     // Use fetch for SSR (like ddv-web), axios for client
     if (req && typeof window === 'undefined') {
       const baseUrl = getApiBaseUrl();
-      const queryString = params ? '?' + new URLSearchParams(params).toString() : '';
+      const sp = new URLSearchParams();
+      if (params) {
+        for (const [k, v] of Object.entries(params)) {
+          if (v === undefined || v === null) continue;
+          sp.set(k, String(v));
+        }
+      }
+      const qs = sp.toString();
+      const queryString = qs ? `?${qs}` : '';
       const response = await fetchWithClientIP(
         `${baseUrl}/fe/categories/slug/${slug}/products${queryString}`,
         req

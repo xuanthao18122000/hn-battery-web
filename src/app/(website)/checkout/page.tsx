@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { BlurImage } from "@/components/website/common";
 import { ordersApi, type CreateOrderDto } from "@/lib/api/orders";
 import { loadCartFromStorage, type CartItemData } from "@/lib/cart";
@@ -57,8 +57,10 @@ function validateCheckout(data: {
 
 export default function CheckoutPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [cartItems, setCartItems] = useState<CartItemData[]>([]);
   const [hydrated, setHydrated] = useState(false);
+  const hasProcessedUrlProductRef = useRef(false);
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
@@ -72,6 +74,81 @@ export default function CheckoutPage() {
     setCartItems(loadCartFromStorage());
     setHydrated(true);
   }, []);
+
+  // Nếu vào từ PDP "Mua ngay" -> /checkout?product=...&quantity=...
+  // thì checkout chỉ dùng đúng sản phẩm + SL đó (không lấy full giỏ hàng).
+  useEffect(() => {
+    if (!hydrated || hasProcessedUrlProductRef.current) return;
+    hasProcessedUrlProductRef.current = true;
+
+    const source = searchParams.get("source");
+    if (source === "cart") {
+      try {
+        sessionStorage.removeItem("checkout_buynow");
+      } catch {}
+      return;
+    }
+
+    const mode = searchParams.get("mode");
+    const productData = searchParams.get("product");
+    const rawQty = searchParams.get("quantity") || "1";
+
+    try {
+      // 1) Nếu có payload trên URL (từ PDP) -> parse & lưu sessionStorage (persist reload)
+      if (mode === "buynow" && productData) {
+        const product = JSON.parse(decodeURIComponent(productData));
+        const quantity = parseInt(rawQty);
+
+        const payload = JSON.stringify({
+          product,
+          quantity: Number.isFinite(quantity) && quantity >= 1 ? quantity : 1,
+        });
+        try {
+          sessionStorage.setItem("checkout_buynow", payload);
+        } catch {}
+
+        const newItem: CartItemData = {
+          cart_item_id: Date.now(),
+          product_id: product.product_id,
+          product: product.product,
+          productSlug: product.productSlug,
+          rootCategorySlug: product.rootCategorySlug ?? "",
+          thumbnail: product.thumbnail ?? "",
+          price: product.price,
+          list_price: product.list_price || product.price,
+          percentage_discount: product.percentage_discount ?? 0,
+          amount: Number.isFinite(quantity) && quantity >= 1 ? quantity : 1,
+        };
+        setCartItems([newItem]);
+        return;
+      }
+
+      // 2) Reload /checkout (không còn query) -> lấy lại từ sessionStorage nếu có
+      if (mode === "buynow" && !productData) {
+        const raw = sessionStorage.getItem("checkout_buynow");
+        if (!raw) return;
+        const parsed = JSON.parse(raw) as { product: any; quantity: number };
+        const product = parsed.product;
+        const quantity = parsed.quantity;
+
+        const newItem: CartItemData = {
+          cart_item_id: Date.now(),
+          product_id: product.product_id,
+          product: product.product,
+          productSlug: product.productSlug,
+          rootCategorySlug: product.rootCategorySlug ?? "",
+          thumbnail: product.thumbnail ?? "",
+          price: product.price,
+          list_price: product.list_price || product.price,
+          percentage_discount: product.percentage_discount ?? 0,
+          amount: Number.isFinite(quantity) && quantity >= 1 ? quantity : 1,
+        };
+        setCartItems([newItem]);
+      }
+    } catch {
+      // Invalid product data in URL — ignore silently
+    }
+  }, [searchParams, hydrated]);
 
   const totalPrice = cartItems.reduce((sum, item) => sum + parseFloat(item.price) * item.amount, 0);
 
@@ -315,7 +392,14 @@ export default function CheckoutPage() {
                       </div>
                       <div className="flex-1">
                         <h3 className="text-sm font-medium text-gray-900 mb-1 line-clamp-2">{item.product}</h3>
-                        <p className={`text-base font-bold ${formatPrice(item.price) === "Liên hệ" ? "text-yellow-600" : "text-red-600"}`}>{formatPrice(item.price)}</p>
+                        <div className="flex items-end justify-between gap-3">
+                          <p className={`text-base font-bold ${formatPrice(item.price) === "Liên hệ" ? "text-yellow-600" : "text-red-600"}`}>
+                            {formatPrice(item.price)}
+                          </p>
+                          <span className="shrink-0 text-sm font-medium text-gray-600">
+                            x{item.amount}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   ))}

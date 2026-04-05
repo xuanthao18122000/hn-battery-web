@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "sonner/dist/styles.css";
 
 /* ============================================================
  * DDV Design Tokens — Extracted from Figma DDV (Copy)

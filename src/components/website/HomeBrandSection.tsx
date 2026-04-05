@@ -84,13 +84,10 @@ export function HomeBrandSection({ brands, carVehicles, motoVehicles }: HomeBran
     <section className="mb-4">
       <div className="rounded border border-gray-200 bg-white p-2.5 shadow-sm sm:p-4 md:p-6">
         <div className="mb-5 border-b border-gray-200 pb-4 text-center md:text-left">
-          <h2 className="text-xl font-semibold text-gray-900 md:text-2xl">
-            <span className="block text-accent">Thương Hiệu Ắc Quy</span>
-            <span className="mt-1 block text-lg font-semibold text-gray-900 md:mt-2 md:text-xl">
-              Chính Hãng
-            </span>
+          <h2 className="text-xl font-semibold text-gray-900 md:text-2xl text-center">
+            <span className="block text-accent">Thương Hiệu Ắc Quy Chính Hãng</span>
           </h2>
-          <p className="mx-auto mt-2 max-w-3xl text-sm leading-relaxed text-gray-600 md:mt-3 md:text-base">
+          <p className="mt-2">
             Ắc Quy HN Sài Gòn phân phối độc quyền các thương hiệu ắc quy hàng đầu thế giới với chất
             lượng đảm bảo và giá cả hấp dẫn nhất cho mọi dòng xe ô tô và xe máy.
           </p>

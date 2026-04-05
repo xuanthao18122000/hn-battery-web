@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { Bike, Car, FolderTree, Newspaper, Tags } from "lucide-react";
+import { Bike, Car, FolderTree, Headset, Newspaper, Package, Tags } from "lucide-react";
 
 /** Chuẩn hoá để so khớp tên tiếng Việt không dấu. */
 function norm(s: string): string {
@@ -21,6 +21,16 @@ export function getCategoryFallbackLucideIcon(cat: {
 }): LucideIcon {
   const name = norm(cat.name);
   const href = norm(cat.href ?? "");
+
+  // Phụ kiện
+  if (name.includes("phu kien") || href.includes("phu-kien")) {
+    return Package;
+  }
+
+  // Dịch vụ
+  if (name.includes("dich vu") || href.includes("dich-vu")) {
+    return Headset;
+  }
 
   // Mô tô / xe máy — phải trước "ô tô" vì "mo to" chứa "o to"
   if (
@@ -54,4 +64,19 @@ export function getCategoryFallbackLucideIcon(cat: {
   }
 
   return FolderTree;
+}
+
+/**
+ * Một số danh mục có `iconUrl` từ CMS nhưng ảnh không phù hợp — ưu tiên icon Lucide.
+ */
+export function shouldPreferLucideIconForCategory(cat: {
+  name: string;
+  href?: string;
+}): boolean {
+  const name = norm(cat.name);
+  const href = norm(cat.href ?? "");
+  return (
+    (name.includes("phu kien") || href.includes("phu-kien")) ||
+    (name.includes("dich vu") || href.includes("dich-vu"))
+  );
 }

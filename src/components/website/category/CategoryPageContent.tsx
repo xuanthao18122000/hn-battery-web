@@ -33,7 +33,15 @@ import {
 import { ICON_SIZE } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { getImageUrl } from "@/utils/image";
-import { categoriesApi } from "@/lib/api/categories";
+import {
+  categoriesApi,
+  type GetProductsByCategorySlugParams,
+} from "@/lib/api/categories";
+import type { Product as ApiProduct } from "@/lib/api/products";
+import {
+  mapApiProductToCategoryCard,
+  type CategoryListingProduct,
+} from "@/lib/map-product-category";
 
 const ProductDescriptionBlock = dynamic(
   () => import("@/components/website/product/ProductDescriptionBlock"),
@@ -47,25 +55,7 @@ const ProductDescriptionBlock = dynamic(
   },
 );
 
-interface Product {
-  product_id: number;
-  product: string;
-  slug: string;
-  productSlug: string;
-  rootCategorySlug: string;
-  thumbnail: string;
-  price: string;
-  list_price: string;
-  percentage_discount: number;
-  promotion_info?: string;
-  status?: string;
-  showPrice?: boolean;
-  voltage?: string;
-  power?: string;
-  brand?: string;
-  type?: string;
-  usage?: string;
-}
+type Product = CategoryListingProduct;
 
 interface CategoryPageContentProps {
   categoryInfo: {
@@ -202,6 +192,35 @@ const MULTI_FILTER_KEYS = [
 ] as const;
 
 type MultiFilterKey = (typeof MULTI_FILTER_KEYS)[number];
+
+function buildCategoryProductsQuery(
+  selectedFilters: SelectedFiltersState,
+  sortBy: string,
+  search: string,
+): GetProductsByCategorySlugParams {
+  const params: GetProductsByCategorySlugParams = {
+    page: 1,
+    getFull: true,
+  };
+  const q = search.trim();
+  if (q) params.name = q;
+
+  const tier = selectedFilters.priceTier;
+  if (tier === "under1m") params.priceTo = 999_999;
+  else if (tier === "1-3m") {
+    params.priceFrom = 1_000_000;
+    params.priceTo = 3_000_000;
+  } else if (tier === "over3m") params.priceFrom = 3_000_001;
+
+  if (selectedFilters.voltage?.length) {
+    params.voltageTerms = selectedFilters.voltage.join(",");
+  }
+  if (selectedFilters.power?.length) {
+    params.powerTerms = selectedFilters.power.join(",");
+  }
+  if (sortBy !== "default") params.sortBy = sortBy;
+  return params;
+}
 
 function isMultiFilterKey(k: string): k is MultiFilterKey {
   return (MULTI_FILTER_KEYS as readonly string[]).includes(k);
@@ -879,35 +898,90 @@ export default function CategoryPageContent({
   );
   const [sortBy, setSortBy] = useState("default");
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  useEffect(() => {
+    const t = window.setTimeout(() => setDebouncedSearch(searchQuery), 300);
+    return () => window.clearTimeout(t);
+  }, [searchQuery]);
 
   const categoryProducts = useMemo(() => {
     return mockProducts.filter((p) => p.rootCategorySlug === categoryInfo.rootSlug && p.status === "A");
   }, [mockProducts, categoryInfo.rootSlug]);
 
-  const filteredProducts = useMemo(() => {
-    let filtered = [...categoryProducts];
-    const q = searchQuery.trim().toLowerCase();
-    if (q) {
-      filtered = filtered.filter((p) => p.product.toLowerCase().includes(q));
+  const voltageKey = (selectedFilters.voltage ?? []).join("\0");
+  const powerKey = (selectedFilters.power ?? []).join("\0");
+
+  const needsRemoteFetch = useMemo(() => {
+    if (debouncedSearch.trim()) return true;
+    if (sortBy !== "default") return true;
+    if (selectedFilters.priceTier) return true;
+    if ((selectedFilters.voltage?.length ?? 0) > 0) return true;
+    if ((selectedFilters.power?.length ?? 0) > 0) return true;
+    return false;
+  }, [
+    debouncedSearch,
+    sortBy,
+    selectedFilters.priceTier,
+    voltageKey,
+    powerKey,
+  ]);
+
+  const [remoteProducts, setRemoteProducts] = useState<Product[] | null>(null);
+  const [listLoading, setListLoading] = useState(false);
+
+  useEffect(() => {
+    if (!needsRemoteFetch) {
+      setRemoteProducts(null);
+      setListLoading(false);
+      return;
     }
-    if (selectedFilters.priceTier === "under1m") {
-      filtered = filtered.filter((p) => parseFloat(p.price) < 1_000_000);
-    } else if (selectedFilters.priceTier === "1-3m") {
-      filtered = filtered.filter((p) => {
-        const x = parseFloat(p.price);
-        return x >= 1_000_000 && x <= 3_000_000;
+    let cancelled = false;
+    setListLoading(true);
+    const params = buildCategoryProductsQuery(
+      selectedFilters,
+      sortBy,
+      debouncedSearch,
+    );
+    categoriesApi
+      .getProductsByCategorySlug(categoryInfo.rootSlug, params)
+      .then((res) => {
+        const raw = Array.isArray(res?.data)
+          ? res.data
+          : Array.isArray(res)
+            ? res
+            : [];
+        const mapped = (raw as ApiProduct[]).map((p) =>
+          mapApiProductToCategoryCard(p, categoryInfo.rootSlug),
+        );
+        if (!cancelled) {
+          setRemoteProducts(mapped);
+          setListLoading(false);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setRemoteProducts([]);
+          setListLoading(false);
+        }
       });
-    } else if (selectedFilters.priceTier === "over3m") {
-      filtered = filtered.filter((p) => parseFloat(p.price) > 3_000_000);
-    }
-    if (selectedFilters.voltage?.length) {
-      const set = new Set(selectedFilters.voltage);
-      filtered = filtered.filter((p) => p.voltage && set.has(p.voltage));
-    }
-    if (selectedFilters.power?.length) {
-      const set = new Set(selectedFilters.power);
-      filtered = filtered.filter((p) => p.power && set.has(p.power));
-    }
+    return () => {
+      cancelled = true;
+    };
+  }, [
+    needsRemoteFetch,
+    categoryInfo.rootSlug,
+    debouncedSearch,
+    sortBy,
+    selectedFilters.priceTier,
+    voltageKey,
+    powerKey,
+  ]);
+
+  const serverList = remoteProducts ?? categoryProducts;
+
+  const filteredProducts = useMemo(() => {
+    let filtered = [...serverList];
     if (selectedFilters.brand?.length) {
       const set = new Set(selectedFilters.brand);
       filtered = filtered.filter((p) => p.brand && set.has(p.brand));
@@ -920,24 +994,8 @@ export default function CategoryPageContent({
       const set = new Set(selectedFilters.usage);
       filtered = filtered.filter((p) => p.usage && set.has(p.usage));
     }
-    switch (sortBy) {
-      case "price-asc":
-        filtered.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
-        break;
-      case "price-desc":
-        filtered.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
-        break;
-      case "name-asc":
-        filtered.sort((a, b) => a.product.localeCompare(b.product));
-        break;
-      case "name-desc":
-        filtered.sort((a, b) => b.product.localeCompare(a.product));
-        break;
-      default:
-        break;
-    }
     return filtered;
-  }, [categoryProducts, selectedFilters, sortBy, searchQuery]);
+  }, [serverList, selectedFilters.brand, selectedFilters.type, selectedFilters.usage]);
 
   const handleFilterChange = (filterType: string, value: string) => {
     if (filterType === "priceTier") {
@@ -983,7 +1041,7 @@ export default function CategoryPageContent({
                   {categoryInfo.title}
                 </h2>
                 <p className="mt-2 text-sm md:text-base text-gray-600">
-                  Ắc quy GS là thương hiệu ắc quy axit chì chất lượng cao, phù hợp cho nhiều dòng xe
+                  Ắc quy HN Sài Gòn kinh doanh ắc quy chất lượng cao, phù hợp cho nhiều dòng xe
                   máy, ô tô, xe tải và ứng dụng công nghiệp. Dưới đây là các dòng sản phẩm tiêu biểu
                   trong danh mục này.
                 </p>
@@ -1027,20 +1085,33 @@ export default function CategoryPageContent({
 
               <div className="mb-4 mt-6">
                 <p className="text-sm text-gray-600">
-                  Tìm thấy{" "}
-                  <span className="font-semibold text-gray-900">
-                    {filteredProducts.length}
-                  </span>{" "}
-                  kết quả
+                  {listLoading ? (
+                    "Đang lọc sản phẩm…"
+                  ) : (
+                    <>
+                      Tìm thấy{" "}
+                      <span className="font-semibold text-gray-900">
+                        {filteredProducts.length}
+                      </span>{" "}
+                      kết quả
+                    </>
+                  )}
                 </p>
               </div>
 
               {filteredProducts.length > 0 ? (
-                <div className="grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-4 lg:gap-4">
+                <div
+                  className={cn(
+                    "grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-4 lg:gap-4",
+                    listLoading && "pointer-events-none opacity-50",
+                  )}
+                >
                   {filteredProducts.map((product) => (
                     <ProductCard key={product.product_id} item={product} />
                   ))}
                 </div>
+              ) : listLoading ? (
+                <div className="py-12 text-center text-gray-500">Đang tải…</div>
               ) : (
                 <div className="text-center py-12">
                   <p className="text-gray-500 text-lg">Không tìm thấy sản phẩm nào</p>

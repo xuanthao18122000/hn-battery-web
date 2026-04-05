@@ -282,7 +282,7 @@ function CartContent() {
                 </div>
 
                 <Link
-                  href="/checkout"
+                  href="/checkout?source=cart"
                   className="w-full bg-primary hover:opacity-90 text-white font-semibold py-4 px-6 rounded-lg transition-opacity flex items-center justify-center gap-2"
                 >
                   Tiến hành đặt hàng

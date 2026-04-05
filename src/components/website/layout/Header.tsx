@@ -15,7 +15,10 @@ import {
   ChevronDown,
   FolderTree,
 } from "lucide-react";
-import { getCategoryFallbackLucideIcon } from "@/lib/category-menu-icons";
+import {
+  getCategoryFallbackLucideIcon,
+  shouldPreferLucideIconForCategory,
+} from "@/lib/category-menu-icons";
 import { ICON_SIZE } from "@/lib/icons";
 import { SearchBox } from "../common";
 import { ItemMenu } from "./ItemMenu";
@@ -62,10 +65,14 @@ export const Header = ({ categories = [] }: HeaderProps) => {
 
   const CDN_URL = process.env.NEXT_PUBLIC_CDN_URL || "";
   /** Giữ `iconUrl` từ API; fallback Lucide theo tên/slug danh mục (không phụ thuộc thứ tự API). */
-  const categoriesWithIcons = categories.map((cat) => ({
-    ...cat,
-    icon: getCategoryFallbackLucideIcon(cat),
-  }));
+  const categoriesWithIcons = categories.map((cat) => {
+    const preferLucide = shouldPreferLucideIconForCategory(cat);
+    return {
+      ...cat,
+      iconUrl: preferLucide ? undefined : cat.iconUrl,
+      icon: getCategoryFallbackLucideIcon(cat),
+    };
+  });
 
   useEffect(() => {
     const handleScroll = () => {

@@ -48,11 +48,21 @@ export function ProductCard({ item }: ProductCardProps) {
       ? item.thumbnail
       : `${CDN_URL}/${item.thumbnail}`.replace(/^\/\//, "https://")
     : "/no-image-available.png";
-  const productUrl =
-    item.rootCategorySlug?.length &&
-    !isCategorySlugNoNavigate(item.rootCategorySlug)
-      ? `/${item.productSlug}.html?fromCategory=${encodeURIComponent(item.rootCategorySlug)}`
-      : `/${item.productSlug}.html`;
+  const productUrl = `/${item.productSlug}.html`;
+
+  const handleClick = () => {
+    const from =
+      item.rootCategorySlug?.length &&
+      !isCategorySlugNoNavigate(item.rootCategorySlug)
+        ? item.rootCategorySlug
+        : "";
+    if (!from) return;
+    try {
+      // PDP SSR sẽ đọc cookie này để gọi API breadcrumb theo nhánh category,
+      // không cần nhét fromCategory lên URL.
+      document.cookie = `fromCategory=${encodeURIComponent(from)}; Path=/; Max-Age=300; SameSite=Lax`;
+    } catch {}
+  };
 
   const showLabelOffer = hasDiscount && discountPercent > 0;
   const offerText = item.promotion_info
@@ -63,6 +73,7 @@ export function ProductCard({ item }: ProductCardProps) {
   return (
     <Link
       href={productUrl}
+      onClick={handleClick}
       title={item.product}
       className="group flex flex-col bg-white border border-sky-200 rounded-sm overflow-hidden hover:shadow-card hover:border-sky-300 transition-[box-shadow,border-color] duration-300 cursor-pointer w-full h-full"
     >
