@@ -18,10 +18,27 @@ export const siteLogoUrl = `${siteUrl}${siteLogoPath}`;
 
 /**
  * Địa chỉ cửa hàng (một địa chỉ duy nhất — storefront).
+ * Khớp Google Maps: https://maps.app.goo.gl/WAWQedgSJ2qtsJKJA
  */
 export const storeAddress =
   process.env.NEXT_PUBLIC_STORE_ADDRESS ||
-  '637 QL 1A, Phường Linh Xuân, TP. Hồ Chí Minh';
+  'Ắc Quy HN Thủ Đức – Cứu hộ, thay bình tận nơi 24/7, TP. Hồ Chí Minh';
+
+/** Link chia sẻ Google Maps (đúng cửa hàng). */
+export const storeGoogleMapsUrl =
+  process.env.NEXT_PUBLIC_STORE_MAPS_URL ||
+  'https://maps.app.goo.gl/5kRAjDBTN9z8zoyz7';
+
+/** Tọa độ cửa hàng — dùng embed map (khớp pin trên Google Maps). */
+function envCoord(name: string, fallback: number): number {
+  const v = process.env[name];
+  if (v == null || String(v).trim() === "") return fallback;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : fallback;
+}
+
+export const storeLatitude = envCoord("NEXT_PUBLIC_STORE_LAT", 10.8700194);
+export const storeLongitude = envCoord("NEXT_PUBLIC_STORE_LNG", 106.7755812);
 
 /** JSON-LD / schema.org (E.164) */
 export const contactPhone =

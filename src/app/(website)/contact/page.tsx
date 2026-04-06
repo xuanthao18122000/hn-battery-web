@@ -6,7 +6,12 @@ import { ChevronRight, MapPin, Phone, CalendarClock, Car } from 'lucide-react'
 import { ICON_SIZE } from '@/lib/icons'
 import { cn } from '@/lib/utils'
 import { contactApi, Store, CreateContactMessageDto } from '@/lib/api/contact'
-import { storeAddress, contactHotlineTel } from '@/config/site'
+import {
+  storeAddress,
+  contactHotlineTel,
+  storeLatitude,
+  storeLongitude,
+} from '@/config/site'
 
 /** Fallback khi API không trả cửa hàng — một địa chỉ / một SĐT */
 const mockStores: Store[] = [
@@ -15,15 +20,15 @@ const mockStores: Store[] = [
     store_name: "Ắc Quy HN Sài Gòn",
     store_address: storeAddress,
     phone: contactHotlineTel,
-    latitude: 10.8714,
-    longitude: 106.7288,
+    latitude: storeLatitude,
+    longitude: storeLongitude,
     open_at: "00:00",
     close_at: "23:59",
     is_car_parking: 1,
     iframe_location:
       '<iframe src="https://www.google.com/maps?q=' +
-      encodeURIComponent(storeAddress) +
-      '&output=embed" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+      encodeURIComponent(`${storeLatitude},${storeLongitude}`) +
+      '&z=17&hl=vi&output=embed" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
   },
 ];
 

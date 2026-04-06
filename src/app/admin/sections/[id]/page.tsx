@@ -32,8 +32,7 @@ import {
 } from "@/lib/api/sections";
 import { productsApi, Product } from "@/lib/api/products";
 import { formatPrice } from "@/utils/format";
-
-const CDN_URL = process.env.NEXT_PUBLIC_CDN_URL || "";
+import { getImageUrl } from "@/utils/image";
 
 function getErrorMessage(error: unknown, fallback: string) {
   const response = (error as { response?: { data?: { message?: string | string[] } } })?.response;
@@ -651,7 +650,7 @@ export default function EditSectionPage() {
                     <div className="w-12 h-12 bg-gray-100 rounded overflow-hidden shrink-0">
                       {item.product?.thumbnailUrl ? (
                         <img
-                          src={`${CDN_URL}/${item.product.thumbnailUrl}`}
+                          src={getImageUrl(item.product.thumbnailUrl)}
                           alt=""
                           className="w-full h-full object-cover"
                         />
@@ -821,7 +820,7 @@ export default function EditSectionPage() {
                           <div className="w-12 h-12 bg-gray-100 rounded overflow-hidden shrink-0">
                             {p.thumbnailUrl ? (
                               <img
-                                src={`${CDN_URL}/${p.thumbnailUrl}`}
+                                src={getImageUrl(p.thumbnailUrl)}
                                 alt=""
                                 className="w-full h-full object-cover"
                               />

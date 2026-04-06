@@ -4,6 +4,7 @@ import { Editor, type IAllProps } from "@tinymce/tinymce-react";
 import { forwardRef, useImperativeHandle, useRef, useState, useEffect } from "react";
 import { getSiteHostname } from "@/config/site";
 import { filesApi } from "@/lib/api/files";
+import { getImageUrl } from "@/utils/image";
 
 // Type for TinyMCE editor instance
 type TinyMCEEditor = Parameters<
@@ -358,11 +359,7 @@ export const TextEditor = forwardRef<TextEditorRef, TextEditorProps>(
             progress(100);
             setIsUploading(false);
             if (response.path) {
-              // Prepend CDN URL if path is relative
-              const imageUrl = response.path.startsWith("http")
-                ? response.path
-                : `${CDN_URL}/${response.path}`;
-              resolve(imageUrl);
+              resolve(getImageUrl(response.path));
             } else {
               reject({
                 message: "No path returned from upload",
@@ -412,12 +409,7 @@ export const TextEditor = forwardRef<TextEditorRef, TextEditorProps>(
           });
 
           if (response.path) {
-            // Prepend CDN URL if path is relative
-            const fileUrl = response.path.startsWith("http")
-              ? response.path
-              : `${CDN_URL}/${response.path}`;
-            // Call the callback with the uploaded file URL and metadata
-            callback(fileUrl, {
+            callback(getImageUrl(response.path), {
               alt: file.name,
               title: file.name,
             });

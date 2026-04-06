@@ -14,8 +14,7 @@ import SEOFields from "./SEOFields";
 import { FileUpload } from "@/components/ui/file-upload";
 import { Package, Edit, Eye } from "lucide-react";
 import { formatPrice } from "@/utils/format";
-
-const CDN_URL = process.env.NEXT_PUBLIC_CDN_URL || "https://cdn-v2.didongviet.vn";
+import { getImageUrl } from "@/utils/image";
 
 const getStatusBadge = (status: string) => {
   const statusConfig = {
@@ -31,11 +30,6 @@ const getStatusBadge = (status: string) => {
       {config.label}
     </span>
   );
-};
-
-const getImageUrl = (url?: string | null) => {
-  if (!url) return "/no-image-available.png";
-  return `${CDN_URL}/${url}`;
 };
 
 interface CategoryFormProps {

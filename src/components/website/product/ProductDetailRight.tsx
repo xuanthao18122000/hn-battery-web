@@ -144,14 +144,10 @@ export const ProductDetailRight = ({
         </div>
 
         {/* Thông tin nhanh */}
-        <div className="mt-2 mb-3">
+        <div className="mb-3">
           <p className="text-sm text-gray-700">
             <span className="font-medium text-gray-900">Tình trạng:</span>{" "}
             {availabilityText}
-          </p>
-          <p className="text-sm text-gray-700">
-            <span className="font-medium text-gray-900">Thương hiệu:</span>{" "}
-            {brandText}
           </p>
         </div>
 

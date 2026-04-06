@@ -19,8 +19,7 @@ import {
 import { productsApi, Product } from "@/lib/api/products";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { formatPrice } from "@/utils/format";
-
-const CDN_URL = process.env.NEXT_PUBLIC_CDN_URL || "https://cdn-v2.didongviet.vn";
+import { getImageUrl } from "@/utils/image";
 
 const getStatusBadge = (status: string) => {
   const statusConfig = {
@@ -133,12 +132,6 @@ export default function ProductsPage() {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const getImageUrl = (url?: string) => {
-    if (!url) return "/no-image-available.png";
-    if (url.startsWith("http")) return url;
-    return `${CDN_URL}/${url}`;
   };
 
   return (
