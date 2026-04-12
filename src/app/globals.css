@@ -276,3 +276,112 @@ body {
 	display: none;
 	/* Chrome, Safari */
 }
+
+/* PDP HTML typography helper (adapted from legacy .box-cmt rules) */
+.pdp-prose {
+	line-height: var(--leading-md);
+	color: var(--color-text-primary);
+	text-align: justify;
+}
+
+.pdp-prose p {
+	font-size: var(--text-md);
+	line-height: 28px;
+	margin-bottom: 15px;
+}
+
+.pdp-prose ul {
+	margin: 0 0 15px;
+	list-style: disc inside;
+}
+
+.pdp-prose ol {
+	margin: 0 0 15px;
+	list-style: decimal inside;
+}
+
+.pdp-prose li {
+	margin-bottom: 10px;
+}
+
+.pdp-prose a {
+	color: var(--color-primary-500);
+	text-decoration: none;
+}
+
+.pdp-prose a:hover {
+	text-decoration: underline;
+}
+
+.pdp-prose h2 {
+	font-size: 20px;
+	font-weight: var(--font-weight-bold);
+	line-height: 1.5;
+	margin-bottom: 8px;
+}
+
+.pdp-prose h3 {
+	font-size: 18px;
+	font-weight: var(--font-weight-bold);
+	line-height: 1.5;
+	margin-top: 14px;
+	margin-bottom: 14px;
+}
+
+.pdp-prose h4,
+.pdp-prose h5,
+.pdp-prose h6 {
+	font-size: 16px;
+	font-weight: var(--font-weight-bold);
+	line-height: 1.5;
+	margin-top: 14px;
+	margin-bottom: 14px;
+}
+
+.pdp-prose img {
+	display: block;
+	margin: 0 auto;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	max-width: 100%;
+	height: auto;
+}
+
+.pdp-prose iframe {
+	display: flex;
+	justify-content: center;
+	max-width: 100%;
+}
+
+.pdp-prose table {
+	border-collapse: collapse;
+	width: 100% !important;
+	max-width: 100% !important;
+	min-width: 100% !important;
+	margin-bottom: 15px;
+	table-layout: auto;
+	display: table;
+}
+
+.pdp-prose table colgroup,
+.pdp-prose table col {
+	width: auto !important;
+}
+
+.pdp-prose th,
+.pdp-prose td {
+	border: 1px solid var(--color-border-default);
+	padding: 8px 12px;
+	text-align: left;
+}
+
+.pdp-prose th {
+	background-color: var(--color-gray-50);
+	font-weight: var(--font-weight-bold);
+}
+
+.pdp-prose tr:nth-child(even) {
+	background-color: var(--color-gray-50);
+}
+
+

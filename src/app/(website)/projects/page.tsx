@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { siteUrlAlt } from "@/config/site";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Breadcrumbs } from "@/components/website/common";
 
 export const metadata: Metadata = {
   title: "Dự Án",
@@ -33,6 +34,9 @@ const allProjects = [
 export default function ProjectsPage() {
   return (
     <div className="min-h-screen bg-background">
+      <div className="container mx-auto max-w-7xl px-4 pt-4">
+        <Breadcrumbs items={[]} currentPage="Dự án" />
+      </div>
       <section className="pt-32 pb-16 bg-gradient-to-b from-primary/10 to-background">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">

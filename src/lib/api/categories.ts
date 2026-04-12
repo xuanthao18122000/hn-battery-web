@@ -202,6 +202,56 @@ export const categoriesApi = {
     await axiosInstance.delete(`/categories/${id}`);
   },
 
+  // Lấy chi tiết danh mục theo id (FE Public, supports SSR)
+  getByIdFe: async (id: number, req?: any): Promise<Category> => {
+    if (req && typeof window === 'undefined') {
+      const baseUrl = getApiBaseUrl();
+      const response = await fetchWithClientIP(
+        `${baseUrl}/fe/categories/${id}`,
+        req,
+      );
+      return response?.data ?? response;
+    }
+
+    const axiosInstance = getAxiosInstance();
+    const response = await axiosInstance.get<ApiResponse<Category>>(
+      `/fe/categories/${id}`,
+    );
+    return response.data.data;
+  },
+
+  // Lấy danh sách sản phẩm theo category id (gồm con cháu) — FE Public, supports SSR
+  getProductsByCategoryIdFe: async (
+    id: number,
+    params?: GetProductsByCategorySlugParams,
+    req?: any,
+  ): Promise<any> => {
+    if (req && typeof window === 'undefined') {
+      const baseUrl = getApiBaseUrl();
+      const sp = new URLSearchParams();
+      if (params) {
+        for (const [k, v] of Object.entries(params)) {
+          if (v === undefined || v === null) continue;
+          sp.set(k, String(v));
+        }
+      }
+      const qs = sp.toString();
+      const queryString = qs ? `?${qs}` : '';
+      const response = await fetchWithClientIP(
+        `${baseUrl}/fe/categories/${id}/products${queryString}`,
+        req,
+      );
+      return response?.data ?? response;
+    }
+
+    const axiosInstance = getAxiosInstance();
+    const response = await axiosInstance.get<ApiResponse<any>>(
+      `/fe/categories/${id}/products`,
+      { params },
+    );
+    return response.data.data;
+  },
+
   // Lấy danh sách sản phẩm theo category slug (Public - FE, supports SSR)
   getProductsByCategorySlug: async (
     slug: string,

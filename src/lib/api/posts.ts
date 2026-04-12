@@ -2,10 +2,6 @@ import { getAxiosInstance } from '../axios';
 import { ApiResponse, PaginatedResponse } from './products';
 import { fetchWithClientIP, getApiBaseUrl } from '@/utils/request';
 
-/** 1 = Bài viết, 2 = Dịch vụ */
-export const PostTypeEnum = { POST: 1, SERVICE: 2 } as const;
-export type PostType = (typeof PostTypeEnum)[keyof typeof PostTypeEnum];
-
 export interface Post {
   id: number;
   title: string;
@@ -13,8 +9,6 @@ export interface Post {
   content?: string;
   shortDescription?: string;
   featuredImage?: string;
-  /** 1 = Bài viết, 2 = Dịch vụ */
-  type?: PostType;
   categoryId?: number;
   category?: { id: number; name: string; slug: string };
   views: number;
@@ -44,8 +38,6 @@ export interface ListPostParams {
   categoryId?: number;
   status?: number;
   authorId?: number;
-  /** 1 = Bài viết, 2 = Dịch vụ */
-  type?: PostType;
 }
 
 export interface CreatePostDto {
@@ -54,8 +46,6 @@ export interface CreatePostDto {
   content?: string;
   shortDescription?: string;
   featuredImage?: string;
-  /** 1 = Bài viết, 2 = Dịch vụ */
-  type?: PostType;
   categoryId?: number;
   status?: number;
   publishedAt?: string;
@@ -69,6 +59,24 @@ export interface CreatePostDto {
 export interface UpdatePostDto extends Partial<CreatePostDto> {}
 
 export const postsApi = {
+  /** FE public: lấy chi tiết bài viết theo id (chỉ ACTIVE), hỗ trợ SSR */
+  getByIdFe: async (id: number, req?: any): Promise<Post> => {
+    if (req && typeof window === 'undefined') {
+      const baseUrl = getApiBaseUrl();
+      const response = await fetchWithClientIP(
+        `${baseUrl}/fe/posts/${id}`,
+        req,
+      );
+      return response?.data ?? response;
+    }
+
+    const axiosInstance = getAxiosInstance();
+    const response = await axiosInstance.get<ApiResponse<Post>>(
+      `/fe/posts/${id}`,
+    );
+    return response.data?.data ?? response.data;
+  },
+
   /** FE public: lấy chi tiết bài viết theo slug (chỉ ACTIVE), hỗ trợ SSR */
   getBySlugFe: async (slug: string, req?: any): Promise<Post> => {
     if (req && typeof window === 'undefined') {
@@ -87,10 +95,29 @@ export const postsApi = {
     return response.data?.data ?? response.data;
   },
 
-  /** FE public: lấy danh sách bài viết (chỉ ACTIVE, không cần auth) */
+  /** FE public: lấy danh sách bài viết (chỉ ACTIVE, không cần auth), hỗ trợ SSR */
   getListFe: async (
-    params?: ListPostParams
+    params?: ListPostParams,
+    req?: any,
   ): Promise<PaginatedResponse<Post>> => {
+    if (req && typeof window === 'undefined') {
+      const baseUrl = getApiBaseUrl();
+      const sp = new URLSearchParams();
+      if (params) {
+        for (const [k, v] of Object.entries(params)) {
+          if (v === undefined || v === null) continue;
+          sp.set(k, String(v));
+        }
+      }
+      const qs = sp.toString();
+      const queryString = qs ? `?${qs}` : '';
+      const response = await fetchWithClientIP(
+        `${baseUrl}/fe/posts${queryString}`,
+        req,
+      );
+      return response?.data ?? response;
+    }
+
     const axiosInstance = getAxiosInstance();
     const response = await axiosInstance.get<
       ApiResponse<PaginatedResponse<Post>>

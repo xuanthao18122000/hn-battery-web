@@ -14,18 +14,18 @@ const ProductDescriptionBlock = dynamic(
   { loading: () => null },
 );
 
-/** Gọi từ `page.tsx` sau `await resolveSlug` — không bọc Suspense. */
-export async function getProductSlugElement({
-  slug,
+/** Gọi từ `page.tsx` sau khi resolve slug → type=PRODUCT. */
+export async function PageProductWrapper({
+  productId,
   req,
   fromCategoryCookie,
 }: {
-  slug: string;
+  productId: number;
   req: { headers: Record<string, string> };
   fromCategoryCookie?: string;
 }) {
   try {
-    const product = await productsApi.getBySlugFE(slug, req, {
+    const product = await productsApi.getByIdFE(productId, req, {
       fromCategory: fromCategoryCookie,
     });
 

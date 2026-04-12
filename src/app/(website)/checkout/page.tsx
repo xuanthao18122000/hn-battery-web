@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { BlurImage } from "@/components/website/common";
+import { BlurImage, Breadcrumbs } from "@/components/website/common";
 import { ordersApi, type CreateOrderDto } from "@/lib/api/orders";
 import { loadCartFromStorage, type CartItemData } from "@/lib/cart";
 import { ShoppingBag } from "lucide-react";
@@ -279,11 +279,10 @@ export default function CheckoutPage() {
   return (
     <main className="min-h-screen bg-secondary">
       <div className="container mx-auto px-4 py-4 max-w-7xl">
-        <div className="mb-6">
-          <Link href="/cart" className="text-sm text-primary hover:underline inline-flex items-center gap-1">
-            <span>←</span> Quay lại giỏ hàng
-          </Link>
-        </div>
+        <Breadcrumbs
+          items={[{ name: "Giỏ hàng", slug: "/cart" }]}
+          currentPage="Thanh toán"
+        />
 
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

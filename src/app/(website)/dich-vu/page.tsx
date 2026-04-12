@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { siteUrl } from "@/config/site";
 import { PostsList } from "@/components/website/PostsList";
-import { postsApi, PostTypeEnum } from "@/lib/api/posts";
+import { postsApi } from "@/lib/api/posts";
 import { mapPostToListItem } from "@/lib/map-post-list-item";
 
 export const metadata: Metadata = {
@@ -22,19 +22,43 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function DichVuPage() {
-  let posts: { id: string; title: string; slug: string; excerpt?: string; thumbnail: string; category?: string; author?: string; publishedAt: Date; status: string }[] = [];
+interface DichVuPageProps {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}
+
+const POSTS_PER_PAGE = 9;
+
+export default async function DichVuPage({ searchParams }: DichVuPageProps) {
+  const sp = (await searchParams) ?? {};
+  const pageParam = Array.isArray(sp.page) ? sp.page[0] : sp.page;
+  const currentPage = Math.max(1, Number(pageParam) || 1);
+
+  let posts: ReturnType<typeof mapPostToListItem>[] = [];
+  let totalPages = 1;
   try {
-    const res = await postsApi.getListFe({ limit: 50, type: PostTypeEnum.SERVICE });
+    const res = await postsApi.getListFe({
+      page: currentPage,
+      limit: POSTS_PER_PAGE,
+    });
     const raw = Array.isArray(res) ? res : (res.data ?? []);
     posts = raw.map(mapPostToListItem);
+    if (!Array.isArray(res) && res.totalPages) {
+      totalPages = res.totalPages;
+    }
   } catch {
     posts = [];
   }
 
   return (
     <div className="min-h-screen bg-background">
-      <PostsList title="Dịch vụ" posts={posts} />
+      <PostsList
+        title="Dịch vụ"
+        posts={posts}
+        breadcrumbItems={[]}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        basePath="/dich-vu"
+      />
     </div>
   );
 }

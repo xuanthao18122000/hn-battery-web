@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { CartItem } from "@/components/website";
+import { Breadcrumbs } from "@/components/website/common";
 import { ConfirmModal } from "@/components/ui/confirm-modal";
 import { ShoppingBag, ArrowLeft } from "lucide-react";
 import {
@@ -193,6 +194,7 @@ function CartContent() {
   return (
     <main className="min-h-screen bg-(--color-bg-page) mb-20">
       <div className="container mx-auto px-4 py-6 max-w-7xl">
+        <Breadcrumbs items={[]} currentPage="Giỏ hàng" />
         {cartItems.length === 0 ? (
           <div className="bg-white rounded-2xl p-8 md:p-12 flex flex-col items-center justify-center">
             <ShoppingBag className="w-24 h-24 text-gray-300 mb-4" />

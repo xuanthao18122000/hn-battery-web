@@ -2,6 +2,8 @@ import { PostImage } from "@/components/website/PostImage";
 import type { Post } from "@/lib/api/posts";
 import { getImageUrl } from "@/utils/image";
 import { PageShell } from "@/components/website/ui";
+import { Breadcrumbs } from "@/components/website/common";
+import ParseHtmlContent from "@/components/website/ParseHtmlContent";
 
 export function PostArticle({ post }: { post: Post }) {
   const published =
@@ -9,15 +11,21 @@ export function PostArticle({ post }: { post: Post }) {
       ? new Date(post.publishedAt)
       : new Date(post.createdAt);
 
+  const breadcrumbItems =
+    post.category && typeof post.category === "object"
+      ? [{ name: post.category.name, slug: `/${post.category.slug}` }]
+      : [];
+
   return (
-    <article className="min-h-screen bg-background py-10">
-      <PageShell maxWidthClassName="max-w-3xl">
+    <article className="min-h-screen bg-background pb-5">
+      <PageShell maxWidthClassName="max-w-5xl">
+        <Breadcrumbs items={breadcrumbItems} currentPage={post.title} />
         <header className="mb-8">
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
             {post.title}
           </h1>
           <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-            <span>{post.author?.fullName || "Admin"}</span>
+            <span>{post.author?.fullName || "Hữu Nhật"}</span>
             <span>•</span>
             <time dateTime={published.toISOString()}>
               {new Intl.DateTimeFormat("vi-VN", {
@@ -35,21 +43,8 @@ export function PostArticle({ post }: { post: Post }) {
           </div>
         </header>
 
-        {post.featuredImage ? (
-          <div className="mb-8 rounded-xl overflow-hidden ring-1 ring-gray-100 bg-gray-100 aspect-video max-h-[420px]">
-            <PostImage
-              src={getImageUrl(post.featuredImage)}
-              alt={post.title}
-              className="w-full h-full object-cover"
-            />
-          </div>
-        ) : null}
-
         {post.content ? (
-          <div
-            className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-primary"
-            dangerouslySetInnerHTML={{ __html: post.content }}
-          />
+          <ParseHtmlContent html={post.content} collapsible={false} />
         ) : post.shortDescription ? (
           <p className="text-lg text-gray-700">{post.shortDescription}</p>
         ) : null}

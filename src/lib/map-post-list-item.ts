@@ -25,7 +25,7 @@ export function mapPostToListItem(p: {
     slug: p.slug,
     shortDescription: p.shortDescription?.trim() || undefined,
     excerpt: excerpt || undefined,
-    thumbnail: getImageUrl(p.featuredImage),
+    thumbnail: p.featuredImage ? getImageUrl(p.featuredImage) : "",
     category:
       typeof p.category === "object" && p.category?.name
         ? p.category.name

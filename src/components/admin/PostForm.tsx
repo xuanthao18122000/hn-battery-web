@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
 import { Save, Wand2, Pencil } from "lucide-react";
 import { AdminPageHeader } from "./AdminPageHeader";
-import { postsApi, Post, PostTypeEnum, PostType, CreatePostDto, UpdatePostDto } from "@/lib/api/posts";
+import { postsApi, Post, CreatePostDto, UpdatePostDto } from "@/lib/api/posts";
 import { categoriesApi, CategoryTypeEnum } from "@/lib/api/categories";
 import type { Category } from "@/lib/api/categories";
 import { useRouter } from "next/navigation";
@@ -34,7 +34,6 @@ export default function PostForm({ postId, initialData }: PostFormProps) {
     slug: "",
     shortDescription: "",
     content: "",
-    type: PostTypeEnum.POST as number,
     categoryId: "" as "" | number,
     status: "draft",
     featuredImage: "",
@@ -77,7 +76,6 @@ export default function PostForm({ postId, initialData }: PostFormProps) {
         slug: initialData.slug,
         shortDescription: initialData.shortDescription || "",
         content: initialData.content || "",
-        type: initialData.type ?? PostTypeEnum.POST,
         categoryId: initialData.categoryId != null ? initialData.categoryId : "",
         status: initialData.status === 1 ? "published" : initialData.status === -1 ? "draft" : "archived",
         featuredImage: initialData.featuredImage || "",
@@ -102,7 +100,6 @@ export default function PostForm({ postId, initialData }: PostFormProps) {
         slug: post.slug,
         shortDescription: post.shortDescription || "",
         content: post.content || "",
-        type: post.type ?? PostTypeEnum.POST,
         categoryId: post.categoryId != null ? post.categoryId : "",
         status: post.status === 1 ? "published" : post.status === -1 ? "draft" : "archived",
         featuredImage: post.featuredImage || "",
@@ -148,7 +145,6 @@ export default function PostForm({ postId, initialData }: PostFormProps) {
           slug,
           shortDescription: formData.shortDescription || undefined,
           content: formData.content || undefined,
-          type: formData.type as PostType,
           categoryId: formData.categoryId !== "" ? Number(formData.categoryId) : undefined,
           status: statusNumber,
           featuredImage: formData.featuredImage || undefined,
@@ -166,7 +162,6 @@ export default function PostForm({ postId, initialData }: PostFormProps) {
           slug,
           shortDescription: formData.shortDescription || undefined,
           content: formData.content || undefined,
-          type: formData.type as PostType,
           categoryId: formData.categoryId !== "" ? Number(formData.categoryId) : undefined,
           status: statusNumber,
           featuredImage: formData.featuredImage || undefined,
@@ -362,18 +357,7 @@ export default function PostForm({ postId, initialData }: PostFormProps) {
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Loại</label>
-                    <Select
-                      value={String(formData.type)}
-                      onChange={(value) => setFormData({ ...formData, type: Number(value) })}
-                      options={[
-                        { value: String(PostTypeEnum.POST), label: "Bài viết" },
-                        { value: String(PostTypeEnum.SERVICE), label: "Dịch vụ" },
-                      ]}
-                    />
-                  </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Danh mục</label>
                     <Select
@@ -400,19 +384,6 @@ export default function PostForm({ postId, initialData }: PostFormProps) {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Nội dung *</label>
-                  <TextEditor
-                    value={formData.content}
-                    onChange={(content: string) => setFormData({ ...formData, content })}
-                    placeholder="Nhập nội dung bài viết..."
-                    height={500}
-                    uploadObjectId={postId || "temp"}
-                    uploadObjectType="posts"
-                    preset="full"
-                  />
-                </div>
-
-                <div>
                   <FileUpload
                     label="Ảnh đại diện"
                     value={formData.featuredImage}
@@ -422,6 +393,19 @@ export default function PostForm({ postId, initialData }: PostFormProps) {
                     accept="image/*"
                     maxSize={5 * 1024 * 1024}
                     helperText="Upload ảnh đại diện cho bài viết (PNG, JPG, GIF tối đa 5MB)"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Nội dung *</label>
+                  <TextEditor
+                    value={formData.content}
+                    onChange={(content: string) => setFormData({ ...formData, content })}
+                    placeholder="Nhập nội dung bài viết..."
+                    height={500}
+                    uploadObjectId={postId || "temp"}
+                    uploadObjectType="posts"
+                    preset="full"
                   />
                 </div>
               </div>

@@ -1,34 +1,36 @@
-import type { ReactElement } from "react";
 import { notFound } from "next/navigation";
 import { headers } from "next/headers";
 import { resolveApi, SlugTypeEnum } from "@/lib/api/resolve";
-import { getCategorySlugElement } from "./_components/CategorySlugView";
-import { getProductSlugElement } from "./_components/ProductSlugView";
-import { getPostArticleSlugElement } from "./_components/PostArticleSlugView";
+import { PageCategoryWrapper } from "./_components/PageCategoryWrapper";
+import { PageProductWrapper } from "./_components/PageProductWrapper";
+import { PagePostWrapper } from "./_components/PagePostWrapper";
 
 interface SlugPageProps {
-  params: Promise<{
-    slug: string;
-  }>;
-  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+  params: Promise<{ slug: string }>;
 }
 
-const STATIC_EXT = /\.(png|ico|jpg|jpeg|webp|svg|gif|css|js|json|xml|txt|woff2?|ttf|eot)$/i;
-function looksLikeStaticFile(s: string) {
-  return STATIC_EXT.test(s);
-}
+const STATIC_EXT =
+  /\.(png|ico|jpg|jpeg|webp|svg|gif|css|js|json|xml|txt|woff2?|ttf|eot)$/i;
 
 /**
- * Một request duy nhất: await resolveSlug → await fetch theo type → render.
- * Không dùng route `loading.tsx` và không bọc Suspense quanh từng view
- * (tránh stream fallback sai / nhảy skeleton category → product).
+ * Catch-all Slug Resolver — 2-Step Flow
+ *
+ * Step 1: GET /fe/resolve/slug/:slug → lightweight { type, entityId, meta }
+ * Step 2: Dispatch to specialized wrapper that fetches full data by id.
  */
 export default async function SlugPage({ params }: SlugPageProps) {
   const { slug: rawSlug } = await params;
+  const slug = rawSlug.replace(/\.(html?)$/i, "");
+
+  if (STATIC_EXT.test(slug)) notFound();
+
   const headersList = await headers();
-  const cookieHeader = headersList.get("cookie") ?? "";
+  const req = { headers: Object.fromEntries(headersList.entries()) };
+
   const fromCategoryCookie = (() => {
-    const m = cookieHeader.match(/(?:^|;\s*)fromCategory=([^;]*)/);
+    const m = (headersList.get("cookie") ?? "").match(
+      /(?:^|;\s*)fromCategory=([^;]*)/,
+    );
     if (!m) return undefined;
     try {
       return decodeURIComponent(m[1]);
@@ -37,46 +39,26 @@ export default async function SlugPage({ params }: SlugPageProps) {
     }
   })();
 
-  const slug = rawSlug.replace(/\.(html?)$/i, "");
+  const resolved = await resolveApi.resolveSlug(slug, req).catch(() => null);
+  if (!resolved?.entityId) notFound();
 
-  if (looksLikeStaticFile(slug)) {
-    notFound();
+  switch (resolved.type) {
+    case SlugTypeEnum.CATEGORY:
+      return <PageCategoryWrapper categoryId={resolved.entityId} req={req} />;
+
+    case SlugTypeEnum.PRODUCT:
+      return (
+        <PageProductWrapper
+          productId={resolved.entityId}
+          req={req}
+          fromCategoryCookie={fromCategoryCookie}
+        />
+      );
+
+    case SlugTypeEnum.POST:
+      return <PagePostWrapper postId={resolved.entityId} req={req} />;
+
+    default:
+      notFound();
   }
-
-  const req = {
-    headers: Object.fromEntries(headersList.entries()),
-  };
-
-  let resolved: Awaited<ReturnType<typeof resolveApi.resolveSlug>>;
-  try {
-    resolved = await resolveApi.resolveSlug(slug, req);
-  } catch {
-    notFound();
-  }
-
-  if (resolved.type === SlugTypeEnum.CATEGORY) {
-    return (await getCategorySlugElement({
-      slug,
-      resolved,
-      req,
-    })) as ReactElement;
-  }
-
-  if (resolved.type === SlugTypeEnum.POST) {
-    return (await getPostArticleSlugElement({ slug, req })) as ReactElement;
-  }
-
-  if (resolved.type === SlugTypeEnum.PRODUCT) {
-    return (await getProductSlugElement({
-      slug,
-      req,
-      fromCategoryCookie,
-    })) as ReactElement;
-  }
-
-  if (resolved.type === SlugTypeEnum.VEHICLE) {
-    notFound();
-  }
-
-  notFound();
 }

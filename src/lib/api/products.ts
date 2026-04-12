@@ -169,6 +169,38 @@ export const productsApi = {
     return response.data.data;
   },
 
+  // Lấy sản phẩm theo id (FE - Public, supports SSR)
+  getByIdFE: async (
+    id: number,
+    req?: any,
+    opts?: { fromCategory?: string },
+  ): Promise<Product> => {
+    const q =
+      opts?.fromCategory != null && opts.fromCategory !== ''
+        ? `?fromCategory=${encodeURIComponent(opts.fromCategory)}`
+        : '';
+    if (req && typeof window === 'undefined') {
+      const baseUrl = getApiBaseUrl();
+      const response = await fetchWithClientIP(
+        `${baseUrl}/fe/products/${id}${q}`,
+        req,
+      );
+      return response?.data ?? response;
+    }
+
+    const axiosInstance = getAxiosInstance();
+    const response = await axiosInstance.get<ApiResponse<Product>>(
+      `/fe/products/${id}`,
+      {
+        params:
+          opts?.fromCategory != null && opts?.fromCategory !== ''
+            ? { fromCategory: opts.fromCategory }
+            : undefined,
+      },
+    );
+    return response.data.data;
+  },
+
   // Tìm kiếm sản phẩm (FE - Public)
   search: async (q: string, limit = 10): Promise<Product[]> => {
     const axiosInstance = getAxiosInstance();

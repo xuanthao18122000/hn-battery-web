@@ -10,39 +10,42 @@ export enum SlugTypeEnum {
   VEHICLE = 4,
 }
 
-import { Category } from './categories';
+export interface ResolveSlugMeta {
+  name: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  canonicalUrl?: string;
+  thumbnailUrl?: string;
+}
 
+/** Lightweight resolve: chỉ trả type + entityId + meta để FE gọi API chi tiết theo id. */
 export interface ResolveSlugResponse {
   type: SlugTypeEnum;
+  entityId: number;
   slug: string;
-  /** Có khi type === CATEGORY (backend trả kèm trong 1 request) */
-  category?: Category;
-  /** Danh sách sản phẩm khi type === CATEGORY (backend trả kèm trong 1 request) */
-  products?: any[];
+  /** Chỉ có khi type === CATEGORY: 1 = CATEGORY (sản phẩm), 2 = POST (bài viết) */
+  categoryType?: number;
+  meta?: ResolveSlugMeta;
 }
 
 export const resolveApi = {
-  // Resolve slug - Check if slug is category or product
-  // Returns only type and slug, FE will call appropriate API based on type
-  // Supports both SSR (with req) and client-side
-  resolveSlug: async (slug: string, req?: any, options?: { page?: number; limit?: number }): Promise<ResolveSlugResponse> => {
-    const page = options?.page ?? 1;
-    const limit = options?.limit ?? 50;
-    const query = `?page=${page}&limit=${limit}`;
-    // Use fetch for SSR (like ddv-web), axios for client
+  /**
+   * Resolve slug (lightweight). FE sẽ switch-case theo `type` và gọi API chi tiết
+   * bằng `entityId` thay vì truyền slug xuống backend.
+   */
+  resolveSlug: async (slug: string, req?: any): Promise<ResolveSlugResponse> => {
     if (req && typeof window === 'undefined') {
       const baseUrl = getApiBaseUrl();
       const response = await fetchWithClientIP(
-        `${baseUrl}/fe/resolve/slug/${slug}${query}`,
-        req
+        `${baseUrl}/fe/resolve/slug/${encodeURIComponent(slug)}`,
+        req,
       );
       return response?.data ?? response;
     }
 
     const axiosInstance = getAxiosInstance();
     const response = await axiosInstance.get<ApiResponse<ResolveSlugResponse>>(
-      `/fe/resolve/slug/${slug}`,
-      { params: { page, limit } }
+      `/fe/resolve/slug/${encodeURIComponent(slug)}`,
     );
     return response.data.data;
   },

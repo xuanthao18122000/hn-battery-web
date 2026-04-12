@@ -16,17 +16,16 @@ import {
   User,
   Image as ImageIcon,
 } from "lucide-react";
-import { postsApi, Post, PostTypeEnum } from "@/lib/api/posts";
+import { postsApi, Post } from "@/lib/api/posts";
 import { categoriesApi, CategoryTypeEnum } from "@/lib/api/categories";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { ConfirmModal } from "@/components/ui/confirm-modal";
 
 const CDN_URL = process.env.NEXT_PUBLIC_CDN_URL || "https://cdn-v2.didongviet.vn";
 
-// Mock data (type: 1 = Bài viết, 2 = Dịch vụ)
 const mockPosts = [
   {
     id: 1,
-    type: 1,
     title: "Hướng dẫn chọn ắc quy phù hợp cho xe máy",
     slug: "huong-dan-chon-ac-quy-phu-hop-cho-xe-may",
     excerpt: "Bài viết hướng dẫn chi tiết cách chọn ắc quy phù hợp với từng loại xe máy...",
@@ -97,17 +96,11 @@ const mockPosts = [
   },
 ];
 
-const postTypeLabel: Record<number, string> = {
-  [PostTypeEnum.POST]: "Bài viết",
-  [PostTypeEnum.SERVICE]: "Dịch vụ",
-};
-
 type DisplayPost = Omit<Post, 'status' | 'author' | 'category'> & {
   status: string;
   author: string;
   categoryId?: number;
   category?: { id: number; name: string; slug: string };
-  type?: number;
 };
 
 const getStatusBadge = (status: string) => {
@@ -134,9 +127,9 @@ export default function PostsPage() {
   const [filterCategories, setFilterCategories] = useState<{ id: number; name: string }[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState<"all" | number>("all");
   const [selectedStatus, setSelectedStatus] = useState("all");
-  const [selectedType, setSelectedType] = useState<"all" | number>("all");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedPost, setSelectedPost] = useState<any>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const fetchingRef = useRef(false);
@@ -161,10 +154,6 @@ export default function PostsPage() {
         params.status = selectedStatus === "published" ? 1 : -1;
       }
 
-      if (selectedType !== "all") {
-        params.type = selectedType;
-      }
-
       if (selectedCategoryId !== "all") {
         params.categoryId = selectedCategoryId;
       }
@@ -174,7 +163,6 @@ export default function PostsPage() {
       // Transform API data to match DisplayPost format
       const transformedPosts: DisplayPost[] = response.data.map((post) => ({
         ...post,
-        type: post.type ?? PostTypeEnum.POST,
         categoryId: post.categoryId,
         category: post.category,
         author: post.author?.fullName || "Admin",
@@ -187,12 +175,12 @@ export default function PostsPage() {
     } catch (err: any) {
       setError("Không thể tải danh sách bài viết. Đang sử dụng dữ liệu mẫu.");
       // Fallback to mockup data on error (gán type mặc định)
-      setPosts(mockPosts.map((p: any) => ({ ...p, type: p.type ?? PostTypeEnum.POST })) as any);
+      setPosts(mockPosts as any);
     } finally {
       setIsLoading(false);
       fetchingRef.current = false;
     }
-  }, [currentPage, searchTerm, selectedStatus, selectedType, selectedCategoryId, itemsPerPage]);
+  }, [currentPage, searchTerm, selectedStatus, selectedCategoryId, itemsPerPage]);
 
   // Load danh mục bài viết cho filter
   useEffect(() => {
@@ -226,9 +214,8 @@ export default function PostsPage() {
 
     const matchesCategory = selectedCategoryId === "all" || (post as DisplayPost).categoryId === selectedCategoryId;
     const matchesStatus = selectedStatus === "all" || post.status === selectedStatus;
-    const matchesType = selectedType === "all" || (post as DisplayPost).type === selectedType;
 
-    return matchesSearch && matchesCategory && matchesStatus && matchesType;
+    return matchesSearch && matchesCategory && matchesStatus;
   });
 
   // Pagination
@@ -266,10 +253,19 @@ export default function PostsPage() {
   };
 
 
-  const handleConfirmDelete = () => {
-    setPosts(posts.filter((p) => p.id !== selectedPost.id));
-    setShowDeleteModal(false);
-    setSelectedPost(null);
+  const handleConfirmDelete = async () => {
+    if (!selectedPost) return;
+    setIsDeleting(true);
+    try {
+      await postsApi.delete(selectedPost.id);
+      setShowDeleteModal(false);
+      setSelectedPost(null);
+      await fetchPosts();
+    } catch (err) {
+      alert("Xoá bài viết thất bại. Vui lòng thử lại.");
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   return (
@@ -373,19 +369,6 @@ export default function PostsPage() {
               <option value="draft">Bản nháp</option>
               <option value="archived">Đã lưu trữ</option>
             </select>
-            <select
-              value={selectedType === "all" ? "all" : selectedType}
-              onChange={(e) => {
-                const v = e.target.value;
-                setSelectedType(v === "all" ? "all" : Number(v));
-                setCurrentPage(1);
-              }}
-              className="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="all">Tất cả loại</option>
-              <option value={PostTypeEnum.POST}>Bài viết</option>
-              <option value={PostTypeEnum.SERVICE}>Dịch vụ</option>
-            </select>
           </div>
         </Card>
 
@@ -396,7 +379,6 @@ export default function PostsPage() {
               <thead>
                 <tr className="border-b border-gray-100 bg-gray-50">
                   <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Bài viết</th>
-                  <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Loại</th>
                   <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Danh mục</th>
                   <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Tác giả</th>
                   <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Lượt xem</th>
@@ -408,7 +390,7 @@ export default function PostsPage() {
               <tbody>
                 {paginatedPosts.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="py-12 text-center text-gray-500">
+                    <td colSpan={7} className="py-12 text-center text-gray-500">
                       Không tìm thấy bài viết nào
                     </td>
                   </tr>
@@ -434,11 +416,6 @@ export default function PostsPage() {
                             )}
                           </div>
                         </div>
-                      </td>
-                      <td className="py-4 px-4">
-                        <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-800">
-                          {postTypeLabel[(post as DisplayPost).type ?? PostTypeEnum.POST]}
-                        </span>
                       </td>
                       <td className="py-4 px-4">
                         <span className="text-sm text-gray-600">
@@ -535,37 +512,20 @@ export default function PostsPage() {
         </Card>
       </div>
 
-      {/* Delete Modal */}
-      {showDeleteModal && selectedPost && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <Card className="bg-white max-w-md w-full">
-            <div className="p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Xác nhận xóa</h2>
-              <p className="text-gray-600 mb-6">
-                Bạn có chắc chắn muốn xóa bài viết <strong>{selectedPost.title}</strong>? Hành động này không thể hoàn tác.
-              </p>
-              <div className="flex gap-3">
-                <Button
-                  onClick={handleConfirmDelete}
-                  className="flex-1 bg-red-600 hover:bg-red-700"
-                >
-                  Xóa
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setShowDeleteModal(false);
-                    setSelectedPost(null);
-                  }}
-                  className="flex-1"
-                >
-                  Hủy
-                </Button>
-              </div>
-            </div>
-          </Card>
-        </div>
-      )}
+      {/* Delete Confirm */}
+      <ConfirmModal
+        open={showDeleteModal}
+        onClose={() => {
+          setShowDeleteModal(false);
+          setSelectedPost(null);
+        }}
+        onConfirm={handleConfirmDelete}
+        title="Xác nhận xoá bài viết"
+        message={`Bạn có chắc chắn muốn xoá bài viết "${selectedPost?.title ?? ""}"? Hành động này không thể hoàn tác.`}
+        confirmText={isDeleting ? "Đang xoá..." : "Xoá"}
+        cancelText="Hủy"
+        variant="danger"
+      />
     </div>
   );
 }

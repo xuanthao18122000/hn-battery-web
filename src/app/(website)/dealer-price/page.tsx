@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { siteUrlAlt, contactHotlineTel, contactHotlineDisplay } from "@/config/site";
 import { CheckCircle2, Phone } from 'lucide-react'
 import { ICON_SIZE } from '@/lib/icons'
+import { Breadcrumbs } from "@/components/website/common";
 
 export const metadata: Metadata = {
   title: "Báo giá đại lý - Ắc Quy HN Sài Gòn",
@@ -21,6 +22,9 @@ export const metadata: Metadata = {
 export default async function DealerPricePage() {
   return (
     <div className="min-h-screen bg-background">
+      <div className="container mx-auto max-w-5xl px-4 pt-4">
+        <Breadcrumbs items={[]} currentPage="Báo giá đại lý" />
+      </div>
       {/* Hero Section */}
       <section className="py-12 bg-gradient-to-b from-gray-50 to-white">
         <div className="container mx-auto px-4 max-w-5xl">

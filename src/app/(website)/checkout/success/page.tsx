@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ordersApi, type Order } from "@/lib/api/orders";
 import { formatPrice } from "@/utils/format";
+import { Breadcrumbs } from "@/components/website/common";
 
 const formatDate = (date: string | Date): string => {
   const d = typeof date === "string" ? new Date(date) : date;
@@ -157,6 +158,13 @@ export default function CheckoutSuccessPage() {
   return (
     <main className="min-h-screen bg-secondary">
       <div className="container mx-auto px-4 py-10 max-w-6xl">
+        <Breadcrumbs
+          items={[
+            { name: "Giỏ hàng", slug: "/cart" },
+            { name: "Thanh toán", slug: "/checkout" },
+          ]}
+          currentPage="Đặt hàng thành công"
+        />
         {/* Header */}
         <div className="mb-8 rounded-2xl bg-white p-3 shadow-sm ring-1 ring-gray-100 sm:p-4 md:p-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">

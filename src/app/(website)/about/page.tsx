@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Check } from "lucide-react";
+import { Breadcrumbs } from "@/components/website/common";
 import {
   siteUrl,
   siteUrlAlt,
@@ -100,6 +101,10 @@ export default function AboutPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+
+      <div className="container mx-auto max-w-5xl px-4 pt-4">
+        <Breadcrumbs items={[]} currentPage="Giới thiệu" />
+      </div>
 
       <section className="pt-12 bg-linear-to-b from-gray-50 to-white">
         <div className="container mx-auto px-4 max-w-5xl">

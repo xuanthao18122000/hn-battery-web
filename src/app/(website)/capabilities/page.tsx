@@ -18,6 +18,7 @@ import {
   Truck,
   ClipboardCheck
 } from "lucide-react";
+import { Breadcrumbs } from "@/components/website/common";
 
 export const metadata: Metadata = {
   title: "Năng Lực Thi Công",
@@ -185,6 +186,9 @@ const projectStats = [
 export default function CapabilitiesPage() {
   return (
     <div className="min-h-screen bg-background">
+      <div className="container mx-auto max-w-7xl px-4 pt-4">
+        <Breadcrumbs items={[]} currentPage="Năng lực thi công" />
+      </div>
       {/* Hero Section */}
       <header className="pt-32 pb-16 bg-gradient-to-b from-primary/10 to-background">
         <div className="container mx-auto px-4">
