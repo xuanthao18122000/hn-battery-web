@@ -13,6 +13,5 @@ export { HomeProductSections } from './HomeProductSections';
 export { HomeSections } from './HomeSections';
 export { HomeBrandSection } from './HomeBrandSection';
 export { Commitments } from './Commitments';
-export { Service } from './Service';
 export { CustomerTestimonials } from './CustomerTestimonials';
 
