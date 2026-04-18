@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { vehiclesApi, Vehicle, VehicleTypeEnum } from "@/lib/api/vehicles";
 import { Search, Plus, Edit, Car, Trash2 } from "lucide-react";
-import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { AdminPageHeader, Pagination, TableSkeleton } from "@/components/admin";
 
 const TYPE_LABELS: Record<number, string> = {
   [VehicleTypeEnum.MOTO]: "Xe máy",
@@ -96,8 +96,6 @@ export default function VehiclesPage() {
     );
   };
 
-  const startIndex = (currentPage - 1) * itemsPerPage;
-
   return (
     <div className="p-6">
       <div className="max-w-7xl mx-auto">
@@ -176,11 +174,7 @@ export default function VehiclesPage() {
               </thead>
               <tbody>
                 {isLoading ? (
-                  <tr>
-                    <td colSpan={7} className="py-12 text-center text-gray-500">
-                      Đang tải...
-                    </td>
-                  </tr>
+                  <TableSkeleton columns={7} />
                 ) : vehicles.length === 0 ? (
                   <tr>
                     <td colSpan={7} className="py-12 text-center text-gray-500">
@@ -238,54 +232,14 @@ export default function VehiclesPage() {
             </table>
           </div>
 
-          {totalPages > 1 && (
-            <div className="flex items-center justify-between p-4 border-t border-gray-100">
-              <div className="text-sm text-gray-600">
-                Hiển thị {startIndex + 1}-{Math.min(startIndex + itemsPerPage, total)} / {total}
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                  disabled={currentPage === 1}
-                >
-                  Trước
-                </Button>
-                <div className="flex items-center gap-1">
-                  {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
-                    let page =
-                      totalPages <= 5
-                        ? i + 1
-                        : currentPage <= 3
-                          ? i + 1
-                          : currentPage >= totalPages - 2
-                            ? totalPages - 4 + i
-                            : currentPage - 2 + i;
-                    return (
-                      <button
-                        key={page}
-                        onClick={() => setCurrentPage(page)}
-                        className={`px-3 py-1 rounded text-sm font-medium ${
-                          currentPage === page
-                            ? "bg-blue-600 text-white"
-                            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                        }`}
-                      >
-                        {page}
-                      </button>
-                    );
-                  })}
-                </div>
-                <Button
-                  variant="outline"
-                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                  disabled={currentPage === totalPages}
-                >
-                  Sau
-                </Button>
-              </div>
-            </div>
-          )}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            total={total}
+            itemsPerPage={itemsPerPage}
+            onPageChange={setCurrentPage}
+            itemLabel="xe"
+          />
         </Card>
       </div>
     </div>

@@ -20,6 +20,7 @@ import {
   X,
 } from "lucide-react";
 import { contactInformationsApi, ContactInformation, ContactStatus } from "@/lib/api/contact-informations";
+import { Pagination, TableSkeleton } from "@/components/admin";
 
 const statusOptions = [
   { value: "all", label: "Tất cả", icon: Filter },
@@ -101,9 +102,7 @@ export default function ContactsPage() {
     fetchContacts();
   }, [fetchContacts]);
 
-  // Pagination
   const totalPages = Math.ceil(total / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
 
   const handleViewDetail = async (contact: ContactInformation) => {
     try {
@@ -231,13 +230,6 @@ export default function ContactsPage() {
           </div>
         )}
 
-        {/* Loading State */}
-        {isLoading && (
-          <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-            <p className="text-sm text-blue-800">Đang tải thông tin liên hệ...</p>
-          </div>
-        )}
-
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <Card className="p-4">
@@ -280,7 +272,9 @@ export default function ContactsPage() {
                 </tr>
               </thead>
               <tbody>
-                {contacts.length === 0 ? (
+                {isLoading ? (
+                  <TableSkeleton columns={7} />
+                ) : contacts.length === 0 ? (
                   <tr>
                     <td colSpan={7} className="py-12 text-center text-gray-500">
                       Không tìm thấy thông tin liên hệ nào
@@ -360,47 +354,14 @@ export default function ContactsPage() {
             </table>
           </div>
 
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-between p-4 border-t border-gray-100">
-              <div className="text-sm text-gray-600">
-                Hiển thị {startIndex + 1}-{Math.min(startIndex + itemsPerPage, total)} trong tổng số {total} kết quả
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                  disabled={currentPage === 1}
-                >
-                  Trước
-                </Button>
-                <div className="flex items-center gap-1">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                    <button
-                      key={page}
-                      onClick={() => setCurrentPage(page)}
-                      className={`
-                        px-3 py-1 rounded text-sm font-medium
-                        ${currentPage === page
-                          ? "bg-blue-600 text-white"
-                          : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                        }
-                      `}
-                    >
-                      {page}
-                    </button>
-                  ))}
-                </div>
-                <Button
-                  variant="outline"
-                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                  disabled={currentPage === totalPages}
-                >
-                  Sau
-                </Button>
-              </div>
-            </div>
-          )}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            total={total}
+            itemsPerPage={itemsPerPage}
+            onPageChange={setCurrentPage}
+            itemLabel="kết quả"
+          />
         </Card>
       </div>
 

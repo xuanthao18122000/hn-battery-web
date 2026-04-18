@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus, Edit, Trash2, LayoutGrid } from "lucide-react";
-import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { AdminPageHeader, Pagination, TableSkeleton } from "@/components/admin";
 import {
   sectionsApi,
   Section,
@@ -23,12 +23,15 @@ function getErrorMessage(error: unknown, fallback: string) {
   return message ?? fallback;
 }
 
+const ITEMS_PER_PAGE = 10;
+
 export default function SectionsPage() {
   const [sections, setSections] = useState<Section[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedSection, setSelectedSection] = useState<Section | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const fetchSections = useCallback(async () => {
     setIsLoading(true);
@@ -47,6 +50,20 @@ export default function SectionsPage() {
   useEffect(() => {
     fetchSections();
   }, [fetchSections]);
+
+  const total = sections.length;
+  const totalPages = Math.max(1, Math.ceil(total / ITEMS_PER_PAGE));
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedSections = sections.slice(
+    startIndex,
+    startIndex + ITEMS_PER_PAGE,
+  );
+
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [currentPage, totalPages]);
 
   const handleDelete = async () => {
     if (!selectedSection) return;
@@ -81,9 +98,7 @@ export default function SectionsPage() {
       )}
 
       <Card className="overflow-hidden">
-        {isLoading ? (
-          <div className="p-12 text-center text-gray-500">Đang tải...</div>
-        ) : sections.length === 0 ? (
+        {!isLoading && sections.length === 0 ? (
           <div className="p-12 text-center text-gray-500">
             <LayoutGrid className="w-12 h-12 mx-auto mb-2 text-gray-400" />
             <p>Chưa có block nào. Bấm &quot;Thêm block&quot; để tạo.</p>
@@ -126,7 +141,10 @@ export default function SectionsPage() {
                 </tr>
               </thead>
               <tbody>
-                {sections.map((section) => (
+                {isLoading ? (
+                  <TableSkeleton columns={10} />
+                ) : (
+                  paginatedSections.map((section) => (
                   <tr
                     key={section.id}
                     className="border-b border-gray-50 hover:bg-gray-50"
@@ -192,10 +210,21 @@ export default function SectionsPage() {
                       </div>
                     </td>
                   </tr>
-                ))}
+                  ))
+                )}
               </tbody>
             </table>
           </div>
+        )}
+        {!isLoading && sections.length > 0 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            total={total}
+            itemsPerPage={ITEMS_PER_PAGE}
+            onPageChange={setCurrentPage}
+            itemLabel="block"
+          />
         )}
       </Card>
 

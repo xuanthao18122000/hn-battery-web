@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { brandsApi, Brand } from "@/lib/api/brands";
 import { Search, Plus, Edit, Tag, Upload } from "lucide-react";
-import { AdminPageHeader, BrandImportModal } from "@/components/admin";
+import { AdminPageHeader, BrandImportModal, Pagination, TableSkeleton } from "@/components/admin";
 
 export default function BrandsPage() {
   const router = useRouter();
@@ -67,8 +67,6 @@ export default function BrandsPage() {
       </span>
     );
   };
-
-  const startIndex = (currentPage - 1) * itemsPerPage;
 
   const stats = {
     total,
@@ -174,11 +172,7 @@ export default function BrandsPage() {
               </thead>
               <tbody>
                 {isLoading ? (
-                  <tr>
-                    <td colSpan={6} className="py-12 text-center text-gray-500">
-                      Đang tải...
-                    </td>
-                  </tr>
+                  <TableSkeleton columns={6} />
                 ) : brands.length === 0 ? (
                   <tr>
                     <td colSpan={6} className="py-12 text-center text-gray-500">
@@ -229,61 +223,14 @@ export default function BrandsPage() {
             </table>
           </div>
 
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-between p-4 border-t border-gray-100">
-              <div className="text-sm text-gray-600">
-                Hiển thị {startIndex + 1}-{Math.min(startIndex + itemsPerPage, total)} trong tổng số{" "}
-                {total} thương hiệu
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                  disabled={currentPage === 1}
-                >
-                  Trước
-                </Button>
-                <div className="flex items-center gap-1">
-                  {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
-                    let page;
-                    if (totalPages <= 5) {
-                      page = i + 1;
-                    } else if (currentPage <= 3) {
-                      page = i + 1;
-                    } else if (currentPage >= totalPages - 2) {
-                      page = totalPages - 4 + i;
-                    } else {
-                      page = currentPage - 2 + i;
-                    }
-                    return (
-                      <button
-                        key={page}
-                        onClick={() => setCurrentPage(page)}
-                        className={`
-                          px-3 py-1 rounded text-sm font-medium
-                          ${
-                            currentPage === page
-                              ? "bg-blue-600 text-white"
-                              : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                          }
-                        `}
-                      >
-                        {page}
-                      </button>
-                    );
-                  })}
-                </div>
-                <Button
-                  variant="outline"
-                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                  disabled={currentPage === totalPages}
-                >
-                  Sau
-                </Button>
-              </div>
-            </div>
-          )}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            total={total}
+            itemsPerPage={itemsPerPage}
+            onPageChange={setCurrentPage}
+            itemLabel="thương hiệu"
+          />
         </Card>
       </div>
       {/* Import Modal */}

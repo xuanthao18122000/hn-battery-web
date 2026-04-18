@@ -17,7 +17,7 @@ import {
   Image as ImageIcon,
 } from "lucide-react";
 import { productsApi, Product } from "@/lib/api/products";
-import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { AdminPageHeader, Pagination, TableSkeleton } from "@/components/admin";
 import { formatPrice } from "@/utils/format";
 import { getImageUrl } from "@/utils/image";
 
@@ -88,8 +88,6 @@ export default function ProductsPage() {
   // Filter products - Đã được xử lý bởi API
   const filteredProducts = products;
 
-  // Pagination
-  const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedProducts = filteredProducts;
 
   // Categories - TODO: Fetch from API
@@ -245,11 +243,7 @@ export default function ProductsPage() {
               </thead>
               <tbody>
                 {isLoading ? (
-                  <tr>
-                    <td colSpan={7} className="py-12 text-center text-gray-500">
-                      Đang tải...
-                    </td>
-                  </tr>
+                  <TableSkeleton columns={7} />
                 ) : paginatedProducts.length === 0 ? (
                   <tr>
                     <td colSpan={7} className="py-12 text-center text-gray-500">
@@ -318,59 +312,14 @@ export default function ProductsPage() {
             </table>
           </div>
 
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-between p-4 border-t border-gray-100">
-              <div className="text-sm text-gray-600">
-                Hiển thị {startIndex + 1}-{Math.min(startIndex + itemsPerPage, total)} trong tổng số {total} sản phẩm
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                  disabled={currentPage === 1}
-                >
-                  Trước
-                </Button>
-                <div className="flex items-center gap-1">
-                  {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
-                    let page;
-                    if (totalPages <= 5) {
-                      page = i + 1;
-                    } else if (currentPage <= 3) {
-                      page = i + 1;
-                    } else if (currentPage >= totalPages - 2) {
-                      page = totalPages - 4 + i;
-                    } else {
-                      page = currentPage - 2 + i;
-                    }
-                    return (
-                    <button
-                      key={page}
-                      onClick={() => setCurrentPage(page)}
-                      className={`
-                        px-3 py-1 rounded text-sm font-medium
-                        ${currentPage === page
-                          ? "bg-blue-600 text-white"
-                          : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                        }
-                      `}
-                    >
-                      {page}
-                    </button>
-                    );
-                  })}
-                </div>
-                <Button
-                  variant="outline"
-                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                  disabled={currentPage === totalPages}
-                >
-                  Sau
-                </Button>
-              </div>
-            </div>
-          )}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            total={total}
+            itemsPerPage={itemsPerPage}
+            onPageChange={setCurrentPage}
+            itemLabel="sản phẩm"
+          />
         </Card>
       </div>
 

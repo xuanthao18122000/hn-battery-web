@@ -18,7 +18,7 @@ import {
   Download,
 } from "lucide-react";
 import { categoriesApi, Category } from "@/lib/api/categories";
-import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { AdminPageHeader, Pagination, TableSkeleton } from "@/components/admin";
 
 // Mock data
 const mockCategories = [
@@ -524,11 +524,7 @@ export default function CategoriesPage() {
               </thead>
               <tbody>
                 {isLoading || listSource === "initial" ? (
-                  <tr>
-                    <td colSpan={6} className="py-12 text-center text-gray-500">
-                      Đang tải danh sách...
-                    </td>
-                  </tr>
+                  <TableSkeleton columns={6} />
                 ) : paginatedCategories.length === 0 ? (
                   <tr>
                     <td colSpan={6} className="py-12 text-center text-gray-500">
@@ -551,46 +547,19 @@ export default function CategoriesPage() {
             </div>
           )}
 
-          {/* Pagination */}
-          {!isLoading && calculatedTotalPages > 1 && (
-            <div className="flex items-center justify-between p-4 border-t border-gray-100">
-              <div className="text-sm text-gray-600">
-                Hiển thị {startIndex + 1}-{Math.min(startIndex + itemsPerPage, filteredCategories.length)} trong tổng số {categories.length > 0 ? total : filteredCategories.length} danh mục
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                  disabled={currentPage === 1}
-                >
-                  Trước
-                </Button>
-                <div className="flex items-center gap-1">
-                  {Array.from({ length: calculatedTotalPages }, (_, i) => i + 1).map((page) => (
-                    <button
-                      key={page}
-                      onClick={() => setCurrentPage(page)}
-                      className={`
-                        px-3 py-1 rounded text-sm font-medium
-                        ${currentPage === page
-                          ? "bg-blue-600 text-white"
-                          : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                        }
-                      `}
-                    >
-                      {page}
-                    </button>
-                  ))}
-                </div>
-                <Button
-                  variant="outline"
-                  onClick={() => setCurrentPage((p) => Math.min(calculatedTotalPages, p + 1))}
-                  disabled={currentPage === calculatedTotalPages}
-                >
-                  Sau
-                </Button>
-              </div>
-            </div>
+          {!isLoading && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={calculatedTotalPages}
+              total={
+                listSource === "api" && categories.length > 0
+                  ? total
+                  : filteredCategories.length
+              }
+              itemsPerPage={itemsPerPage}
+              onPageChange={setCurrentPage}
+              itemLabel="danh mục"
+            />
           )}
         </Card>
       </div>

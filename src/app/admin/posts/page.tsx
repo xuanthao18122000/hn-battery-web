@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { postsApi, Post } from "@/lib/api/posts";
 import { categoriesApi, CategoryTypeEnum } from "@/lib/api/categories";
-import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { AdminPageHeader, Pagination, TableSkeleton } from "@/components/admin";
 import { ConfirmModal } from "@/components/ui/confirm-modal";
 
 const CDN_URL = process.env.NEXT_PUBLIC_CDN_URL || "https://cdn-v2.didongviet.vn";
@@ -131,6 +131,9 @@ export default function PostsPage() {
   const [selectedPost, setSelectedPost] = useState<any>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const [isMockData, setIsMockData] = useState(false);
   const itemsPerPage = 10;
   const fetchingRef = useRef(false);
 
@@ -172,10 +175,19 @@ export default function PostsPage() {
       }));
 
       setPosts(transformedPosts);
+      const apiTotal = response.total ?? transformedPosts.length;
+      setTotal(apiTotal);
+      setTotalPages(
+        response.totalPages ?? Math.max(1, Math.ceil(apiTotal / itemsPerPage)),
+      );
+      setIsMockData(false);
     } catch (err: any) {
       setError("Không thể tải danh sách bài viết. Đang sử dụng dữ liệu mẫu.");
       // Fallback to mockup data on error (gán type mặc định)
       setPosts(mockPosts as any);
+      setTotal(mockPosts.length);
+      setTotalPages(Math.max(1, Math.ceil(mockPosts.length / itemsPerPage)));
+      setIsMockData(true);
     } finally {
       setIsLoading(false);
       fetchingRef.current = false;
@@ -206,22 +218,23 @@ export default function PostsPage() {
   // Use API data if available, otherwise use mockup
   const displayPosts = posts.length > 0 ? posts : mockPosts;
 
-  // Filter posts
-  const filteredPosts = displayPosts.filter((post) => {
-    const matchesSearch =
-      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.slug.toLowerCase().includes(searchTerm.toLowerCase());
-
-    const matchesCategory = selectedCategoryId === "all" || (post as DisplayPost).categoryId === selectedCategoryId;
-    const matchesStatus = selectedStatus === "all" || post.status === selectedStatus;
-
-    return matchesSearch && matchesCategory && matchesStatus;
-  });
-
-  // Pagination
-  const totalPages = Math.ceil(filteredPosts.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedPosts = filteredPosts.slice(startIndex, startIndex + itemsPerPage);
+  // Khi dùng mock (API fail), filter + paginate phía client.
+  // Khi dùng API, server đã filter + paginate — chỉ render list nhận được.
+  const paginatedPosts = isMockData
+    ? displayPosts
+        .filter((post) => {
+          const matchesSearch =
+            post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            post.slug.toLowerCase().includes(searchTerm.toLowerCase());
+          const matchesCategory =
+            selectedCategoryId === "all" ||
+            (post as DisplayPost).categoryId === selectedCategoryId;
+          const matchesStatus =
+            selectedStatus === "all" || post.status === selectedStatus;
+          return matchesSearch && matchesCategory && matchesStatus;
+        })
+        .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+    : displayPosts;
 
   // Stats
   const stats = {
@@ -388,7 +401,9 @@ export default function PostsPage() {
                 </tr>
               </thead>
               <tbody>
-                {paginatedPosts.length === 0 ? (
+                {isLoading ? (
+                  <TableSkeleton columns={7} />
+                ) : paginatedPosts.length === 0 ? (
                   <tr>
                     <td colSpan={7} className="py-12 text-center text-gray-500">
                       Không tìm thấy bài viết nào
@@ -468,47 +483,14 @@ export default function PostsPage() {
             </table>
           </div>
 
-          {/* Pagination - colSpan 8 */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-between p-4 border-t border-gray-100">
-              <div className="text-sm text-gray-600">
-                Hiển thị {startIndex + 1}-{Math.min(startIndex + itemsPerPage, filteredPosts.length)} trong tổng số {filteredPosts.length} bài viết
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                  disabled={currentPage === 1}
-                >
-                  Trước
-                </Button>
-                <div className="flex items-center gap-1">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                    <button
-                      key={page}
-                      onClick={() => setCurrentPage(page)}
-                      className={`
-                        px-3 py-1 rounded text-sm font-medium
-                        ${currentPage === page
-                          ? "bg-blue-600 text-white"
-                          : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                        }
-                      `}
-                    >
-                      {page}
-                    </button>
-                  ))}
-                </div>
-                <Button
-                  variant="outline"
-                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                  disabled={currentPage === totalPages}
-                >
-                  Sau
-                </Button>
-              </div>
-            </div>
-          )}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            total={total}
+            itemsPerPage={itemsPerPage}
+            onPageChange={setCurrentPage}
+            itemLabel="bài viết"
+          />
         </Card>
       </div>
 

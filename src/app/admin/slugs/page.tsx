@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Link2 } from "lucide-react";
 import { slugsApi, Slug, SlugTypeEnum } from "@/lib/api/slugs";
+import { Pagination, TableSkeleton } from "@/components/admin";
 
 const typeLabel: Record<SlugTypeEnum, string> = {
   [SlugTypeEnum.PRODUCT]: "PRODUCT",
@@ -57,8 +58,6 @@ export default function AdminSlugsPage() {
     fetchSlugs();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, search, type]);
-
-  const startIndex = (currentPage - 1) * itemsPerPage;
 
   return (
     <div className="p-6">
@@ -173,11 +172,7 @@ export default function AdminSlugsPage() {
               </thead>
               <tbody>
                 {isLoading ? (
-                  <tr>
-                    <td colSpan={5} className="py-12 text-center text-gray-500">
-                      Đang tải...
-                    </td>
-                  </tr>
+                  <TableSkeleton columns={5} />
                 ) : items.length === 0 ? (
                   <tr>
                     <td colSpan={5} className="py-12 text-center text-gray-500">
@@ -209,30 +204,14 @@ export default function AdminSlugsPage() {
             </table>
           </div>
 
-          {totalPages > 1 && (
-            <div className="flex items-center justify-between p-4 border-t border-gray-100">
-              <div className="text-sm text-gray-600">
-                Hiển thị {startIndex + 1}-{Math.min(startIndex + itemsPerPage, total)} trong tổng số{" "}
-                {total} slug
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                  disabled={currentPage === 1}
-                >
-                  Trước
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                  disabled={currentPage === totalPages}
-                >
-                  Sau
-                </Button>
-              </div>
-            </div>
-          )}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            total={total}
+            itemsPerPage={itemsPerPage}
+            onPageChange={setCurrentPage}
+            itemLabel="slug"
+          />
         </Card>
       </div>
     </div>
