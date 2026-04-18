@@ -1,5 +1,6 @@
 import { getAxiosInstance } from '../axios';
-import type { ApiResponse } from './products';
+import type { ApiResponse, PaginatedResponse } from './products';
+import type { BaseListParams } from './params';
 
 export enum OrderStatus {
   NEW = 1,
@@ -29,6 +30,7 @@ export interface OrderItem {
 export interface Order {
   id: number;
   code: string;
+  customerId?: number;
   customerName: string;
   phone: string;
   email: string;
@@ -41,6 +43,33 @@ export interface Order {
   confirmedAt?: string;
   completedAt?: string;
   items?: OrderItem[];
+}
+
+export interface ListOrderParams extends BaseListParams {
+  search?: string;
+  status?: OrderStatus;
+  paymentMethod?: PaymentMethod;
+}
+
+export interface UpdateOrderDto {
+  customerName?: string;
+  phone?: string;
+  email?: string;
+  shippingAddress?: string;
+  note?: string;
+  totalAmount?: number;
+  status?: OrderStatus;
+  paymentMethod?: PaymentMethod;
+}
+
+export interface OrderStats {
+  total: number;
+  new: number;
+  confirmed: number;
+  shipping: number;
+  completed: number;
+  cancelled: number;
+  revenue: number;
 }
 
 export interface CreateOrderItemDto {
@@ -75,6 +104,45 @@ export const ordersApi = {
     const axiosInstance = getAxiosInstance();
     const response = await axiosInstance.get<ApiResponse<Order>>(`/fe/orders/${id}`);
     return response.data?.data ?? response.data;
+  },
+
+  /** CMS: danh sách đơn hàng */
+  getList: async (
+    params: ListOrderParams,
+  ): Promise<PaginatedResponse<Order>> => {
+    const axiosInstance = getAxiosInstance();
+    const response = await axiosInstance.get<
+      ApiResponse<PaginatedResponse<Order>>
+    >('/orders', { params });
+    return response.data.data;
+  },
+
+  /** CMS: thống kê tổng hợp đơn hàng */
+  getStats: async (): Promise<OrderStats> => {
+    const axiosInstance = getAxiosInstance();
+    const response = await axiosInstance.get<ApiResponse<OrderStats>>(
+      '/orders/stats',
+    );
+    return response.data.data;
+  },
+
+  /** CMS: chi tiết đơn hàng */
+  getById: async (id: number): Promise<Order> => {
+    const axiosInstance = getAxiosInstance();
+    const response = await axiosInstance.get<ApiResponse<Order>>(
+      `/orders/${id}`,
+    );
+    return response.data.data;
+  },
+
+  /** CMS: cập nhật đơn hàng */
+  update: async (id: number, data: UpdateOrderDto): Promise<Order> => {
+    const axiosInstance = getAxiosInstance();
+    const response = await axiosInstance.put<ApiResponse<Order>>(
+      `/orders/${id}`,
+      data,
+    );
+    return response.data.data;
   },
 };
 

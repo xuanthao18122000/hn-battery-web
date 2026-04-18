@@ -798,12 +798,12 @@ function CategoryFilterToolbar({
       <Drawer
         open={mobileFilterOpen}
         onOpenChange={setMobileFilterOpen}
-        direction="left"
+        direction="bottom"
         shouldScaleBackground={false}
       >
         <DrawerContent
-          variant="left"
-          className="flex h-full min-h-0 flex-col border-0 px-0 pb-0"
+          variant="bottom"
+          className="flex min-h-0 flex-col border-0 px-0 pb-0"
         >
           <DrawerHeader className="shrink-0 border-b border-gray-100 px-4 pb-3 pt-3 text-left">
             <div className="flex items-start justify-end gap-2 md:justify-between">

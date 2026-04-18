@@ -10,16 +10,17 @@ import {
   saveCartToStorage,
   type CartItemData,
 } from "@/lib/cart";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, X } from "lucide-react";
 import { toast } from "sonner";
-
-function IconClose({ className }: { className?: string }) {
-  return (
-    <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-      <path d="M18 6L6 18M6 6l12 12" />
-    </svg>
-  );
-}
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerFooter,
+  DrawerClose,
+} from "@/components/ui/drawer";
+import { contactInformationsApi } from "@/lib/api/contact-informations";
 
 interface ProductDetailRightProps {
   price: string;
@@ -53,7 +54,10 @@ export const ProductDetailRight = ({
   const router = useRouter();
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
   const [showOrderModal, setShowOrderModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const hasDiscount = showPrice && listPrice && parseFloat(listPrice) > parseFloat(price);
 
@@ -111,15 +115,36 @@ export const ProductDetailRight = ({
     setShowOrderModal(false);
     setFullName("");
     setPhone("");
+    setEmail("");
+    setMessage("");
   };
 
-  const handleSubmitOrder = () => {
-    if (!fullName || !phone) {
-      alert("Vui lòng điền đầy đủ thông tin");
+  const handleSubmitOrder = async () => {
+    const name = fullName.trim();
+    const phoneValue = phone.trim();
+    if (!name || !phoneValue) {
+      toast.error("Vui lòng nhập họ tên và số điện thoại");
       return;
     }
-    alert("Đã gửi thông tin đặt hàng thành công!");
-    handleCloseOrderModal();
+    setIsSubmitting(true);
+    try {
+      await contactInformationsApi.createFe({
+        name,
+        phone: phoneValue,
+        email: email.trim() || undefined,
+        notes: message.trim() || undefined,
+        productId: product?.product_id,
+      });
+      toast.success("Đã gửi thông tin. Chúng tôi sẽ liên hệ lại sớm!");
+      handleCloseOrderModal();
+    } catch (err: any) {
+      const msg =
+        err?.response?.data?.message ||
+        "Gửi thông tin thất bại. Vui lòng thử lại.";
+      toast.error(Array.isArray(msg) ? msg[0] : msg);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -214,56 +239,123 @@ export const ProductDetailRight = ({
         </p>
       </div>
 
-      {/* Modal đặt hàng */}
-      {showOrderModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm p-4">
-          <div className="relative w-full max-w-md rounded-lg bg-white p-3 shadow-xl sm:p-4 md:p-6">
-            <button
-              onClick={handleCloseOrderModal}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
-            >
-              <IconClose className="w-6 h-6" />
-            </button>
-            <h2 className="text-xl font-bold text-gray-900 mb-6 pr-8">Để lại thông tin đặt hàng</h2>
-            <div className="space-y-4">
+      {/* Drawer đặt hàng */}
+      <Drawer
+        open={showOrderModal}
+        onOpenChange={(open) => {
+          if (!open) handleCloseOrderModal();
+          else setShowOrderModal(true);
+        }}
+        direction="bottom"
+      >
+        <DrawerContent variant="bottom">
+          <DrawerHeader className="px-6 pt-6 text-left border-b border-gray-100 pb-4">
+            <div className="flex items-start justify-between gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Họ tên</label>
-                <input
-                  type="text"
-                  placeholder="Nhập họ tên"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
-                />
+                <DrawerTitle>Để lại thông tin đặt hàng</DrawerTitle>
+                <p className="text-sm text-gray-500 mt-1">
+                  Chúng tôi sẽ liên hệ lại trong thời gian sớm nhất.
+                </p>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Số điện thoại</label>
-                <input
-                  type="tel"
-                  placeholder="Nhập số điện thoại"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
-                />
+              <DrawerClose className="text-gray-400 hover:text-gray-600 transition-colors">
+                <X className="w-5 h-5" />
+              </DrawerClose>
+            </div>
+          </DrawerHeader>
+
+          <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
+            {product && (
+              <div className="flex gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                {product.thumbnail && (
+                  <img
+                    src={product.thumbnail}
+                    alt={product.product}
+                    className="w-14 h-14 object-contain rounded bg-white"
+                  />
+                )}
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm font-medium text-gray-900 line-clamp-2">
+                    {product.product}
+                  </div>
+                  {showPrice && (
+                    <div className="text-sm text-primary-600 font-semibold mt-1">
+                      {formatPrice(price)}
+                    </div>
+                  )}
+                </div>
               </div>
-              <div className="flex gap-3 pt-2">
-                <button
-                  onClick={handleCloseOrderModal}
-                  className="flex-1 py-3 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50"
-                >
-                  Hủy
-                </button>
-                <button
-                  onClick={handleSubmitOrder}
-                  className="flex-1 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg"
-                >
-                  GỬI ĐI
-                </button>
-              </div>
+            )}
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Họ tên <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                placeholder="Nhập họ tên"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Số điện thoại <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="tel"
+                placeholder="Nhập số điện thoại"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                placeholder="example@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Ghi chú
+              </label>
+              <textarea
+                placeholder="Ghi chú thêm về yêu cầu đặt hàng..."
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                rows={3}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600 resize-none"
+              />
             </div>
           </div>
-        </div>
-      )}
+
+          <DrawerFooter className="flex-row gap-3">
+            <button
+              type="button"
+              onClick={handleCloseOrderModal}
+              disabled={isSubmitting}
+              className="flex-1 py-3 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 disabled:opacity-50"
+            >
+              Hủy
+            </button>
+            <button
+              type="button"
+              onClick={handleSubmitOrder}
+              disabled={isSubmitting}
+              className="flex-1 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg disabled:opacity-50"
+            >
+              {isSubmitting ? "Đang gửi..." : "GỬI ĐI"}
+            </button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </div>
   );
 };

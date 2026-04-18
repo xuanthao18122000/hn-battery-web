@@ -16,15 +16,19 @@ import {
   ChevronLeft,
   ChevronRight,
   User,
+  Users,
   LayoutGrid,
   Tags,
   Car,
+  ShoppingBag,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const menuItems = [
   { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/orders", label: "Đơn hàng", icon: ShoppingBag },
   { href: "/admin/contacts", label: "Thông tin liên hệ", icon: MessageSquare },
+  { href: "/admin/customers", label: "Khách hàng", icon: Users },
   { href: "/admin/products", label: "Sản phẩm", icon: Package },
   { href: "/admin/categories", label: "Danh mục", icon: FolderTree },
   { href: "/admin/brands", label: "Thương hiệu", icon: Tags },
@@ -231,6 +235,12 @@ export default function AdminLayout({
                   {pathname === "/admin/dashboard" && "Tổng quan hệ thống"}
                   {pathname === "/admin/contacts" &&
                     "Quản lý thông tin khách hàng"}
+                  {(pathname === "/admin/orders" ||
+                    pathname?.toString().startsWith("/admin/orders/")) &&
+                    "Quản lý đơn hàng"}
+                  {(pathname === "/admin/customers" ||
+                    pathname?.toString().startsWith("/admin/customers/")) &&
+                    "Quản lý khách hàng"}
                   {pathname === "/admin/products" && "Quản lý sản phẩm"}
                   {pathname === "/admin/categories" && "Quản lý danh mục"}
                   {pathname === "/admin/brands" && "Quản lý thương hiệu"}

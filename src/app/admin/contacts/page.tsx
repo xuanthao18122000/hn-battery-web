@@ -16,7 +16,6 @@ import {
   Phone,
   Package,
   Calendar,
-  MessageSquare,
   X,
 } from "lucide-react";
 import { contactInformationsApi, ContactInformation, ContactStatus } from "@/lib/api/contact-informations";
@@ -265,7 +264,7 @@ export default function ContactsPage() {
                   <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Khách hàng</th>
                   <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Liên hệ</th>
                   <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Sản phẩm</th>
-                  <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Tin nhắn</th>
+                  <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Ghi chú</th>
                   <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Trạng thái</th>
                   <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Thời gian</th>
                   <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Thao tác</th>
@@ -310,7 +309,7 @@ export default function ContactsPage() {
                       </td>
                       <td className="py-4 px-4">
                         <div className="text-sm text-gray-600 max-w-xs truncate">
-                          {contact.message}
+                          {contact.notes || "—"}
                         </div>
                       </td>
                       <td className="py-4 px-4">
@@ -423,17 +422,6 @@ export default function ContactsPage() {
                     </div>
                   </div>
                 )}
-
-                {/* Message */}
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Tin nhắn</h3>
-                  <div className="p-4 bg-gray-50 rounded-lg">
-                    <div className="flex items-start gap-3">
-                      <MessageSquare className="w-5 h-5 text-gray-400 mt-0.5" />
-                      <p className="text-gray-700 whitespace-pre-wrap">{selectedContact.message}</p>
-                    </div>
-                  </div>
-                </div>
 
                 {/* Status */}
                 <div>

@@ -10,12 +10,14 @@ export enum ContactStatus {
 
 export interface ContactInformation {
   id: number;
+  customerId?: number;
   name: string;
   phone: string;
-  email: string;
-  message: string;
+  email?: string;
+  address?: string;
   productId?: number;
   status: ContactStatus;
+  /** Ghi chú (do khách gửi kèm hoặc admin ghi bổ sung) */
   notes?: string;
   createdAt: string;
   updatedAt: string;
@@ -31,8 +33,8 @@ export interface ListContactInformationParams {
 export interface CreateContactInformationDto {
   name: string;
   phone: string;
-  email: string;
-  message: string;
+  email?: string;
+  address?: string;
   productId?: number;
   status?: ContactStatus;
   notes?: string;
