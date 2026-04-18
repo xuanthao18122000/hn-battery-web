@@ -510,6 +510,8 @@ export default function ProductForm({ productId, initialData }: ProductFormProps
                 value={formData.description}
                 onChange={(content: string) => setFormData({ ...formData, description: content })}
                 placeholder="Nhập mô tả chi tiết sản phẩm (HTML)..."
+                uploadObjectId={productId || 0}
+                uploadObjectType="products"
               />
             </div>
 
@@ -519,7 +521,7 @@ export default function ProductForm({ productId, initialData }: ProductFormProps
                     value={formData.thumbnailUrl}
                     onChange={(url) => setFormData({ ...formData, thumbnailUrl: url })}
                     object="products"
-                    objectId={"temp"}
+                    objectId={productId?.toString() || "0"}
                     accept="image/*"
                     maxSize={5 * 1024 * 1024}
                     helperText="Upload ảnh đại diện cho sản phẩm (PNG, JPG, GIF tối đa 5MB)"

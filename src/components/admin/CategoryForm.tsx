@@ -424,8 +424,8 @@ export default function CategoryForm({ categoryId, initialData }: CategoryFormPr
                   <FileUpload
                     value={formData.iconUrl}
                     onChange={(url) => setFormData({ ...formData, iconUrl: url })}
-                    object="categories"
-                    objectId={categoryId?.toString() || "new"}
+                    object="products"
+                    objectId={categoryId?.toString() || "0"}
                     label=""
                     className="mb-4"
                   />

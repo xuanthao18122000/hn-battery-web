@@ -250,8 +250,8 @@ export default function BrandForm({ brandId, initialData }: BrandFormProps) {
                 <FileUpload
                   value={formData.logoUrl}
                   onChange={(url) => setFormData({ ...formData, logoUrl: url })}
-                  object="brands"
-                  objectId={brandId?.toString() || "new"}
+                  object="products"
+                  objectId={brandId?.toString() || "0"}
                   label="Logo thương hiệu"
                   helperText="Ảnh vuông, nền trong suốt nếu có thể."
                 />

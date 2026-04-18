@@ -286,7 +286,7 @@ export const TextEditor = forwardRef<TextEditorRef, TextEditorProps>(
       preset = "full",
       configOverrides = {},
       uploadObjectId = 0,
-      uploadObjectType = "posts",
+      uploadObjectType = "products",
       ...props
     },
     ref

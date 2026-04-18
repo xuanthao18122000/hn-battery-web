@@ -388,8 +388,8 @@ export default function PostForm({ postId, initialData }: PostFormProps) {
                     label="Ảnh đại diện"
                     value={formData.featuredImage}
                     onChange={(url) => setFormData({ ...formData, featuredImage: url })}
-                    object="posts"
-                    objectId={postId?.toString() || "temp"}
+                    object="products"
+                    objectId={postId?.toString() || "0"}
                     accept="image/*"
                     maxSize={5 * 1024 * 1024}
                     helperText="Upload ảnh đại diện cho bài viết (PNG, JPG, GIF tối đa 5MB)"
@@ -403,8 +403,8 @@ export default function PostForm({ postId, initialData }: PostFormProps) {
                     onChange={(content: string) => setFormData({ ...formData, content })}
                     placeholder="Nhập nội dung bài viết..."
                     height={500}
-                    uploadObjectId={postId || "temp"}
-                    uploadObjectType="posts"
+                    uploadObjectId={postId || 0}
+                    uploadObjectType="products"
                     preset="full"
                   />
                 </div>

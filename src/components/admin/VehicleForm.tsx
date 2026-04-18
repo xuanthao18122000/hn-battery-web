@@ -268,8 +268,8 @@ export default function VehicleForm({ vehicleId, initialData }: VehicleFormProps
                 <FileUpload
                   value={formData.imageUrl}
                   onChange={(url) => setFormData({ ...formData, imageUrl: url })}
-                  object="vehicles"
-                  objectId={vehicleId?.toString() || "new"}
+                  object="products"
+                  objectId={vehicleId?.toString() || "0"}
                   label="Ảnh đại diện"
                   helperText="Ảnh đại diện cho dòng xe."
                 />

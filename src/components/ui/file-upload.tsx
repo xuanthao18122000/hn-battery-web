@@ -24,7 +24,7 @@ export function FileUpload({
   value,
   onChange,
   object = "products",
-  objectId = "temp",
+  objectId = "0",
   objectType = "",
   accept = "image/*",
   maxSize = 5 * 1024 * 1024, // 5MB default
