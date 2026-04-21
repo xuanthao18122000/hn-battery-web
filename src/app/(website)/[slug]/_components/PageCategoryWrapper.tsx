@@ -10,21 +10,30 @@ import type { Product } from "@/lib/api/products";
 interface PageCategoryWrapperProps {
   categoryId: number;
   req: { headers: Record<string, string> };
+  currentPage?: number;
 }
+
+const POSTS_PER_PAGE = 9;
 
 export async function PageCategoryWrapper({
   categoryId,
   req,
+  currentPage = 1,
 }: PageCategoryWrapperProps) {
   const category = await categoriesApi.getByIdFe(categoryId, req).catch(() => null);
   if (!category) notFound();
 
   if (category.type === CategoryTypeEnum.POST) {
     const res = await postsApi
-      .getListFe({ limit: 9, categoryId: category.id }, req)
+      .getListFe(
+        { page: currentPage, limit: POSTS_PER_PAGE, categoryId: category.id },
+        req,
+      )
       .catch(() => null);
     const raw = Array.isArray(res) ? res : (res?.data ?? []);
     const posts = raw.map(mapPostToListItem);
+    const totalPages =
+      !Array.isArray(res) && res?.totalPages ? res.totalPages : 1;
 
     const breadcrumbItems: { name: string; slug?: string }[] = [];
     if (category.parentId) {
@@ -40,6 +49,9 @@ export async function PageCategoryWrapper({
           title={category.name}
           posts={posts}
           breadcrumbItems={breadcrumbItems}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          basePath={`/${category.slug}`}
         />
       </div>
     );

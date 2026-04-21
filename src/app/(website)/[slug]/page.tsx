@@ -7,6 +7,7 @@ import { PagePostWrapper } from "./_components/PagePostWrapper";
 
 interface SlugPageProps {
   params: Promise<{ slug: string }>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }
 
 const STATIC_EXT =
@@ -18,11 +19,15 @@ const STATIC_EXT =
  * Step 1: GET /fe/resolve/slug/:slug → lightweight { type, entityId, meta }
  * Step 2: Dispatch to specialized wrapper that fetches full data by id.
  */
-export default async function SlugPage({ params }: SlugPageProps) {
+export default async function SlugPage({ params, searchParams }: SlugPageProps) {
   const { slug: rawSlug } = await params;
   const slug = rawSlug.replace(/\.(html?)$/i, "");
 
   if (STATIC_EXT.test(slug)) notFound();
+
+  const sp = (await searchParams) ?? {};
+  const pageParam = Array.isArray(sp.page) ? sp.page[0] : sp.page;
+  const currentPage = Math.max(1, Number(pageParam) || 1);
 
   const headersList = await headers();
   const req = { headers: Object.fromEntries(headersList.entries()) };
@@ -44,7 +49,13 @@ export default async function SlugPage({ params }: SlugPageProps) {
 
   switch (resolved.type) {
     case SlugTypeEnum.CATEGORY:
-      return <PageCategoryWrapper categoryId={resolved.entityId} req={req} />;
+      return (
+        <PageCategoryWrapper
+          categoryId={resolved.entityId}
+          req={req}
+          currentPage={currentPage}
+        />
+      );
 
     case SlugTypeEnum.PRODUCT:
       return (

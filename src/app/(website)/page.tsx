@@ -25,6 +25,14 @@ const Commitments = dynamic(
   { ssr: true },
 );
 
+const HomeLatestNews = dynamic(
+  () =>
+    import("@/components/website/HomeLatestNews").then((m) => ({
+      default: m.HomeLatestNews,
+    })),
+  { ssr: true, loading: () => <div className="min-h-[120px]" aria-hidden /> },
+);
+
 const CustomerTestimonials = dynamic(
   () =>
     import("@/components/website/CustomerTestimonials").then((m) => ({
@@ -116,6 +124,18 @@ export default async function HomePage() {
             motoVehicles={motoVehicles}
           />
           <HomeSections sections={sections} />
+          <HomeLatestNews
+            categoryId={34}
+            title="Tin tức mới nhất"
+            viewAllHref="/tin-tuc"
+            sectionId="home-latest-news"
+          />
+          <HomeLatestNews
+            categoryId={78}
+            title="Dịch vụ của chúng tôi"
+            viewAllHref="/dich-vu"
+            sectionId="home-latest-services"
+          />
           <Commitments />
           <CustomerTestimonials />
         </div>

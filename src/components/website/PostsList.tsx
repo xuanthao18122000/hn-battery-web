@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CalendarDays, UserRound } from "lucide-react";
+import { CalendarDays, ChevronLeft, ChevronRight, UserRound } from "lucide-react";
 import { PostImage } from "./PostImage";
 import { PageShell } from "./ui";
 import { Breadcrumbs } from "./common/Breadcrumbs";
@@ -129,14 +129,15 @@ export const PostsList = ({
           <nav className="mt-10 flex items-center justify-center gap-2">
             <Link
               href={buildHref(Math.max(1, currentPage - 1))}
+              aria-label="Trang trước"
               aria-disabled={currentPage <= 1}
-              className={`rounded-lg border px-3 py-2 text-sm ${
+              className={`inline-flex items-center justify-center rounded-lg border p-2 ${
                 currentPage <= 1
                   ? "pointer-events-none border-gray-200 text-gray-300"
                   : "border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
               }`}
             >
-              Trước
+              <ChevronLeft className="h-4 w-4" />
             </Link>
             {pageNumbers.map((n) => (
               <Link
@@ -153,14 +154,15 @@ export const PostsList = ({
             ))}
             <Link
               href={buildHref(Math.min(totalPages, currentPage + 1))}
+              aria-label="Trang sau"
               aria-disabled={currentPage >= totalPages}
-              className={`rounded-lg border px-3 py-2 text-sm ${
+              className={`inline-flex items-center justify-center rounded-lg border p-2 ${
                 currentPage >= totalPages
                   ? "pointer-events-none border-gray-200 text-gray-300"
                   : "border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
               }`}
             >
-              Sau
+              <ChevronRight className="h-4 w-4" />
             </Link>
           </nav>
         )}
